@@ -8614,7 +8614,7 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 		grid-row-gap: 42px;
 	}
 	.hero-adil {
-		height: 700px;
+		height: 60vh;
 	}
 	.categories-link {
 		display: inline;
@@ -8890,7 +8890,7 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 		justify-content: space-between;
 	}
 	.hero-adil {
-		height: 600px;
+		height: 60vh;
 	}
 	.form {
 		padding-left: 5px;
@@ -9201,7 +9201,7 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 		margin-bottom: 40px;
 	}
 	.hero-adil {
-		height: 500px;
+		height: 50vh;
 	}
 	
 	.footer-flex-container {
