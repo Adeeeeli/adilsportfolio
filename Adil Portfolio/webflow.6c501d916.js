@@ -36295,8 +36295,11 @@ function showExperimentations() {
 
 
 function openLightbox() {
-  // Get the image source from the `a` tag.
-  var imageSrc = document.getElementById("Gallery-First").dataset.wImage;
+  // Hide the lightbox by default.
+  document.getElementById("lightbox").style.display = "none";
+
+  // Get the image source from the `data-lightbox-image` attribute.
+  var imageSrc = document.getElementById("Gallery-First").dataset.lightboxImage;
 
   // Set the image source and show the lightbox.
   document.getElementById("lightbox img").src = imageSrc;
