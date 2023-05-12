@@ -6758,7 +6758,7 @@ figcaption {
 	position: absolute;
 	bottom: 0px;
 	z-index: 6;
-	height: 700px;
+	height: 60vh;
 }
 .form-block-2 {
 	display: -webkit-box;
