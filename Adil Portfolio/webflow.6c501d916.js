@@ -36294,14 +36294,3 @@ function showExperimentations() {
 }
 
 
-function openLightbox() {
-  // Hide the lightbox by default.
-  document.getElementById("lightbox").style.display = "none";
-
-  // Get the image source from the `data-lightbox-image` attribute.
-  var imageSrc = document.getElementById("Gallery-First").dataset.lightboxImage;
-
-  // Set the image source and show the lightbox.
-  document.getElementById("lightbox img").src = imageSrc;
-  document.getElementById("lightbox").style.opacity = 1;
-}
