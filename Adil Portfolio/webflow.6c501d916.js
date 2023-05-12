@@ -36280,3 +36280,25 @@ Webflow.require('ix2').init({
     }
 });
 
+function showExperimentations() {
+  var projects = document.getElementById("Projects");
+  var experimentations = document.getElementById("Experimentations");
+
+  if (document.getElementById("switch").checked) {
+    projects.style.display = "none";
+    experimentations.style.display = "block";
+  } else {
+    projects.style.display = "block";
+    experimentations.style.display = "none";
+  }
+}
+
+
+function openLightbox() {
+  // Get the image source from the `a` tag.
+  var imageSrc = document.getElementById("Gallery-First").dataset.wImage;
+
+  // Set the image source and show the lightbox.
+  document.getElementById("lightbox img").src = imageSrc;
+  document.getElementById("lightbox").style.opacity = 1;
+}
