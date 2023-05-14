@@ -4645,6 +4645,12 @@ figcaption {
     opacity: 1 !important;
     transform: none !important;
   }
+
+  .bubble {
+    overflow: visible;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 .grid-image {
 	position: relative;
