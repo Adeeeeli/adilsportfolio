@@ -4612,26 +4612,33 @@ figcaption {
 	backdrop-filter: blur(6px);
 	font-size: 12px;
 	text-align: center;
+
 }
 .gallery-content {
-	position: absolute;
-	left: 0%;
-	top: auto;
-	right: auto;
-	bottom: 0%;
-	overflow: hidden;
-	width: 100%;
-	padding: 0px;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	-ms-flex-pack: justify;
-	justify-content: space-between;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	-ms-flex-align: center;
-	align-items: center;
-	border: 0px none transparent;
-	color: #3c4153;
+  position: absolute;
+  left: 0%;
+  top: auto;
+  right: auto;
+  bottom: 0%;
+  overflow: hidden;
+  width: 100%;
+  padding: 0px;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: 0px none transparent;
+  color: #3c4153;
+}
+
+@media screen and (max-width: 768px) {
+  .gallery-content {
+    overflow: visible;
+  }
 }
 .grid-image {
 	position: relative;
@@ -9476,6 +9483,7 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 	}
 	.bubble-text {
 		font-size: 14px;
+
 	}
 	.blog-image {
 		height: 300px;
@@ -9625,7 +9633,7 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 		display: none;
 	}
 	.hero-adil {
-		height: 300px;
+		height: 35vh;
 	}
 	.form {
 		padding: 10px;
@@ -11383,11 +11391,23 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 .aboutme-height {
 	height: auto;
 }
+
+
+
 }
 
 /* -------- @media screen max width end ------------*/
 
 
+@media screen and (min-width: 768px) { 
+
+	.hero-adil{
+		height: 51vh;
+		
+
+	}
+
+}
 
 
 /* -------- Switch Styles ------------*/

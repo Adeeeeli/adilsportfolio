@@ -36280,6 +36280,8 @@ Webflow.require('ix2').init({
     }
 });
 
+var experimentations = document.getElementById("Experimentations");
+
 function showExperimentations() {
   var projects = document.getElementById("Projects");
   var experimentations = document.getElementById("Experimentations");
@@ -36292,5 +36294,9 @@ function showExperimentations() {
     experimentations.style.display = "none";
   }
 }
+
+window.onload = function() {
+  experimentations.style.display = "none";
+};
 
 
