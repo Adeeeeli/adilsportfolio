@@ -4639,9 +4639,11 @@ figcaption {
   max-width: 100vw;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 996px) {
   .gallery-content {
     overflow: visible;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 .grid-image {
