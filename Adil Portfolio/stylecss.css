@@ -4635,6 +4635,10 @@ figcaption {
   color: #3c4153;
 }
 
+.container {
+  max-width: 100vw;
+}
+
 @media screen and (max-width: 768px) {
   .gallery-content {
     overflow: visible;
