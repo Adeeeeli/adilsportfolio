@@ -11404,6 +11404,10 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 	height: auto;
 }
 
+	.project_page_spotify{
+	height: auto !important;
+}
+
 
 
 }
@@ -11418,6 +11422,8 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 		
 
 	}
+
+
 
 }
 
