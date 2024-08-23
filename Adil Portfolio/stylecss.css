@@ -4657,7 +4657,7 @@ figcaption {
 	position: relative;
 	height: 700px;
 	border-radius: 0px;
-	background-image: url("../Adil Portfolio/Adil-profile.png");
+	background-image: url("../Adil Portfolio/Adil-profile.jpeg");
 	background-position: 50% 50%;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -4666,19 +4666,19 @@ figcaption {
 .grid-image.features-image {
 	width: auto;
 	height: 600px;
-	background-image: url("../Adil Portfolio/Adil-profile.png");
+	background-image: url("../Adil Portfolio/Adil-profile.jpeg");
 	background-position: 50% 0%;
 	background-size: contain;
 }
 .grid-image.features-image.team {
 	height: 600px;
-	background-image: radial-gradient(circle farthest-corner at 50% 0%, transparent 23%, #1e1c20 91%), url("../Adil Portfolio/Adil-profile.png");
+	background-image: radial-gradient(circle farthest-corner at 50% 0%, transparent 23%, #1e1c20 91%), url("../Adil Portfolio/Adil-profile.jpeg");
 	background-position: 0px 0px, 50% 0%;
 	background-size: auto, contain;
 	background-repeat: repeat, no-repeat;
 }
 .grid-image.girl-one {
-	background-image: radial-gradient(circle farthest-corner at 50% 0%, transparent 36%, #1e1c20 90%), url("../Adil Portfolio/Adil-profile.png");
+	background-image: radial-gradient(circle farthest-corner at 50% 0%, transparent 36%, #1e1c20 90%), url("../Adil Portfolio/Adil-profile.jpeg");
 	background-position: 0px 0px, 50% 50%;
 	background-size: auto, contain;
 	background-repeat: repeat, no-repeat;
@@ -8148,7 +8148,7 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 }
 @media screen and (min-width: 1440px) {
 	.grid-image {
-		background-image: url("../Adil Portfolio/Adil-profile.png");
+		background-image: url("../Adil Portfolio/Adil-profile.jpeg");
 	}
 	.grid-image.features-image.team {
 		background-image: radial-gradient(circle farthest-corner at 50% 0%, transparent 23%, #1e1c20 91%), url("https://assets.website-files.com/62e7dd8eb96f150931bf8901/633de39683ccde21f80d4887_female.png");
