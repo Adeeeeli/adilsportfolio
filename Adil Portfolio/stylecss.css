@@ -6257,6 +6257,8 @@ figcaption {
 	z-index: 999;
 	padding-right: 20px;
 	padding-left: 20px;
+	backdrop-filter: blur(6px);
+
 }
 .nav-content {
 	position: relative;
@@ -11406,6 +11408,7 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 
 .aboutme-height {
 	height: auto;
+	padding-top: 10%;
 }
 
 	.project_page_spotify{
@@ -11470,15 +11473,521 @@ background: linear-gradient(to top, #ffa751, #ffe259); /* W3C, IE 10+/ Edge, Fir
 }
 
 .project_page_content_width{
-
 max-width: 1600px;
 }
+/* -------- Lightbox Styles -------- */
+
+/* Lightbox base */
+#exp-lightbox {
+	position: fixed;
+	inset: 0;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0,0,0,.72);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px); /* Safari */
+	z-index: 100000; /* ensure on top of Webflow overlays */
+  }
+  #exp-lightbox.open { display: flex; }
+  
+  /* Stage container */
+  #exp-lightbox .stage {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: min(92vw, 1200px);
+	max-height: 88vh;
+	background: #0f0f12;
+	border-radius: 14px;
+	overflow: hidden;
+	box-shadow: 0 10px 40px rgba(0,0,0,.45);
+  }
+  
+  /* Media area */
+  #exp-lightbox .media-wrap {
+	display: grid;
+	place-items: center;
+	flex: 1 1 auto;
+	max-height: 88vh;
+	background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+  }
+  #exp-lightbox img,
+  #exp-lightbox video {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	display: block;
+  }
+  
+  /* Controls */
+  #exp-lightbox .close,
+  #exp-lightbox .nav {
+	position: absolute;
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 999px;
+	background: rgba(255,255,255,.08);
+	color: #fff;
+	cursor: pointer;
+	user-select: none;
+	transition: transform .12s ease, background .12s ease;
+	-webkit-tap-highlight-color: transparent;
+  }
+  #exp-lightbox .close:hover,
+  #exp-lightbox .nav:hover {
+	background: rgba(255,255,255,.14);
+	transform: scale(1.05);
+  }
+  
+  /* Close & navigation positions */
+  #exp-lightbox .close {
+	top: 10px;
+	right: 10px;
+	font: 700 18px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  }
+  #exp-lightbox .nav.prev {
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	font: 700 20px/1 system-ui, -apple-system;
+  }
+  #exp-lightbox .nav.next {
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	font: 700 20px/1 system-ui, -apple-system;
+  }
+  
+  /* Caption */
+  #exp-lightbox .caption {
+	color: #cfcfd6;
+	font: 500 14px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+	padding: 12px 16px;
+	border-top: 1px solid rgba(255,255,255,.06);
+	background: rgba(255,255,255,.02);
+  }
+  
+  /* Small screens */
+  @media (max-width: 540px) {
+	#exp-lightbox .nav { display: none; } /* hide arrows on mobile */
+	#exp-lightbox .close { width: 48px; height: 48px; } /* bigger tap target */
+  }
+
+  /* ===== Interview me page ===== */
+.interview-hero{padding:72px 0 24px}
+.interview-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:36px;
+  align-items:start;
+}
+.orb-wrap{
+  display:grid; place-items:center;
+  min-height:420px; position:relative; isolation:isolate;
+}
+.orb{
+  /* upgraded: crisp core + gentle glow instead of blurry blob */
+  --hue: 335; --sat: 78%; --light: 68%;
+  --core: 0.75; --glow: 0.55; --sweep: 26s; --scale: 1; --alpha: .9;
+  width:min(60vw,520px); aspect-ratio:1/1; border-radius:999px;
+  position:relative; z-index:0; overflow:hidden;
+  opacity: var(--alpha); transform: scale(var(--scale));
+  transition: transform .25s ease, opacity .25s ease, filter .25s ease, box-shadow .25s ease;
+  background:
+    /* soft inner glow */
+    radial-gradient(42% 42% at 50% 42%, rgba(255,255,255,.20), rgba(255,255,255,0) 72%),
+    /* outer shadowing */
+    radial-gradient(70% 70% at 50% 60%, rgba(0,0,0,.14), transparent 80%),
+    /* requested color gradient */
+    linear-gradient(90deg,#ff5fa1,#8b5cf6);
+  box-shadow:
+    inset 0 0 32px rgba(255,255,255,.06),
+    0 18px 48px rgba(0,0,0,.35);
+}
+.orb .orb-canvas{ position:absolute; inset:0; width:100%; height:100%; border-radius:inherit; display:block; pointer-events:none; }
+.orb .orb-ring{
+  /* disable conic ring to avoid right-side seam */
+  display:none;
+}
+.orb::before{ display:none }
+.orb::after{
+  /* keep soft bottom vignette only */
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  background: radial-gradient(120% 70% at 50% 120%, rgba(0,0,0,.45), transparent 60%);
+  mix-blend-mode: screen; pointer-events:none; opacity:.5;
+}
+
+/* Chat card */
+.chat{
+  display:flex; flex-direction:column; gap:12px;
+  height:40vh;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:16px; padding:16px; overflow:hidden;
+  position:relative; z-index:2;
+}
+.chat-log{flex:1 1 auto; overflow:auto; display:flex; flex-direction:column; gap:14px; padding-right:4px}
+.msg{max-width:85%; padding:10px 12px; border-radius:12px; font:500 14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial}
+.msg.user{align-self:flex-end; background:#2a2a32; color:#fff; border:1px solid rgba(255,255,255,.08)}
+.msg.bot{align-self:flex-start; background:#15151a; color:#e8e8ee; border:1px solid rgba(255,255,255,.06)}
+.chat-input{display:flex; gap:8px}
+.chat-input input{
+  flex:1 1 auto; background:#0f0f12; color:#fff;
+  border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:12px 14px; outline:none
+}
+.chat-input input, .chat-input button{ font: inherit; }
+.chat-input input::placeholder{ color: inherit; opacity:.6; font-style: normal; }
+/* Force chat controls to match site paragraph font stack */
+.chat, .chat-input input, .chat-input button, .chat-input input::placeholder{
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 400;
+}
+.chat-input button{
+  padding:12px 14px; border-radius:12px; border:0; color:#fff; cursor:pointer;
+  background:linear-gradient(90deg,#7c3aed,#06b6d4); transition:opacity .12s ease
+}
+.chat-input button:disabled{opacity:.5; cursor:not-allowed}
+.sys-note{color:#a8a8b6; font:12px/1.4 ui-sans-serif,system-ui; margin-top:6px}
+
+/* --- Responsive --- */
+@media (max-width: 991px){
+  .interview-grid{grid-template-columns:1fr; gap:24px}
+  .orb-wrap{min-height:340px}
+  .orb{width:min(76vw,360px)}
+  .chat{height:40vh}
+}
+@media (max-width: 540px){
+  .interview-hero{padding:56px 0 24px}
+  .orb-wrap{min-height:220px}
+  .orb{width:min(78vw,280px)}
+  .chat{height:40vh; padding:12px}
+  .msg{max-width:92%}
+}
+/* ====== Beta chip (nav) ====== */
+.chip-beta{
+  display:inline-block;
+  padding:2px 8px;
+  font:600 10px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  color:#fff;
+  background:linear-gradient(90deg,#ff5fa1,#8b5cf6);
+  border-radius:999px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  position:relative;
+  top:-1px;
+}
+
+/* ===== Interview me page ===== */
+.interview-hero{padding:72px 0 24px}
+.interview-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:36px;
+  align-items:stretch;
+}
+/* ====== Interview Me — “Relax AI” orb (clean glow + sweep + scanlines) ====== */
+.orb-wrap { position: relative; isolation: isolate; }
+
+/* =========================
+   Interview Orb (Relax-style)
+   ========================= */
+
+   .orb-wrap{
+	display:grid; place-items:center;
+	min-height: 360px; isolation:isolate;
+  }
+  
+  .orb{
+	/* design tokens you can tweak */
+	--hue: 265;           /* base hue (purplish) */
+	--sat: 82%;
+	--light: 62%;
+	--core: 0.75;         /* 0..1 strength of core */
+	--glow: 0.55;         /* 0..1 strength of outer glow */
+	--sweep: 28s;         /* sweep rotation speed */
+	--scale: 1;           /* animation scale */
+	--alpha: .8;          /* global opacity */
+	width:min(58vw, 460px);
+	aspect-ratio:1;
+	position:relative;
+	border-radius:50%;
+	overflow:hidden;
+	opacity: var(--alpha);
+	transform: scale(var(--scale));
+	transition: transform .25s ease, opacity .25s ease, filter .25s ease;
+	will-change: transform, filter, opacity;
+	/* crisp core + gentle outer glow (no big blur blob) */
+	background:
+	  radial-gradient(42% 42% at 50% 42%,
+		hsla(var(--hue),var(--sat),calc(var(--light) + 8%), calc(.25 + .35*var(--core))),
+		hsla(var(--hue),var(--sat),var(--light), 0) 72%),
+	  radial-gradient(70% 70% at 50% 60%,
+		hsla(var(--hue),var(--sat),calc(var(--light) - 6%), calc(.06 + .44*var(--glow))),
+		transparent 80%);
+	box-shadow:
+	  inset 0 0 32px rgba(255,255,255,.06),
+	  0 18px 48px rgba(0,0,0,.35);
+  }
+  
+  /* moving “sweep” specular highlight */
+  .orb::before{
+	content:"";
+	position:absolute; inset:-6%;
+	border-radius:inherit;
+	background: conic-gradient(from 0deg,
+	  hsla(var(--hue),var(--sat),88%,0) 0deg,
+	  hsla(var(--hue),var(--sat),88%,.30) 26deg,
+	  hsla(var(--hue),var(--sat),88%,0) 92deg,
+	  transparent 360deg);
+	mix-blend-mode:screen;
+	filter: blur(6px);
+	animation: orb-sweep var(--sweep) linear infinite;
+  }
+  
+  /* subtle scanlines to give that “motion visual” texture */
+  .orb::after{
+	content:"";
+	position:absolute; inset:0; border-radius:inherit;
+	background:
+	  repeating-linear-gradient(
+		0deg,
+		rgba(255,255,255,.06) 0px,
+		rgba(255,255,255,.06) 1px,
+		transparent 1px,
+		transparent 3px
+	  ),
+	  radial-gradient(120% 70% at 50% 120%, rgba(0,0,0,.55), transparent 60%);
+	mix-blend-mode: screen;
+	pointer-events:none;
+	opacity:.55;
+  }
+  
+  /* motion keyframes */
+  @keyframes orb-sweep { to { transform: rotate(360deg); } }
+  
+  /* ============
+	 Interaction states (driven by JS)
+	 ============ */
+  .orb.is-typing{
+	--sweep: 16s;
+	--scale: 1.04;
+	--alpha: .95;
+	filter: saturate(1.15) hue-rotate(8deg);
+  }
+  .orb.is-sending{
+	--scale: 1.07;
+	animation: orb-send-pop .5s ease;
+  }
+  @keyframes orb-send-pop{
+	0%{ transform: scale(1.12); }
+	100%{ transform: scale(var(--scale)); }
+  }
+  .orb.is-awaiting{
+	--sweep: 34s;
+	filter: saturate(0.95) brightness(0.98);
+  }
+  .orb.is-replying{
+	--sweep: 14s;
+	--scale: 1.05;
+	filter: saturate(1.2) hue-rotate(-6deg);
+  }
+  
+  /* mobile sizing */
+  @media (max-width: 767px){
+	.orb-wrap{ min-height: 300px; }
+	.orb{ width:min(86vw, 380px); }
+  }
 
 
+/* Chat card */
+.chat{
+  display:flex; flex-direction:column; gap:12px;
+  height:min(70vh,620px);
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:16px; padding:16px; overflow:hidden;
+}
+.chat-log{flex:1 1 auto; overflow:auto; display:flex; flex-direction:column; gap:14px; padding-right:4px}
+.msg{max-width:85%; padding:10px 12px; border-radius:12px; font:500 14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial}
+.msg.user{align-self:flex-end; background:#2a2a32; color:#fff; border:1px solid rgba(255,255,255,.08)}
+.msg.bot{align-self:flex-start; background:#15151a; color:#e8e8ee; border:1px solid rgba(255,255,255,.06)}
+.chat-input{display:flex; gap:8px}
+.chat-input input{
+  flex:1 1 auto; background:#0f0f12; color:#fff;
+  border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:12px 14px; outline:none
+}
+.chat-input button{
+  padding:12px 14px; border-radius:12px; border:0; color:#fff; cursor:pointer;
+  background:linear-gradient(90deg,#7c3aed,#06b6d4); transition:opacity .12s ease
+}
+.chat-input button:disabled{opacity:.5; cursor:not-allowed}
+.sys-note{color:#a8a8b6; font:12px/1.4 ui-sans-serif,system-ui; margin-top:6px}
 
+/* --- Responsive --- */
+@media (max-width: 991px){
+  .interview-grid{grid-template-columns:1fr; gap:24px}
+  .orb-wrap{min-height:340px}
+  .orb{width:min(82vw,420px)}
+  .chat{height:60vh}
+}
+@media (max-width: 540px){
+  .interview-hero{padding:56px 0 16px}
+  .orb-wrap{min-height:260px}
+  .orb{width:min(88vw,360px)}
+  .chat{height:56vh; padding:12px}
+  .msg{max-width:92%}
+}
+/* =========================
+   Interview Me — layout safe-area fixes
+   ========================= */
+.interview-hero{
+  padding-top: clamp(92px, 10vw, 132px);
+  padding-bottom: clamp(24px, 4vw, 40px);
+}
+@supports (padding: max(0px)){
+  .interview-hero{
+    padding-top: max(92px, env(safe-area-inset-top));
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+}
+/* Ensure chat input isn’t clipped on mobile with home indicator */
+.chat{
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+}
+.chat-log{ -webkit-overflow-scrolling: touch; }
 
+/* Prefer dynamic viewport units where supported to avoid iOS URL bar jumps */
+@supports (height: 100dvh){
+  .chat{ height:40dvh; }
+  @media (max-width: 991px){ .chat{ height:40dvh } }
+  @media (max-width: 540px){ .chat{ height:40dvh } }
+}
 
+/* Desktop: larger chat area */
+@media (min-width: 992px){
+  .chat{ height:60vh; }
+}
+@supports (height: 100dvh){
+  @media (min-width: 992px){ .chat{ height:60dvh } }
+}
 
+/* Short viewports: shrink orb to prevent overflow */
+@media (max-height: 740px){
+  .orb-wrap{ min-height: 220px; }
+  .orb{ width:min(82vw, 300px); }
+}
 
+/* =========================
+   Interview Me — “Relax AI” orb (clean glow + sweep + scanlines)
+   ========================= */
+.orb-wrap { display:grid; place-items:center; min-height: 360px; isolation:isolate; }
 
+.orb{
+  --hue: 265;           /* base hue (purplish) */
+  --sat: 82%;
+  --light: 62%;
+  --core: 0.75;         /* 0..1 strength of core */
+  --glow: 0.55;         /* 0..1 strength of outer glow */
+  --sweep: 28s;         /* sweep rotation speed */
+  --scale: 1;           /* animation scale */
+  --alpha: .9;          /* global opacity */
+  width:min(58vw, 460px);
+  aspect-ratio:1;
+  position:relative;
+  border-radius:50%;
+  overflow:hidden;
+  opacity: var(--alpha);
+  transform: scale(var(--scale));
+  transition: transform .25s ease, opacity .25s ease, filter .25s ease, box-shadow .25s ease;
+  will-change: transform, filter, opacity;
+  background:
+    radial-gradient(42% 42% at 50% 42%,
+      hsla(var(--hue),var(--sat),calc(var(--light) + 8%), calc(.25 + .35*var(--core))),
+      hsla(var(--hue),var(--sat),var(--light), 0) 72%),
+    radial-gradient(70% 70% at 50% 60%,
+      hsla(var(--hue),var(--sat),calc(var(--light) - 6%), calc(.06 + .44*var(--glow))),
+      transparent 80%);
+  box-shadow:
+    inset 0 0 32px rgba(255,255,255,.06),
+    0 18px 48px rgba(0,0,0,.35);
+}
 
+/* moving “sweep” specular highlight */
+.orb::before{
+  content:"";
+  position:absolute; inset:-6%;
+  border-radius:inherit;
+  background: conic-gradient(from 0deg,
+    hsla(var(--hue),var(--sat),88%,0) 0deg,
+    hsla(var(--hue),var(--sat),88%,.30) 26deg,
+    hsla(var(--hue),var(--sat),88%,0) 92deg,
+    transparent 360deg);
+  mix-blend-mode:screen;
+  filter: blur(6px);
+  animation: orb-sweep var(--sweep) linear infinite;
+}
+
+/* fine scanlines texture */
+.orb::after{
+  content:"";
+  position:absolute; inset:0; border-radius:inherit;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.06) 0px,
+      rgba(255,255,255,.06) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    radial-gradient(120% 70% at 50% 120%, rgba(0,0,0,.55), transparent 60%);
+  mix-blend-mode: screen;
+  pointer-events:none;
+  opacity:.55;
+}
+
+@keyframes orb-sweep { to { transform: rotate(360deg); } }
+
+/* === Orb interaction states (toggled by interview.js) === */
+.orb.is-typing{
+  --sweep: 16s;
+  --scale: 1.04;
+  --alpha: .98;
+  filter: saturate(1.15) hue-rotate(8deg);
+}
+.orb.is-sending{
+  --scale: 1.07;
+  animation: orb-send-pop .5s ease;
+}
+@keyframes orb-send-pop{
+  0%{ transform: scale(1.12); }
+  100%{ transform: scale(var(--scale)); }
+}
+.orb.is-awaiting{
+  --sweep: 34s;
+  filter: saturate(0.95) brightness(0.98);
+}
+.orb.is-replying{
+  --sweep: 14s;
+  --scale: 1.05;
+  filter: saturate(1.2) hue-rotate(-6deg);
+}
+
+/* reduced motion: soften animations */
+@media (prefers-reduced-motion: reduce){
+  .orb{ transition: opacity .2s ease; }
+  .orb::before{ animation: none; }
+}
+
+/* responsive orb sizing */
+@media (max-width: 991px){
+  .orb-wrap{ min-height: 320px; }
+  .orb{ width:min(78vw, 400px); }
+}
+@media (max-width: 540px){
+  .orb-wrap{ min-height: 280px; }
+  .orb{ width:min(88vw, 340px); }
+}

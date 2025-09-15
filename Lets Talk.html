@@ -120,6 +120,18 @@
                 Let's Talk
               </div>
 
+<!-- NEW: Interview me (beta) -->
+            </div></a><a class="menu-link-content _5 w-inline-block" data-w-id="e4ad7c11-3145-39d0-391b-4d7085c600a5" href="./interviewme.html" style="opacity: 0; transform: translate3d(0px, -50px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+              <div class="nav-overlay" style="transform: translate3d(0px, -100%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+              </div>
+              <div class="nav-menu-link _1">
+                <div class="text-link" style="color: rgb(255, 255, 255);">
+                  Interview me 
+                  <span class="chip-beta" aria-label="beta">Beta</span>
+                </div>
+               
+
+
 
             </div></a>
           </div>
@@ -156,23 +168,30 @@
 
 <div class="form-block w-form" id="contact-form">
 
-            <form aria-label="Email Form 6" data-name="Email Form 6" data-w-id="ac681506-d383-8637-4ac6-688a499ed7c6" id="email-form-6" method="get" name="email-form-6" ">
+            <form aria-label="Email Form 6" data-name="Email Form 6" data-w-id="ac681506-d383-8637-4ac6-688a499ed7c6" id="email-form-6" method="post" name="email-form-6" action="https://api.web3forms.com/submit">
 
 
               <div class="form-group">
-                <label class="form-label" for="Name-3">Your Name</label><input class="input w-input" data-name="Name" id="Name-3" maxlength="256" name="Name" placeholder="" required="" type="text">
+                <label class="form-label" for="Name-3">Your Name</label><input class="input w-input" data-name="name" id="Name-3" maxlength="256" name="name" placeholder="" required="" type="text">
               </div>
 
 
               <div class="form-group">
-                <label class="form-label" for="field">Your Email Address</label><input class="input w-input" data-name="" id="field" maxlength="256" name="field" placeholder="" required="" type="email">
+                <label class="form-label" for="field">Your Email Address</label><input class="input w-input" data-name="email" id="field" maxlength="256" name="email" placeholder="" required="" type="email">
               </div>
 
 
               <div class="form-group">
                 <label class="form-label" for="Message-3">Message</label>
 
-                <textarea class="input message w-input" data-name="Message 2" id="Message-2" maxlength="5000" name="Message-2" placeholder="" required=""></textarea>
+                <textarea class="input message w-input" data-name="message" id="Message-2" maxlength="5000" name="message" placeholder="" required=""></textarea>
+
+              <input type="hidden" name="access_key" value="7a1d5007-b171-4168-83cf-22b04e8aa1c7">
+              <input type="hidden" name="subject" value="Portfolio email">
+              <input type="hidden" name="from_name" value="Adil Portfolio">
+              <input type="hidden" name="replyto" value="email">
+              <input type="checkbox" name="botcheck" style="display:none !important" tabindex="-1" autocomplete="off">
+              <input type="hidden" name="redirect" value="https://adilahmad.co.uk/Lets%20Talk.html?sent=1">
               </div>
 
               <input class="btn-primary w-button" style="margin-top: 30px; width: 100%;" data-wait="Please wait..." type="submit" value="Make Your Move!">
@@ -231,5 +250,10 @@
                                                               </script> 
                                                               <script src="./Adil Portfolio/webflow.6c501d916.js" type="text/javascript">
                                                               </script><!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+<script>
+(function(){
+  // Let the browser POST directly to FormSubmit; no JS interception needed.
+})();
+</script>
                                                             </body>
                                                             </html>
