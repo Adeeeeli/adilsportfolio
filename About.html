@@ -18,10 +18,10 @@
  </style>
  <style>
  /* About page spacing */
- .aboutme-height { padding-top: 0; }
- @media (min-width: 992px) { .aboutme-height { margin-top: 0; padding-top: 0; height: auto !important; min-height: 0 !important; } }
- @media (max-width: 991px) { .aboutme-height { padding-top: 0; margin-top: 0; } }
- @media (max-width: 479px) { .aboutme-height { padding-top: 0; margin-top: 0; } }
+ .aboutme-height { padding-top: 88px; }
+ @media (min-width: 992px) { .aboutme-height { margin-top: 0; padding-top: 100px; height: auto !important; min-height: 0 !important; } }
+ @media (max-width: 991px) { .aboutme-height { padding-top: 96px; margin-top: 0; } }
+ @media (max-width: 479px) { .aboutme-height { padding-top: 108px; margin-top: 0; } }
  </style>
 
 <title>Adil Portfolio | About</title>
@@ -35,10 +35,10 @@
  /* About page header behavior: transparent on load, solid on scroll */
 .navigation-wrap { transition: background-color .3s ease, backdrop-filter .3s ease, box-shadow .3s ease; }
 .navigation-wrap.scrolled { background-color: rgba(30, 28, 32, 0.9) !important; backdrop-filter: blur(8px); box-shadow: 0 6px 20px rgba(0,0,0,.25); }
-/* Align content offset to match Design Studio spacing */
-.aboutme-height { padding-top: 0; }
-@media (max-width: 991px) { .aboutme-height { padding-top: 0; } }
-@media (max-width: 479px) { .aboutme-height { padding-top: 0; } }
+/* Align content offset so it sits below header */
+.aboutme-height { padding-top: 88px; }
+@media (max-width: 991px) { .aboutme-height { padding-top: 96px; } }
+@media (max-width: 479px) { .aboutme-height { padding-top: 108px; } }
  </style>
  <style>
  @media (min-width: 992px) {
