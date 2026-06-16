@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Adil Ahmad · Product Design Manager</title>
+  <meta name="description" content="Portfolio of Adil Ahmad, Product Design Manager at Qatar Airways. Explore leadership case studies, design work, and AI experiments.">
+  <meta property="og:title" content="Adil Ahmad · Product Design Manager">
+  <meta property="og:description" content="Leadership, design, and AI work by Adil Ahmad.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="./Adil Portfolio/adil_middle.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JL2894MXJN"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date());gtag('config','G-JL2894MXJN');
+  </script>
+
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;overflow:hidden;background:#000}
+
+    /* ── APP VIEWPORT (isolated page) ── */
+    #viewport{
+      position:fixed;inset:0;width:100%;height:100%;
+      border:0;display:block;background:#000;
+      opacity:0;transform:scale(.992);
+      transition:opacity .42s cubic-bezier(.16,1,.3,1),transform .42s cubic-bezier(.16,1,.3,1);
+      z-index:1}
+    #viewport.ready{opacity:1;transform:scale(1)}
+
+    /* ── CROSSFADE COVER ── */
+    #cover{
+      position:fixed;inset:0;z-index:5;background:#000;
+      opacity:0;pointer-events:none;
+      transition:opacity .3s ease}
+    #cover.show{opacity:1;pointer-events:all}
+
+    /* ── TOP PROGRESS BAR ── */
+    #bar{
+      position:fixed;top:0;left:0;height:2px;width:0;z-index:10;
+      background:linear-gradient(90deg,#3d8ef5,#a855f7,#f5c040);
+      box-shadow:0 0 10px rgba(120,140,255,.6);
+      opacity:0;transition:width .25s ease,opacity .3s ease}
+    #bar.run{opacity:1}
+
+    /* ── BOOT SPLASH ── */
+    #boot{
+      position:fixed;inset:0;z-index:20;background:#000;
+      display:flex;align-items:center;justify-content:center;
+      transition:opacity .5s ease,visibility .5s}
+    #boot.gone{opacity:0;visibility:hidden;pointer-events:none}
+    #boot .mark{
+      font-family:'Inter',system-ui,Arial,sans-serif;
+      font-size:11px;font-weight:600;letter-spacing:5px;text-transform:uppercase;
+      color:rgba(255,255,255,.35);
+      animation:bootPulse 1.4s ease-in-out infinite}
+    @keyframes bootPulse{0%,100%{opacity:.3}50%{opacity:.7}}
+
+    @media(prefers-reduced-motion:reduce){
+      #viewport,#cover,#bar,#boot{transition-duration:.01ms!important}
+      #boot .mark{animation:none}}
+  </style>
+</head>
+<body>
+  <div id="bar"></div>
+  <iframe id="viewport" title="Adil Ahmad — Portfolio" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <div id="cover"></div>
+  <div id="boot"><span class="mark">Adil Ahmad</span></div>
+
+  <script>
+  (function(){
+    'use strict';
+
+    var frame = document.getElementById('viewport');
+    var cover = document.getElementById('cover');
+    var bar   = document.getElementById('bar');
+    var boot  = document.getElementById('boot');
+
+    // Directory that contains this shell (absolute, ends in "/")
+    var ROOT = new URL('.', location.href).href;
+    var DEFAULT_ROUTE = 'Home.html';
+
+    var currentRoute = null;   // route currently shown (relative to ROOT, encoded)
+    var booted = false;
+    var barTimer = null;
+
+    /* ── ROUTE HELPERS ───────────────────────────── */
+    function cleanRoute(route){
+      if(!route) return route;
+      return route.split('?')[0].split('#')[0];
+    }
+    function toRoute(absUrl){
+      // Returns the page path relative to ROOT (encoded), or null if outside the app.
+      if(absUrl.indexOf(ROOT) !== 0) return null;
+      return cleanRoute(absUrl.slice(ROOT.length));
+    }
+    function absForRoute(route){
+      return ROOT + cleanRoute(route) + '?_=' + Date.now();
+    }
+
+    function routeFromHash(){
+      var h = location.hash || '';
+      if(h.indexOf('#/') === 0) return h.slice(2);
+      return null;
+    }
+
+    /* ── PROGRESS BAR ─────────────────────────────── */
+    function barStart(){
+      bar.classList.add('run');
+      bar.style.width = '18%';
+      clearInterval(barTimer);
+      var w = 18;
+      barTimer = setInterval(function(){
+        w = Math.min(w + (90 - w) * 0.18, 90);
+        bar.style.width = w + '%';
+      }, 220);
+    }
+    function barDone(){
+      clearInterval(barTimer);
+      bar.style.width = '100%';
+      setTimeout(function(){
+        bar.classList.remove('run');
+        setTimeout(function(){ bar.style.width = '0'; }, 300);
+      }, 220);
+    }
+
+    /* ── NAVIGATION ───────────────────────────────── */
+    function navigate(absUrl, push){
+      var route = toRoute(absUrl);
+      if(route === null){ location.href = absUrl; return; }   // outside app → hard nav
+      if(route === currentRoute) return;
+
+      cover.classList.add('show');
+      frame.classList.remove('ready');
+      barStart();
+
+      // Let the cover fade in before swapping the document.
+      setTimeout(function(){
+        frame.src = absForRoute(route);
+        if(push){
+          history.pushState({ route: route }, '', '#/' + route);
+        }
+      }, 160);
+    }
+
+    /* ── LINK INTERCEPTION (inside the iframe) ────── */
+    function interceptDoc(doc){
+      doc.addEventListener('click', function(e){
+        if(e.defaultPrevented || e.button !== 0 ||
+           e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+        var a = e.target.closest ? e.target.closest('a[href]') : null;
+        if(!a) return;
+
+        var target = a.getAttribute('target');
+        if(target && target !== '_self') return;       // _blank etc. → normal
+
+        var href = a.href;                               // resolved absolute URL
+        var url;
+        try { url = new URL(href); } catch(err){ return; }
+
+        /* Case studies open in Home's project drawer — never as shell page nav */
+        if(/\/Design Studio Projects\/.+\.html?$/i.test(url.pathname)) return;
+
+        if(url.origin !== location.origin) return;       // external / mailto / tel
+        if(!/\.html?$/i.test(url.pathname)) return;       // assets → let through
+
+        // Same page, only a hash change → let the page handle it.
+        if(toRoute(url.href.split('#')[0]) === currentRoute && url.hash) return;
+
+        var route = toRoute(url.href.split('#')[0]);
+        if(route === null) return;                        // outside app root
+
+        e.preventDefault();
+        navigate(url.href.split('#')[0], true);
+      }, true);
+    }
+
+    /* ── IFRAME LOAD ──────────────────────────────── */
+    frame.addEventListener('load', function(){
+      var doc;
+      try { doc = frame.contentDocument; } catch(err){ doc = null; }
+
+      // Resolve the route actually loaded (handles in-iframe redirects too).
+      try {
+        var loaded = toRoute(frame.contentWindow.location.href.split('#')[0]);
+        if(loaded !== null) currentRoute = loaded;
+      } catch(err){}
+
+      if(doc){
+        interceptDoc(doc);
+        if(doc.title) document.title = doc.title;
+      }
+
+      barDone();
+      cover.classList.remove('show');
+      requestAnimationFrame(function(){ frame.classList.add('ready'); });
+
+      if(!booted){
+        booted = true;
+        setTimeout(function(){ boot.classList.add('gone'); }, 220);
+      }
+    });
+
+    /* ── BACK / FORWARD ───────────────────────────── */
+    window.addEventListener('popstate', function(e){
+      var route = (e.state && e.state.route) || routeFromHash() || DEFAULT_ROUTE;
+      if(route === currentRoute) return;
+      cover.classList.add('show');
+      frame.classList.remove('ready');
+      barStart();
+      setTimeout(function(){ frame.src = absForRoute(route); }, 160);
+    });
+
+    /* ── BOOT ─────────────────────────────────────── */
+    var startRoute = routeFromHash() || DEFAULT_ROUTE;
+    history.replaceState({ route: startRoute }, '', '#/' + startRoute);
+    frame.src = absForRoute(startRoute);
+  })();
+  </script>
+</body>
+</html>

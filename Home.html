@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <title>Adil Ahmad · Product Design Manager</title>
+  <meta name="description" content="Portfolio of Adil Ahmad, Product Design Manager at Qatar Airways. Explore leadership case studies, design work, and AI experiments.">
+  <meta property="og:title" content="Adil Ahmad · Product Design Manager">
+  <meta property="og:description" content="Leadership, design, and AI work by Adil Ahmad.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="./Adil Portfolio/adil_middle.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JL2894MXJN"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date());gtag('config','G-JL2894MXJN');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── RESET ─────────────────────────────── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;overflow:hidden;
+      background:#000;color:#fff;
+      font-family:'Inter',Arial,sans-serif;
+      -webkit-font-smoothing:antialiased}
+    a{text-decoration:none;color:inherit}
+    button{cursor:pointer;font-family:inherit;border:none;background:none}
+
+    /* ── BACKGROUND ────────────────────────── */
+    .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+
+    /* Ambient orbs — subtle, Linear-style */
+    .orb{position:absolute;border-radius:50%;filter:blur(130px);transition:all 1.8s ease}
+    .orb.a{
+      width:90vw;height:90vw;max-width:750px;max-height:750px;
+      top:-25%;left:50%;transform:translateX(-50%);
+      background:radial-gradient(circle,rgba(40,110,220,0.45) 0%,transparent 70%);
+      opacity:.13}
+    .orb.b{
+      width:60vw;height:60vw;max-width:500px;max-height:500px;
+      bottom:-15%;right:-10%;
+      background:radial-gradient(circle,rgba(20,60,140,0.4) 0%,transparent 70%);
+      opacity:.09}
+    .orb.c{
+      width:45vw;height:45vw;max-width:360px;max-height:360px;
+      top:30%;left:-10%;
+      background:radial-gradient(circle,rgba(80,20,140,0.3) 0%,transparent 70%);
+      opacity:.07}
+
+    body.mgr .orb.a{background:radial-gradient(circle,rgba(200,140,20,0.45) 0%,transparent 70%);opacity:.13}
+    body.mgr .orb.b{background:radial-gradient(circle,rgba(180,60,40,0.35) 0%,transparent 70%);opacity:.08}
+    body.mgr .orb.c{background:radial-gradient(circle,rgba(160,100,0,0.28) 0%,transparent 70%);opacity:.06}
+
+    /* Noise texture overlay */
+    .noise{
+      position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity:.025}
+
+    /* ── HERO ──────────────────────────────── */
+    .page{position:relative;z-index:1;width:100%;height:100vh;overflow:hidden}
+
+    /* Name behind portrait */
+    .hero-name-back{
+      position:absolute;
+      left:50%;
+      top:17%;
+      bottom:auto;
+      transform:translateX(-50%);
+      z-index:1;
+      margin:0;
+      font-size:clamp(52px,14vw,120px);
+      font-weight:800;
+      letter-spacing:-2px;
+      line-height:.88;
+      white-space:nowrap;
+      text-transform:uppercase;
+      color:#fff;
+      opacity:.32;
+      pointer-events:none;
+      transition:transform .6s cubic-bezier(.32,0,.67,0),opacity .5s ease}
+    .hero-name-back.pushed{
+      transform:translateX(-50%) translateY(-80px);
+      opacity:0}
+
+    /* Adil's large photo — in front of name */
+    .hero-photo{
+      position:absolute;
+      bottom:28vh;
+      left:50%;transform:translateX(-50%);
+      width:min(380px,85vw);
+      pointer-events:none;
+      transition:transform .6s cubic-bezier(.32,0,.67,0),opacity .5s ease;
+      z-index:2}
+    .hero-photo-tilt{
+      width:100%;
+      transform:perspective(900px)
+        rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg))
+        translate3d(var(--shift-x,0px),var(--shift-y,0px),0);
+      will-change:transform}
+    .hero-photo img{width:100%;display:block;
+      filter:drop-shadow(0 20px 60px rgba(0,0,0,.7))}
+    .hero-photo.pushed{transform:translateX(-50%) translateY(-80px);opacity:0;pointer-events:none}
+    .hero-photo.pushed .hero-photo-tilt{
+      transform:perspective(900px) rotateX(0) rotateY(0) translate3d(0,0,0)}
+    @media(prefers-reduced-motion:reduce){
+      .hero-photo-tilt{transform:none!important}}
+
+    /* Role above photo */
+    .hero-text{
+      position:absolute;top:8%;left:0;right:0;
+      display:flex;flex-direction:column;align-items:center;gap:10px;
+      text-align:center;padding:0 24px;z-index:3;
+      transition:transform .6s cubic-bezier(.32,0,.67,0),opacity .5s ease}
+    .hero-text.pushed{transform:translateY(-60px);opacity:0;pointer-events:none}
+
+    @media(min-width:620px){
+      .hero-photo{width:min(300px,50vw);bottom:30vh}
+      .hero-text{top:3%}
+      .hero-name-back{
+        top:13%;
+        font-size:clamp(48px,10vw,100px)}}
+
+    .role-pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 16px;border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);
+      font-size:12px;font-weight:500;color:rgba(255,255,255,.5)}
+    .rdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;
+      background:#3d8ef5;box-shadow:0 0 8px rgba(61,142,245,.7);
+      transition:background 1.2s,box-shadow 1.2s}
+    body.mgr .rdot{background:#f5c040;box-shadow:0 0 8px rgba(245,192,64,.7)}
+
+    /* Small avatar top-left when drawer is open */
+    .mini-bar{
+      position:absolute;top:16px;left:50%;transform:translateX(-50%);
+      display:flex;align-items:center;gap:10px;
+      padding:6px 14px 6px 6px;border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      opacity:0;pointer-events:none;
+      transition:opacity .35s ease;z-index:4;white-space:nowrap}
+    .mini-bar.show{opacity:1;pointer-events:all}
+    .mini-av{width:28px;height:28px;border-radius:50%;object-fit:cover;
+      border:1px solid rgba(255,255,255,.15)}
+    .mini-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.85)}
+    .mini-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;flex-shrink:0}
+
+    /* ── DRAWER ────────────────────────────── */
+    .drawer{
+      position:fixed;bottom:0;left:0;right:0;z-index:20;
+      background:rgba(8,8,10,.97);
+      backdrop-filter:blur(60px);-webkit-backdrop-filter:blur(60px);
+      border-radius:24px 24px 0 0;
+      border-top:1px solid rgba(255,255,255,.1);
+      box-shadow:0 -24px 60px rgba(0,0,0,.65);
+      transform:translateY(calc(100% - 38vh));
+      transition:transform .55s cubic-bezier(.32,0,.67,0);
+      height:88vh;
+      display:flex;flex-direction:column;will-change:transform}
+
+    .drawer.open{transform:translateY(0)}
+
+    /* Tap hero / dimmed area above drawer to dismiss */
+    .drawer-dismiss{
+      position:fixed;inset:0;z-index:19;
+      display:none;cursor:pointer;
+      background:rgba(0,0,0,.28);
+      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+      opacity:0;pointer-events:none;
+      transition:opacity .35s ease}
+    .drawer-dismiss.show{
+      display:block;opacity:1;pointer-events:auto}
+
+    @media(min-width:620px){
+      .drawer{max-width:500px;left:50%;right:auto;
+        transform:translateX(-50%) translateY(calc(100% - 38vh));
+        border-left:1px solid rgba(255,255,255,.08);
+        border-right:1px solid rgba(255,255,255,.08)}
+      .drawer.open{transform:translateX(-50%) translateY(0)}}
+
+    /* Handle */
+    .handle-zone{padding:14px 0 6px;display:flex;justify-content:center;
+      cursor:pointer;flex-shrink:0;touch-action:none}
+    .handle-bar{width:32px;height:3px;border-radius:2px;
+      background:rgba(255,255,255,.15);
+      transition:all .25s}
+    .handle-zone:hover .handle-bar,.drawer.open .handle-bar
+      {background:rgba(255,255,255,.3);width:40px}
+
+    /* Tabs — subtle glass */
+    .tabs{display:flex;gap:6px;padding:6px 16px 10px;flex-shrink:0}
+    .tab{
+      position:relative;overflow:hidden;
+      flex:1;padding:8px 0;border-radius:11px;
+      background:rgba(255,255,255,.05);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.09);
+      color:rgba(255,255,255,.45);font-size:12px;font-weight:600;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+      cursor:pointer;transition:background .2s,border-color .2s,color .2s,box-shadow .2s;
+      letter-spacing:-.1px;
+      display:flex;align-items:center;justify-content:center;gap:6px
+    }
+    .tab.on::before{
+      content:"";position:absolute;left:10%;right:10%;top:0;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+      pointer-events:none
+    }
+    .tab svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.8;fill:none;
+      stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+    .tab:hover{
+      border-color:rgba(255,255,255,.14);
+      color:rgba(255,255,255,.62);
+      background:rgba(255,255,255,.07)
+    }
+    .tab:active{transform:scale(.98)}
+    .tab:focus-visible{
+      outline:2px solid rgba(255,255,255,.85);
+      outline-offset:2px
+    }
+    .tab.dsn.on{
+      background:rgba(56,142,245,.12);
+      border-color:rgba(56,142,245,.32);
+      color:#7eb8f7;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+    .tab.mgr.on{
+      background:rgba(245,192,64,.12);
+      border-color:rgba(245,192,64,.32);
+      color:#e8c86a;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+    .tab.ai.on{
+      background:rgba(168,85,247,.12);
+      border-color:rgba(168,85,247,.32);
+      color:#c49af0;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+
+    /* Scroll */
+    .scroll{
+      flex:1;min-height:0;
+      overflow-y:scroll;overflow-x:hidden;
+      -webkit-overflow-scrolling:touch;
+      padding:4px 16px 140px;
+      scrollbar-width:none}
+    .scroll::-webkit-scrollbar{display:none}
+
+    /* Panels */
+    .panel{display:none}
+    .panel.on{display:block;animation:panelIn .32s cubic-bezier(.22,1,.36,1) both}
+    @keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── SECTION LABEL ─────────────────────── */
+    .eyebrow{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
+      color:rgba(255,255,255,.2);margin-bottom:12px}
+
+    /* ── PROJECT CARDS ─────────────────────── */
+    .proj-row{
+      display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;
+      padding-bottom:4px;scroll-snap-type:x mandatory;
+      scrollbar-width:none;margin:0 -16px;padding-left:16px;padding-right:16px}
+    .proj-row::-webkit-scrollbar{display:none}
+
+    .proj-card{
+      position:relative;flex-shrink:0;
+      width:158px;height:218px;border-radius:16px;overflow:hidden;
+      scroll-snap-align:start;text-decoration:none;color:#fff;
+      cursor:pointer;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.09);
+      box-shadow:0 2px 12px rgba(0,0,0,.5);
+      transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+    button.proj-card{
+      display:block;padding:0;font:inherit;text-align:left;
+      -webkit-appearance:none;appearance:none}
+    .proj-card:hover{transform:translateY(-3px);
+      box-shadow:0 8px 32px rgba(0,0,0,.65);
+      border-color:rgba(255,255,255,.15)}
+    .proj-card:active{transform:scale(.97)}
+
+    .proj-img{
+      position:absolute;inset:0;
+      background-size:cover;background-position:center;
+      transition:transform .45s ease}
+    .proj-card:hover .proj-img{transform:scale(1.07)}
+
+    .proj-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,.05) 35%,
+        rgba(0,0,0,.65) 70%,
+        rgba(0,0,0,.9) 100%)}
+
+    /* Glass info bar at bottom */
+    .proj-info{
+      position:absolute;bottom:0;left:0;right:0;
+      padding:10px 12px 13px;
+      background:rgba(0,0,0,.15);
+      border-top:1px solid rgba(255,255,255,.06)}
+    .proj-org{display:block;font-size:9px;font-weight:600;letter-spacing:1px;
+      text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:2px}
+    .proj-name{display:block;font-size:13px;font-weight:600;
+      color:#fff;line-height:1.2}
+
+    .proj-wip{position:absolute;top:10px;right:10px;
+      padding:3px 8px;border-radius:999px;
+      background:rgba(245,192,64,.1);
+      border:1px solid rgba(245,192,64,.2);
+      color:rgba(245,192,64,.85);font-size:9px;font-weight:700;letter-spacing:.3px}
+
+    /* ── MANAGER CASE CARDS ────────────────── */
+    .mgr-card{
+      position:relative;flex-shrink:0;
+      width:158px;height:218px;border-radius:16px;overflow:hidden;
+      scroll-snap-align:start;color:#fff;cursor:pointer;
+      border:1px solid rgba(255,255,255,.1);
+      box-shadow:0 2px 12px rgba(0,0,0,.4);
+      transition:transform .2s ease,box-shadow .2s ease}
+    .mgr-card:hover{transform:translateY(-3px);
+      box-shadow:0 8px 32px rgba(0,0,0,.6)}
+    .mgr-card:active{transform:scale(.97)}
+
+    .mgr-card-img{
+      position:absolute;inset:0;
+      background-size:cover;background-position:center 38%;
+      transition:transform .45s ease}
+    .mgr-card:hover .mgr-card-img{transform:scale(1.06)}
+    .mgr-card.has-img{background:#050505}
+
+    /* Unique gradient bg per card */
+    .mgr-card.people{background:linear-gradient(145deg,#1a0f00 0%,#3d1f00 40%,#7a3d00 100%)}
+    .mgr-card.people.has-img{background:#050505}
+    .mgr-card.culture{background:linear-gradient(145deg,#0d0a1a 0%,#1e1040 40%,#3d1f7a 100%)}
+    .mgr-card.process{background:linear-gradient(145deg,#00111a 0%,#00253d 40%,#005c8a 100%)}
+    .mgr-card.labs{background:linear-gradient(145deg,#001a0d 0%,#003320 40%,#006645 100%)}
+
+    /* Large graphic number/glyph as visual */
+    .mgr-card-gfx{
+      position:absolute;top:-10px;right:-8px;
+      font-size:110px;font-weight:700;letter-spacing:-4px;line-height:1;
+      opacity:.12;pointer-events:none;color:#fff}
+
+    /* Accent orb */
+    .mgr-card-orb{
+      position:absolute;width:110px;height:110px;border-radius:50%;
+      filter:blur(38px);pointer-events:none;opacity:.42}
+    .people .mgr-card-orb{background:#f59840;top:-20px;left:-20px}
+    .culture .mgr-card-orb{background:#7c3aed;top:-20px;left:-20px}
+    .process .mgr-card-orb{background:#0ea5e9;top:-20px;left:-20px}
+    .labs .mgr-card-orb{background:#10b981;top:-20px;left:-20px}
+
+    /* Metric badge */
+    .mgr-card-badge{
+      position:absolute;top:12px;left:12px;
+      padding:3px 9px;border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:10px;font-weight:600;letter-spacing:.2px;color:rgba(255,255,255,.75)}
+
+    /* Bottom info */
+    .mgr-card .proj-overlay{
+      background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.08) 40%,rgba(0,0,0,.72) 75%,rgba(0,0,0,.9) 100%)}
+
+    /* Tag line under card name */
+    .mgr-card-tag{display:block;font-size:10px;font-weight:400;
+      color:rgba(255,255,255,.38);margin-top:2px;line-height:1.3}
+
+    /* People split card */
+    .mgr-card.people-build{background:linear-gradient(145deg,#001a0a 0%,#002e14 40%,#005c2e 100%)}
+    .people-build .mgr-card-orb{background:#34d399}
+
+    /* AI card gradients */
+    .mgr-card.ai-card{background:linear-gradient(145deg,#0d001a 0%,#1e0040 40%,#4c0099 100%)}
+    .mgr-card.ai-card.violet{background:linear-gradient(145deg,#0a001a 0%,#1a0040 40%,#5b21b6 100%)}
+    .mgr-card.ai-card.pink{background:linear-gradient(145deg,#1a0020 0%,#3d0050 40%,#7c3aed 100%)}
+    .mgr-card.ai-card.indigo{background:linear-gradient(145deg,#000d1a 0%,#001a3d 40%,#1d4ed8 100%)}
+    .mgr-card.ai-card .mgr-card-orb{background:#a855f7}
+    .mgr-card.ai-card.pink .mgr-card-orb{background:#ec4899}
+    .mgr-card.ai-card.indigo .mgr-card-orb{background:#6366f1}
+
+    /* AI badge accent */
+    .mgr-card.ai-card .mgr-card-badge{
+      background:rgba(168,85,247,.12);
+      border-color:rgba(168,85,247,.22);
+      color:rgba(196,132,252,.9)}
+
+    /* Body.ai orb shift */
+    body.ai .orb.a{background:radial-gradient(circle,rgba(120,40,220,0.45) 0%,transparent 70%);opacity:.13}
+    body.ai .orb.b{background:radial-gradient(circle,rgba(80,20,180,0.4) 0%,transparent 70%);opacity:.09}
+    body.ai .orb.c{background:radial-gradient(circle,rgba(200,40,180,0.3) 0%,transparent 70%);opacity:.07}
+
+    /* ── THINKING ──────────────────────────── */
+    .thinking{
+      position:fixed;inset:0;z-index:200;
+      background:rgba(0,0,0,.95);backdrop-filter:blur(20px);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+      opacity:0;pointer-events:none;transition:opacity .25s}
+    .thinking.on{opacity:1;pointer-events:all}
+    .tk-av{width:60px;height:60px;border-radius:50%;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;align-items:center;justify-content:center}
+    .tk-av img{width:28px;height:28px;object-fit:contain;filter:invert(1) brightness(.7)}
+    .tk-txt{font-size:16px;font-weight:400;color:rgba(255,255,255,.55);letter-spacing:.3px}
+    .tk-dots{display:flex;gap:7px}
+    .tk-dots span{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);
+      animation:dpulse 1.5s ease-in-out infinite}
+    .tk-dots span:nth-child(1){animation-delay:0s}
+    .tk-dots span:nth-child(2){animation-delay:.2s}
+    .tk-dots span:nth-child(3){animation-delay:.4s}
+    .tk-dots span:nth-child(4){animation-delay:.6s}
+    @keyframes dpulse{0%,60%,100%{opacity:.2;transform:scale(.75)}30%{opacity:1;transform:scale(1.1)}}
+
+    /* ── BOTTOM NAV ────────────────────────── */
+    .bnav{
+      position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+      z-index:50;display:flex;align-items:center;gap:2px;padding:5px;
+      background:rgba(10,10,12,.94);
+      backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 8px 32px rgba(0,0,0,.6);
+      overflow:hidden;
+      animation:navIn .8s .4s cubic-bezier(.16,1,.3,1) both}
+    @keyframes navIn{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+    .nb{display:flex;align-items:center;justify-content:center;
+      width:44px;height:44px;border-radius:999px;
+      color:rgba(255,255,255,.3);transition:all .2s;text-decoration:none;
+      position:relative;z-index:2}
+    .nb svg{width:18px;height:18px;stroke-width:1.8}
+    .nb:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.65)}
+    .nb.lm-active{
+      background:radial-gradient(circle at 38% 32%,#1c1c1e 0%,#050505 100%);
+      color:rgba(255,255,255,.88);
+      box-shadow:inset 0 1px 2px rgba(255,255,255,.06),inset 0 -2px 6px rgba(0,0,0,.5)}
+    /* lm-ring: WebGL canvas masked to a thin donut ring around active button */
+    .lm-ring{
+      position:absolute;
+      pointer-events:none;
+      z-index:1;
+      border-radius:999px;
+      opacity:0;
+      /* donut mask — outer full circle, inner transparent hole */
+      -webkit-mask-image:radial-gradient(circle,transparent 47%,black 50%,black 100%);
+      mask-image:radial-gradient(circle,transparent 47%,black 50%,black 100%);
+      transition:left .35s cubic-bezier(.34,1.46,.64,1),
+                 top .35s cubic-bezier(.34,1.46,.64,1),
+                 opacity .22s ease}
+    .lm-ring canvas{display:block}
+    .nsep{width:1px;height:18px;background:rgba(255,255,255,.08);margin:0 2px}
+
+    /* ── LIGHTBOX ──────────────────────────── */
+    .lbg{
+      position:fixed;inset:0;z-index:300;
+      background:rgba(0,0,0,.92);backdrop-filter:blur(24px);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:16px;padding:20px;
+      opacity:0;pointer-events:none;transition:opacity .28s}
+    .lbg.on{opacity:1;pointer-events:all}
+    .lb-wrap{
+      max-width:min(760px,90vw);max-height:76vh;
+      border-radius:16px;overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 30px 80px rgba(0,0,0,.8);
+      transform:scale(.9);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+    .lbg.on .lb-wrap{transform:scale(1)}
+    .lb-wrap img{display:block;width:100%;height:100%;object-fit:contain;max-height:76vh}
+    .lb-label{font-size:13px;font-weight:500;color:rgba(255,255,255,.4);text-align:center}
+    .lb-close{
+      position:fixed;top:20px;right:20px;
+      width:38px;height:38px;border-radius:50%;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.5);font-size:16px;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;transition:background .2s}
+    .lb-close:hover{background:rgba(255,255,255,.1)}
+
+    /* ── PROJECT DRAWER ────────────────────── */
+    .pdrawer{
+      position:fixed;inset:0;z-index:400;
+      display:flex;align-items:flex-end;justify-content:center;
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      opacity:0;pointer-events:none;transition:opacity .4s ease}
+    .pdrawer.on{opacity:1;pointer-events:all}
+    .pdrawer-inner{
+      position:relative;
+      width:min(980px,100%);height:94vh;
+      background:rgba(9,9,11,.99);
+      border-radius:24px 24px 0 0;
+      border:1px solid rgba(255,255,255,.1);border-bottom:none;
+      box-shadow:0 -40px 100px rgba(0,0,0,.75);
+      transform:translateY(101%);
+      transition:
+        transform .55s cubic-bezier(.16,1,.3,1),
+        width .45s cubic-bezier(.16,1,.3,1),
+        height .45s cubic-bezier(.16,1,.3,1),
+        border-radius .45s cubic-bezier(.16,1,.3,1),
+        box-shadow .45s ease;
+      display:flex;flex-direction:column;overflow:hidden}
+    .pdrawer.on .pdrawer-inner{transform:translateY(0)}
+    .pdrawer.is-expanded{
+      align-items:stretch;
+      background:rgba(0,0,0,.97)}
+    .pdrawer-inner.is-expanded{
+      width:100%;height:100vh;height:100dvh;
+      border-radius:0;border:none;
+      box-shadow:none}
+    .pdrawer-inner.is-expanded .pdrawer-grip{opacity:0}
+    .pdrawer-grip{
+      position:absolute;top:8px;left:50%;transform:translateX(-50%);
+      width:38px;height:4px;border-radius:2px;background:rgba(255,255,255,.18);z-index:3;
+      transition:opacity .35s ease}
+    .pdrawer-head{
+      display:flex;align-items:center;gap:12px;
+      padding:20px 16px 14px;flex-shrink:0;
+      border-bottom:1px solid rgba(255,255,255,.07)}
+    .pdrawer-dot{
+      width:8px;height:8px;border-radius:50%;flex-shrink:0;
+      background:#5ba3f7;box-shadow:0 0 10px rgba(91,163,247,.8);
+      transition:background .3s,box-shadow .3s}
+    .pdrawer-titles{flex:1;min-width:0}
+    .pdrawer-org{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+      color:rgba(255,255,255,.4);line-height:1.4}
+    .pdrawer-name{font-size:15px;font-weight:600;color:#fff;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+    .pdrawer-close{
+      width:36px;height:36px;border-radius:50%;flex-shrink:0;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+      color:rgba(255,255,255,.65);font-size:15px;
+      display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
+    .pdrawer-close:hover{background:rgba(255,255,255,.12);color:#fff}
+    .pdrawer-body{flex:1;min-height:0;position:relative;background:#000}
+    .pdrawer-bar{
+      position:absolute;top:0;left:0;height:2px;width:0;z-index:4;
+      background:linear-gradient(90deg,#3d8ef5,#a855f7,#f5c040);
+      box-shadow:0 0 10px rgba(120,140,255,.6);
+      opacity:0;transition:width .25s ease,opacity .3s ease}
+    .pdrawer-bar.run{opacity:1}
+    .pdrawer-frame{
+      position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
+      opacity:0;transition:opacity .45s ease}
+    .pdrawer-frame.ready{opacity:1}
+    .pdrawer-shim{
+      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+      gap:8px;color:rgba(255,255,255,.3);font-size:10px;font-weight:600;
+      letter-spacing:2.5px;text-transform:uppercase;pointer-events:none;
+      opacity:1;transition:opacity .3s ease}
+    .pdrawer-shim.hide{opacity:0}
+    .pdrawer-shim .sd{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);
+      animation:dpulse 1.5s ease-in-out infinite}
+    .pdrawer-shim .sd:nth-child(2){animation-delay:.2s}
+    .pdrawer-shim .sd:nth-child(3){animation-delay:.4s}
+
+    /* Inline detail (cards without a dedicated page) */
+    .pdrawer-inline{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+      scrollbar-width:none;opacity:0;transition:opacity .4s ease}
+    .pdrawer-inline::-webkit-scrollbar{display:none}
+    .pdrawer-inline.show{opacity:1}
+    .pdrawer-hero{
+      position:relative;height:clamp(200px,32vh,300px);
+      display:flex;align-items:flex-end;padding:26px;overflow:hidden;
+      background:linear-gradient(145deg,#0d0d12 0%,#1a1a22 100%)}
+    .pdrawer-hero::after{content:'';position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(9,9,11,1) 2%,transparent 60%)}
+    .pdrawer-hero .gfx{
+      position:absolute;top:-30px;right:-6px;
+      font-size:clamp(160px,30vw,240px);font-weight:700;letter-spacing:-6px;line-height:1;
+      color:#fff;opacity:.12;pointer-events:none}
+    .pdrawer-hero .badge{
+      position:relative;z-index:1;
+      padding:4px 12px;border-radius:999px;
+      background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);
+      font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+      color:rgba(255,255,255,.85)}
+    .pdrawer-inline-content{padding:30px 26px 40px;max-width:640px}
+    .pdrawer-inline-eyebrow{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+      color:rgba(255,255,255,.35);margin-bottom:14px}
+    .pdrawer-inline-title{font-size:clamp(30px,6vw,46px);font-weight:800;letter-spacing:-1.5px;
+      line-height:1.05;color:#fff;margin-bottom:18px}
+    .pdrawer-inline-desc{font-size:16px;line-height:1.7;color:rgba(255,255,255,.55);margin-bottom:28px}
+    .pdrawer-soon{
+      display:inline-flex;align-items:center;gap:9px;
+      padding:10px 18px;border-radius:999px;
+      background:rgba(245,192,64,.08);border:1px solid rgba(245,192,64,.2);
+      font-size:12px;font-weight:600;letter-spacing:.3px;color:rgba(245,192,64,.85)}
+    .pdrawer-soon::before{content:'';width:6px;height:6px;border-radius:50%;
+      background:#f5c040;box-shadow:0 0 8px rgba(245,192,64,.7)}
+
+    @media(min-width:620px){.pdrawer-inner:not(.is-expanded){height:92vh}}
+
+    /* ── CONTACT SHEET ────────────────────── */
+    .csheet{
+      position:fixed;inset:0;z-index:100;
+      background:rgba(0,0,0,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      opacity:0;pointer-events:none;transition:opacity .35s ease;
+      display:flex;align-items:flex-end;justify-content:center}
+    .csheet.on{opacity:1;pointer-events:all}
+
+    .csheet-inner{
+      width:100%;max-width:500px;
+      background:rgba(8,8,10,.97);
+      backdrop-filter:blur(60px);-webkit-backdrop-filter:blur(60px);
+      border-radius:24px 24px 0 0;
+      border-top:1px solid rgba(255,255,255,.1);
+      box-shadow:0 -24px 60px rgba(0,0,0,.65);
+      padding-bottom:env(safe-area-inset-bottom,20px);
+      transform:translateY(100%);transition:transform .45s cubic-bezier(.32,0,.67,0)}
+    .csheet.on .csheet-inner{transform:translateY(0)}
+
+    .csheet-handle-zone{padding:12px 0 4px;display:flex;justify-content:center;cursor:pointer}
+
+    .csheet-head{padding:12px 24px 20px}
+    .csheet-title{font-size:24px;font-weight:700;letter-spacing:-.6px;color:#fff}
+    .csheet-sub{font-size:13px;color:rgba(255,255,255,.35);margin-top:4px;font-weight:400}
+
+    .csheet-links{display:flex;flex-direction:column;gap:8px;padding:0 16px}
+    .clink{
+      display:flex;align-items:center;gap:14px;padding:14px 16px;
+      border-radius:14px;text-decoration:none;color:#fff;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      transition:transform .18s,background .18s}
+    .clink:hover{background:rgba(255,255,255,.07);transform:translateY(-1px)}
+    .clink:active{transform:scale(.98)}
+
+    .clink-icon{
+      width:40px;height:40px;border-radius:10px;flex-shrink:0;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.65)}
+    .clink-icon svg{width:18px;height:18px}
+    .clink-body{flex:1;display:flex;flex-direction:column;gap:2px}
+    .clink-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.28)}
+    .clink-val{font-size:14px;font-weight:500;color:rgba(255,255,255,.82)}
+    .clink-arr{font-size:14px;color:rgba(255,255,255,.2)}
+
+    .csheet-based{
+      text-align:center;font-size:12px;color:rgba(255,255,255,.2);
+      padding:20px 24px 16px;letter-spacing:.1px}
+
+    /* ── UTIL ──────────────────────────────── */
+    @media(max-width:375px){
+      .hero-name-back{top:19%;font-size:44px;letter-spacing:-2px}}
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+    }
+  </style>
+</head>
+<body class="mgr">
+
+<!-- Background -->
+<div class="bg">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+</div>
+<div class="noise"></div>
+
+<!-- Thinking overlay -->
+<div class="thinking" id="thinking">
+  <div class="tk-av"><img src="./Adil Portfolio/adil logo 2.svg" alt=""></div>
+  <div class="tk-txt">Thinking</div>
+  <div class="tk-dots"><span></span><span></span><span></span><span></span></div>
+</div>
+
+<!-- Lightbox -->
+<div class="lbg" id="lbg" onclick="closeLb(event)">
+  <button class="lb-close" onclick="closeLb(null)">✕</button>
+  <div class="lb-wrap" onclick="event.stopPropagation()">
+    <img id="lbImg" src="" alt="">
+  </div>
+  <div class="lb-label" id="lbLabel"></div>
+</div>
+
+<!-- Project Drawer -->
+<div class="pdrawer" id="pdrawer" onclick="if(event.target===this)closeProjectDrawer()">
+  <div class="pdrawer-inner">
+    <div class="pdrawer-grip"></div>
+    <div class="pdrawer-head">
+      <span class="pdrawer-dot" id="pdrawerDot"></span>
+      <div class="pdrawer-titles">
+        <div class="pdrawer-org" id="pdrawerOrg"></div>
+        <div class="pdrawer-name" id="pdrawerName"></div>
+      </div>
+      <button class="pdrawer-close" onclick="closeProjectDrawer()" aria-label="Close project">✕</button>
+    </div>
+    <div class="pdrawer-body">
+      <div class="pdrawer-bar" id="pdrawerBar"></div>
+      <div class="pdrawer-shim" id="pdrawerShim"><span>Loading</span><span class="sd"></span><span class="sd"></span><span class="sd"></span></div>
+      <iframe class="pdrawer-frame" id="pdrawerFrame" title="Project detail"></iframe>
+      <div class="pdrawer-inline" id="pdrawerInline"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Page -->
+<div class="page" id="page">
+
+  <!-- Mini bar (visible when drawer is fully open) -->
+  <div class="mini-bar" id="miniBar" aria-label="Profile quick info">
+    <img class="mini-av" src="./Adil Portfolio/Adil-profile.jpeg" alt="Adil Ahmad profile photo">
+    <span class="mini-name">Adil Ahmad</span>
+    <span class="mini-dot"></span>
+  </div>
+
+  <h1 class="hero-name-back" id="heroNameBack">ADIL AHMAD</h1>
+
+  <!-- Hero role -->
+  <div class="hero-text" id="heroText">
+    <div class="role-pill">
+      <span class="rdot"></span>
+      Product Design Manager · Qatar Airways
+    </div>
+  </div>
+
+  <!-- Big photo (in front of name) -->
+  <div class="hero-photo" id="heroPhoto">
+    <div class="hero-photo-tilt" id="heroPhotoTilt">
+      <img src="./Adil Portfolio/adil_middle.png" alt="Adil Ahmad">
+    </div>
+  </div>
+
+  <!-- Tap outside drawer to return to homepage -->
+  <button type="button" class="drawer-dismiss" id="drawerDismiss"
+    aria-label="Close panel and return to homepage" tabindex="-1"></button>
+
+  <!-- Drawer -->
+  <div class="drawer" id="drawer">
+    <div class="handle-zone" id="handleZone">
+      <div class="handle-bar"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab mgr on" id="tabMgr" onclick="switchMode('mgr')" aria-label="Show manager work">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Manager
+      </button>
+      <button class="tab dsn" id="tabDsn" onclick="switchMode('dsn')" aria-label="Show design projects">
+        <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Designer
+      </button>
+      <button class="tab ai" id="tabAi" onclick="switchMode('ai')" aria-label="Show AI projects">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><line x1="12" y1="7" x2="12" y2="11"/><line x1="8" y1="15" x2="8" y2="15" stroke-width="2.5"/><line x1="12" y1="15" x2="12" y2="15" stroke-width="2.5"/><line x1="16" y1="15" x2="16" y2="15" stroke-width="2.5"/></svg>
+        AI
+      </button>
+    </div>
+
+    <div class="scroll" id="scroll">
+
+      <!-- ── DESIGNER ── -->
+      <div class="panel" id="panelDsn">
+        <div class="eyebrow">Projects</div>
+        <div class="proj-row">
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/Jaguar test drive.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Jaguar test drive content/jaguar_thumbnail.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Jaguar Land Rover</span><span class="proj-name">Test Drive Experience</span></div>
+          </button>
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/Spotify Redefining Duo.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Spotify Content/Spotify_spit_the_bill_thumbnail.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Spotify</span><span class="proj-name">Redefining Duo</span></div>
+          </button>
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/Your Coop Wallet Integration.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Co-op Wallet content/Co_op_wallet_integration.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Co-op</span><span class="proj-name">Wallet Integration</span></div>
+          </button>
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/Honda EV Digital Cluster.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Honda Content/Honda_EV_digital_Cluster.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Honda</span><span class="proj-name">EV Digital Cluster</span></div>
+          </button>
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/Porsche - Reimagining Direction.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Porsche Thumbnail.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Porsche</span><span class="proj-name">Reimagining Direction</span></div>
+          </button>
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/A Balenciaga Project.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Balenciaga thumbnail.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Balenciaga</span><span class="proj-name">A Balenciaga Project</span></div>
+          </button>
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/Coop Funeralcare.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Funeralcare Content/Funeralcare_thumbnail.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Co-op</span><span class="proj-name">Funeralcare</span></div>
+          </button>
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/Switch on the Lights Coop Energy.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Co-op Energy Content/Coop-energy_thumbnail.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Co-op Energy</span><span class="proj-name">Switch on the Lights</span></div>
+          </button>
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/Co-op Childcare.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Co-op Childcare Content/Co-op Childcare thumbnail.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Co-op</span><span class="proj-name">Childcare</span></div>
+          </button>
+
+          <button type="button" class="proj-card" data-project-url="./Design Studio Projects/Member Events Scanner.html">
+            <div class="proj-img" style="background-image:url('./Design Studio Projects/Member Event Scanner content/Member_event_thumbnail.png')"></div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info"><span class="proj-org">Co-op</span><span class="proj-name">Events Scanner</span></div>
+          </button>
+
+        </div><!-- /proj-row -->
+
+        <!-- Experimentations -->
+        <div style="margin-top:26px">
+          <div class="eyebrow">Experimentations</div>
+          <div class="proj-row">
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Glassmorphism Thumbnail.png','Glassmorphism UI')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Glassmorphism Thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Exploration</span><span class="proj-name">Glassmorphism UI</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Giulia full.png','Alfa Romeo Giulia')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Giulia full.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Automotive</span><span class="proj-name">Alfa Romeo Giulia</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/honda ML thumbnail.png','Honda ML')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/honda ML thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Automotive</span><span class="proj-name">Honda ML</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Ray ban Thumbnail.png','Ray-Ban Concept')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Ray ban Thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Fashion</span><span class="proj-name">Ray-Ban Concept</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Ikea thumbnail.png','IKEA Concept')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Ikea thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Retail</span><span class="proj-name">IKEA Concept</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Skoda_thumbnail.png','Škoda Concept')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Skoda_thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Automotive</span><span class="proj-name">Škoda Concept</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Skoda_workshop_manual.png','Škoda Workshop Manual')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Skoda_workshop_manual.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Automotive</span><span class="proj-name">Škoda Workshop</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/OTA Thumbnail.png','OTA App')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/OTA Thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Mobile</span><span class="proj-name">OTA App</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Parcel thumbnail.png','Parcel')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Parcel thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Mobile</span><span class="proj-name">Parcel</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Travel backend thumbnail.png','Travel Backend')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Travel backend thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Travel</span><span class="proj-name">Travel Backend</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Best of our counties thumbnail.png','Best of Our Counties')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Best of our counties thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Co-op</span><span class="proj-name">Best of Our Counties</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/Funeral conceptual thumbnail.png','Funeralcare Concept')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/Funeral conceptual thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Co-op</span><span class="proj-name">Funeralcare Concept</span></div>
+            </div>
+
+            <div class="proj-card exp-card" onclick="openLb('./Design Studio Projects/Experimentations/nft thumbnail.png','NFT Concept')">
+              <div class="proj-img" style="background-image:url('./Design Studio Projects/Experimentations/nft thumbnail.png')"></div>
+              <div class="proj-overlay"></div>
+              <div class="proj-info"><span class="proj-org">Web3</span><span class="proj-name">NFT Concept</span></div>
+            </div>
+
+          </div><!-- /exp proj-row -->
+        </div><!-- /experimentations -->
+      </div><!-- /panelDsn -->
+
+      <!-- ── MANAGER ── -->
+      <div class="panel on" id="panelMgr">
+
+        <!-- Leadership case studies -->
+        <div class="eyebrow">Leadership Cases</div>
+        <div class="proj-row">
+
+          <!-- Building Design Lab -->
+          <div class="mgr-card people has-img design-lab" data-case-url="./DesignLab.html">
+            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/design-lab-card.jpg')"></div>
+            <div class="mgr-card-badge">People</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Scale & Structure</span>
+              <span class="proj-name">Building Design Lab Pitchdeck</span>
+              <span class="mgr-card-tag">Creating a trusted division inside design into the highest delivery engine within digital.</span>
+            </div>
+          </div>
+
+          <!-- Building People -->
+          <div class="mgr-card people-build">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">↑</div>
+            <div class="mgr-card-badge">Growth</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Individual Impact</span>
+              <span class="proj-name">Building People</span>
+              <span class="mgr-card-tag">Mentorship, career acceleration & unlocking potential</span>
+            </div>
+          </div>
+
+          <!-- Culture -->
+          <div class="mgr-card culture">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">↑</div>
+            <div class="mgr-card-badge">Culture</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Before → After</span>
+              <span class="proj-name">Shifting the Standard</span>
+              <span class="mgr-card-tag">From output-driven to ownership-driven design culture</span>
+            </div>
+          </div>
+
+          <!-- Process -->
+          <div class="mgr-card process">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">⌬</div>
+            <div class="mgr-card-badge">Process</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Design Ops</span>
+              <span class="proj-name">Systematic by Design</span>
+              <span class="mgr-card-tag">Frameworks, rituals & governance across 5 platforms</span>
+            </div>
+          </div>
+
+          <!-- Design Labs -->
+          <div class="mgr-card labs">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">⬡</div>
+            <div class="mgr-card-badge">Design Labs</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Innovation</span>
+              <span class="proj-name">The Lab Mindset</span>
+              <span class="mgr-card-tag">Experimental culture — concepts that ship</span>
+            </div>
+          </div>
+
+        </div><!-- /proj-row -->
+
+      </div><!-- /panelMgr -->
+
+      <!-- ── AI ── -->
+      <div class="panel" id="panelAi">
+
+        <div class="eyebrow">AI Projects</div>
+        <div class="proj-row">
+
+          <div class="mgr-card ai-card">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">AI</div>
+            <div class="mgr-card-badge">Agent</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Claude · Cursor</span>
+              <span class="proj-name">AI Design Agent</span>
+              <span class="mgr-card-tag">Agentic workflows built to accelerate design output</span>
+            </div>
+          </div>
+
+          <div class="mgr-card ai-card pink">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">⬡</div>
+            <div class="mgr-card-badge">Product</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">AI-Native</span>
+              <span class="proj-name">Coming Soon</span>
+              <span class="mgr-card-tag">Building in public — drop back in</span>
+            </div>
+          </div>
+
+          <div class="mgr-card ai-card indigo">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">∞</div>
+            <div class="mgr-card-badge">Tool</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Automation</span>
+              <span class="proj-name">Coming Soon</span>
+              <span class="mgr-card-tag">AI-powered ops tools for design teams</span>
+            </div>
+          </div>
+
+        </div><!-- /proj-row -->
+
+        <div class="eyebrow" style="margin-top:24px">Experimentations with AI</div>
+        <div class="proj-row">
+
+          <div class="mgr-card ai-card violet">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">✦</div>
+            <div class="mgr-card-badge">Exploration</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Generative UI</span>
+              <span class="proj-name">AI-Driven Interfaces</span>
+              <span class="mgr-card-tag">Exploring AI as a design medium, not just a tool</span>
+            </div>
+          </div>
+
+          <div class="mgr-card ai-card pink">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">◎</div>
+            <div class="mgr-card-badge">Research</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Prompt Engineering</span>
+              <span class="proj-name">Design Prompting</span>
+              <span class="mgr-card-tag">Structured prompting frameworks for design work</span>
+            </div>
+          </div>
+
+        </div><!-- /proj-row -->
+
+      </div><!-- /panelAi -->
+
+    </div><!-- /scroll -->
+  </div><!-- /drawer -->
+
+</div><!-- /page -->
+
+<!-- Bottom nav -->
+<nav class="bnav" id="bnav">
+  <div class="lm-ring" id="lmRing"></div>
+  <a href="./Home.html" class="nb lm-active" id="nbHome" title="Home" aria-label="Home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  </a>
+  <div class="nsep"></div>
+  <a href="./About.html" class="nb" id="nbAbout" title="About" aria-label="About">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+    </svg>
+  </a>
+  <button class="nb" id="nbContact" onclick="openContact()" title="Let's Talk" aria-label="Open contact sheet">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- Contact Sheet -->
+  <div class="csheet" id="csheet" onclick="if(event.target===this)closeContact()" role="dialog" aria-modal="true" aria-label="Contact options">
+  <div class="csheet-inner">
+    <div class="csheet-handle-zone" onclick="closeContact()"><div class="handle-bar"></div></div>
+    <div class="csheet-head">
+      <div class="csheet-title">Let's Talk</div>
+      <div class="csheet-sub">Open to roles, collabs & conversations.</div>
+    </div>
+    <div class="csheet-links">
+      <a class="clink" href="mailto:adil_3@hotmail.co.uk">
+        <div class="clink-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/></svg>
+        </div>
+        <div class="clink-body">
+          <span class="clink-label">Email</span>
+          <span class="clink-val">adil_3@hotmail.co.uk</span>
+        </div>
+        <div class="clink-arr">→</div>
+      </a>
+      <a class="clink" href="https://www.linkedin.com/in/adilahmaddesign" target="_blank" rel="noopener noreferrer">
+        <div class="clink-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </div>
+        <div class="clink-body">
+          <span class="clink-label">LinkedIn</span>
+          <span class="clink-val">Adil Ahmad</span>
+        </div>
+        <div class="clink-arr">→</div>
+      </a>
+      <a class="clink" href="https://www.instagram.com/adeeeel__/" target="_blank" rel="noopener noreferrer">
+        <div class="clink-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="clink-body">
+          <span class="clink-label">Instagram</span>
+          <span class="clink-val">@adeeeel__</span>
+        </div>
+        <div class="clink-arr">→</div>
+      </a>
+    </div>
+    <div class="csheet-based">📍 Doha, Qatar · Available for remote</div>
+  </div>
+</div>
+
+<script>
+  const $=id=>document.getElementById(id);
+  let open=false,mode='mgr';
+  let contactPrevActiveId='nbHome';
+
+  const drawer=$('drawer'),drawerDismiss=$('drawerDismiss'),
+        heroText=$('heroText'),heroPhoto=$('heroPhoto'),heroNameBack=$('heroNameBack'),
+        miniBar=$('miniBar'),
+        nbDsn=null,nbMgr=null,nbAi=null,
+        tabDsn=$('tabDsn'),tabMgr=$('tabMgr'),tabAi=$('tabAi'),
+        panelDsn=$('panelDsn'),panelMgr=$('panelMgr'),panelAi=$('panelAi'),
+        scrollEl=$('scroll');
+  if(heroNameBack) heroNameBack.textContent='ADIL AHMAD';
+
+  /* ── OPEN / CLOSE ── */
+  function openDrawer(m){
+    if(open)return;
+    if(m!==mode)applyMode(m);
+    drawer.classList.add('open');
+    heroText.classList.add('pushed');
+    heroPhoto.classList.add('pushed');
+    heroNameBack.classList.add('pushed');
+    miniBar.classList.add('show');
+    drawerDismiss.classList.add('show');
+    drawerDismiss.tabIndex=0;
+    open=true;
+    setNav(m);
+  }
+
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    heroText.classList.remove('pushed');
+    heroPhoto.classList.remove('pushed');
+    heroNameBack.classList.remove('pushed');
+    miniBar.classList.remove('show');
+    drawerDismiss.classList.remove('show');
+    drawerDismiss.tabIndex=-1;
+    open=false;
+    if(nbDsn) nbDsn.className='nb';
+    if(nbMgr) nbMgr.className='nb';
+  }
+
+  /* ── HERO PHOTO — pointer parallax ── */
+  (()=>{
+    const page=$('page'),tilt=$('heroPhotoTilt');
+    if(!page||!tilt)return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+
+    const MAX_SHIFT=9;
+    const MAX_TILT=4;
+    const EASE=0.07;
+    let targetX=0,targetY=0,currentX=0,currentY=0;
+    let tracking=false,rafId=null;
+
+    function apply(){
+      tilt.style.setProperty('--shift-x',currentX.toFixed(2)+'px');
+      tilt.style.setProperty('--shift-y',currentY.toFixed(2)+'px');
+      tilt.style.setProperty('--tilt-x',(-currentX*MAX_TILT/MAX_SHIFT).toFixed(2)+'deg');
+      tilt.style.setProperty('--tilt-y',(currentY*MAX_TILT/MAX_SHIFT).toFixed(2)+'deg');
+    }
+
+    function tick(){
+      const goalX=(!open&&tracking)?targetX:0;
+      const goalY=(!open&&tracking)?targetY:0;
+      currentX+=(goalX-currentX)*EASE;
+      currentY+=(goalY-currentY)*EASE;
+      apply();
+      const done=Math.abs(goalX-currentX)<0.08&&Math.abs(goalY-currentY)<0.08;
+      if(!done||(tracking&&!open))rafId=requestAnimationFrame(tick);
+      else rafId=null;
+    }
+
+    function loop(){
+      if(rafId)return;
+      rafId=requestAnimationFrame(tick);
+    }
+
+    page.addEventListener('pointermove',e=>{
+      if(open)return;
+      const r=page.getBoundingClientRect();
+      const nx=(e.clientX-r.left)/r.width-0.5;
+      const ny=(e.clientY-r.top)/r.height-0.5;
+      targetX=nx*MAX_SHIFT;
+      targetY=ny*MAX_SHIFT;
+      tracking=true;
+      loop();
+    },{passive:true});
+
+    page.addEventListener('pointerleave',()=>{
+      tracking=false;
+      loop();
+    },{passive:true});
+  })();
+
+  /* ── MODE SWITCH ── */
+  function switchMode(m){
+    if(m===mode){if(!open)openDrawer(m);return}
+    applyMode(m);
+    if(!open)openDrawer(m);
+    setNav(m);
+  }
+
+  function applyMode(m){
+    mode=m;
+    tabDsn.classList.toggle('on',m==='dsn');
+    tabMgr.classList.toggle('on',m==='mgr');
+    tabAi.classList.toggle('on',m==='ai');
+    panelDsn.classList.toggle('on',m==='dsn');
+    panelMgr.classList.toggle('on',m==='mgr');
+    panelAi.classList.toggle('on',m==='ai');
+    document.body.classList.toggle('mgr',m==='mgr');
+    document.body.classList.toggle('ai',m==='ai');
+    scrollEl.scrollTop=0;
+  }
+
+  function setNav(m){
+    if(nbDsn) nbDsn.className='nb'+(m==='dsn'?' dsn-on':'');
+    if(nbMgr) nbMgr.className='nb'+(m==='mgr'?' mgr-on':'');
+    if(nbAi)  nbAi.className='nb'+(m==='ai'?' ai-on':'');
+  }
+
+  /* ── LIQUID METAL RING ── */
+  (()=>{
+    const ring=$('lmRing');
+
+    // ── WebGL setup ──
+    const cv=document.createElement('canvas');
+    ring.appendChild(cv);
+    const gl=cv.getContext('webgl',{alpha:true,antialias:true});
+    if(!gl)return;
+
+    const vert=`
+      attribute vec2 a_pos;
+      void main(){gl_Position=vec4(a_pos,0,1);}
+    `;
+    // Liquid metal fragment shader: organic flowing chrome iridescence
+    const frag=`
+      precision highp float;
+      uniform vec2  u_res;
+      uniform float u_t;
+
+      // Hash / noise helpers
+      vec2 hash2(vec2 p){
+        p=vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)));
+        return -1.0+2.0*fract(sin(p)*43758.5453);
+      }
+      float noise(vec2 p){
+        vec2 i=floor(p),f=fract(p);
+        vec2 u=f*f*(3.0-2.0*f);
+        return mix(mix(dot(hash2(i+vec2(0,0)),f-vec2(0,0)),
+                       dot(hash2(i+vec2(1,0)),f-vec2(1,0)),u.x),
+                   mix(dot(hash2(i+vec2(0,1)),f-vec2(0,1)),
+                       dot(hash2(i+vec2(1,1)),f-vec2(1,1)),u.x),u.y);
+      }
+      float fbm(vec2 p){
+        return noise(p)*0.5+noise(p*2.0+vec2(1.7,9.2))*0.25
+              +noise(p*4.0+vec2(8.3,2.8))*0.125;
+      }
+
+      // Iridescent chrome palette — gold/white at top, blue-purple at bottom
+      vec3 chromePalette(float t, float n){
+        // base chrome sweep
+        vec3 a=vec3(0.55,0.50,0.45);
+        vec3 b=vec3(0.50,0.50,0.50);
+        vec3 c=vec3(1.00,1.00,0.90);
+        vec3 d=vec3(0.00,0.15,0.40);
+        vec3 chrome=a+b*cos(6.2832*(c*(t+n*0.18)+d));
+        // inject gold at top & violet at bottom
+        float gold=smoothstep(0.55,0.85,t+n*0.12);
+        float violet=smoothstep(0.0,0.3,1.0-t+n*0.1);
+        chrome=mix(chrome,vec3(1.0,0.78,0.2),gold*0.7);
+        chrome=mix(chrome,vec3(0.35,0.30,0.95),violet*0.55);
+        return clamp(chrome,0.0,1.0);
+      }
+
+      void main(){
+        vec2 uv=(gl_FragCoord.xy/u_res)*2.0-1.0;
+        // keep aspect square (ring is square)
+        float asp=u_res.x/u_res.y;
+        uv.x*=asp;
+
+        float r=length(uv);
+        float theta=atan(uv.y,uv.x); // -pi..pi
+
+        // Ring mask — thin band
+        float inner=0.62, outer=0.92;
+        float ring=smoothstep(inner-0.04,inner,r)*smoothstep(outer+0.04,outer,r);
+
+        // Polar-noise for organic flow on the ring
+        float t=u_t*0.28;
+        vec2 noiseUV=vec2(theta/(2.0*3.14159)+0.5, r);
+        noiseUV+=vec2(t*0.4, t*0.15);
+        float n=fbm(noiseUV*3.5);
+        float n2=fbm(noiseUV*6.0-vec2(t*0.6,0.0));
+
+        // Map angle (0=top, going clockwise) to palette position
+        float a=fract((theta+1.5707)/(2.0*3.14159)); // 0..1 from top clockwise
+        vec3 col=chromePalette(a, n*0.5+n2*0.25);
+
+        // Specular hotspot — bright arc drifts slowly
+        float specAngle=fract(u_t*0.09+0.72); // slow drift
+        float specDist=abs(fract(a-specAngle+0.5)-0.5)*2.0;
+        float spec=pow(max(0.0,1.0-specDist),4.0)*1.8;
+        col+=vec3(spec*0.9,spec*0.85,spec*0.7);
+
+        // Depth: darker at inner edge, brighter at outer
+        float depthMask=smoothstep(inner,outer,r);
+        col*=0.55+0.7*depthMask;
+
+        // Subtle rim glow
+        float rim=smoothstep(outer,outer-0.06,r)*smoothstep(inner,inner+0.06,r);
+        col+=vec3(0.08,0.06,0.12)*rim;
+
+        float alpha=ring*smoothstep(0.0,0.04,ring);
+        gl_FragColor=vec4(col*alpha,alpha);
+      }
+    `;
+
+    function compile(type,src){
+      const s=gl.createShader(type);
+      gl.shaderSource(s,src);gl.compileShader(s);
+      return s;
+    }
+    const prog=gl.createProgram();
+    gl.attachShader(prog,compile(gl.VERTEX_SHADER,vert));
+    gl.attachShader(prog,compile(gl.FRAGMENT_SHADER,frag));
+    gl.linkProgram(prog);gl.useProgram(prog);
+
+    const buf=gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    const loc=gl.getAttribLocation(prog,'a_pos');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+
+    const uRes=gl.getUniformLocation(prog,'u_res');
+    const uT  =gl.getUniformLocation(prog,'u_t');
+
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
+
+    let W=0,H=0;
+    function setSize(w,h){
+      const pr=Math.min(window.devicePixelRatio,2);
+      W=Math.round(w*pr); H=Math.round(h*pr);
+      cv.width=W; cv.height=H;
+      cv.style.width=w+'px'; cv.style.height=h+'px';
+      gl.viewport(0,0,W,H);
+    }
+
+    let raf,start=performance.now();
+    function draw(){
+      if(!W||!H){raf=requestAnimationFrame(draw);return;}
+      gl.uniform2f(uRes,W,H);
+      gl.uniform1f(uT,(performance.now()-start)*0.001);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+      raf=requestAnimationFrame(draw);
+    }
+
+    // ── Position ring BEHIND active button — 3px overhang each side ──
+    function snapRingTo(el){
+      if(!el)return;
+      const r=el.getBoundingClientRect();
+      const navRect=$('bnav').getBoundingClientRect();
+      const pad=3;
+      const w=r.width+pad*2, h=r.height+pad*2;
+      ring.style.left=(r.left-navRect.left-pad)+'px';
+      ring.style.top=(r.top-navRect.top-pad)+'px';
+      ring.style.width=w+'px';
+      ring.style.height=h+'px';
+      ring.style.opacity='1';
+      setSize(w,h);
+    }
+
+    function updateRing(){
+      const active=document.querySelector('.bnav .lm-active');
+      if(active)snapRingTo(active);
+    }
+
+    function activateNav(btn){
+      if(!btn)return;
+      document.querySelectorAll('.bnav .nb').forEach(b=>b.classList.remove('lm-active'));
+      btn.classList.add('lm-active');
+      snapRingTo(btn);
+    }
+
+    window.__activateBottomNavById=(id)=>activateNav(document.getElementById(id));
+
+    document.querySelector('.bnav').addEventListener('click',e=>{
+      const btn=e.target.closest('.nb');
+      if(!btn)return;
+      activateNav(btn);
+    });
+
+    setTimeout(()=>{updateRing();draw();},120);
+    window.addEventListener('resize',updateRing);
+  })();
+
+
+  /* ── HANDLE CLICK ── */
+  $('handleZone').addEventListener('click',()=>open?closeDrawer():openDrawer(mode));
+
+  drawerDismiss.addEventListener('click',closeDrawer);
+
+  /* ── KEYBOARD ── */
+  document.addEventListener('keydown',e=>{
+    if(e.key!=='Escape')return;
+    if($('pdrawer').classList.contains('on'))return;
+    if($('csheet').classList.contains('on'))return;
+    if(open)closeDrawer();
+  });
+
+  /* ── TOUCH SWIPE — hero & handle only ── */
+  let ty0=0,tt0=0;
+
+  function attachSwipe(el,openFn,closeFn){
+    el.addEventListener('touchstart',e=>{
+      ty0=e.touches[0].clientY;tt0=Date.now();
+    },{passive:true});
+    el.addEventListener('touchend',e=>{
+      const dy=ty0-e.changedTouches[0].clientY,
+            dt=Date.now()-tt0,vel=Math.abs(dy)/dt;
+      if(vel>.3||Math.abs(dy)>50){
+        if(dy>0&&openFn)openFn();
+        if(dy<0&&closeFn)closeFn();
+      }
+    },{passive:true});
+  }
+
+  attachSwipe(heroText,()=>openDrawer(mode),null);
+  attachSwipe(heroPhoto,()=>openDrawer(mode),null);
+  attachSwipe(heroNameBack,()=>openDrawer(mode),null);
+  attachSwipe($('handleZone'),null,()=>{if(open)closeDrawer()});
+
+  /* ── SCROLL / WHEEL to open drawer ── */
+  let wheelLock = false;
+  document.addEventListener('wheel', e => {
+    if(wheelLock) return;
+    if($('pdrawer').classList.contains('on')) return;
+    if(e.deltaY > 18 && !open){
+      wheelLock = true;
+      openDrawer(mode);
+      setTimeout(()=>{ wheelLock=false; }, 600);
+    } else if(e.deltaY < -18 && open){
+      // Only close if the drawer scroll content is at the top
+      if(scrollEl.scrollTop <= 0){
+        wheelLock = true;
+        closeDrawer();
+        setTimeout(()=>{ wheelLock=false; }, 600);
+      }
+    }
+  }, {passive:true});
+
+  /* ── CONTACT SHEET ── */
+  function openContact(){
+    closeDrawer();
+    const currentActive=document.querySelector('.bnav .nb.lm-active');
+    if(currentActive && currentActive.id!=='nbContact') contactPrevActiveId=currentActive.id;
+    $('csheet').classList.add('on');
+    $('nbContact').classList.add('contact-on');
+    if(window.__activateBottomNavById) window.__activateBottomNavById('nbContact');
+  }
+  function closeContact(){
+    $('csheet').classList.remove('on');
+    $('nbContact').classList.remove('contact-on');
+    const restoreId=contactPrevActiveId||'nbHome';
+    if(window.__activateBottomNavById) window.__activateBottomNavById(restoreId);
+  }
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeContact()});
+
+  /* ── LIGHTBOX ── */
+  function openLb(src,label){
+    $('lbImg').src=src;$('lbLabel').textContent=label;
+    $('lbg').classList.add('on');
+  }
+  function closeLb(e){
+    if(e&&e.target!==$('lbg'))return;
+    $('lbg').classList.remove('on');
+  }
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')$('lbg').classList.remove('on')});
+
+  /* ── PROJECT DRAWER ── */
+  const pdrawer=$('pdrawer'),pdrawerInner=pdrawer.querySelector('.pdrawer-inner'),
+        pframe=$('pdrawerFrame'),pInline=$('pdrawerInline'),
+        pbar=$('pdrawerBar'),pshim=$('pdrawerShim'),
+        pOrg=$('pdrawerOrg'),pName=$('pdrawerName'),pDot=$('pdrawerDot');
+  let pbarTimer=null,pScrollCleanup=null,pScrollExpanded=false;
+  const PSCROLL_EXPAND=12,PSCROLL_COLLAPSE=4;
+
+  function setDrawerExpanded(on){
+    pScrollExpanded=on;
+    pdrawer.classList.toggle('is-expanded',on);
+    pdrawerInner.classList.toggle('is-expanded',on);
+  }
+
+  function unbindDrawerScroll(){
+    if(pScrollCleanup){pScrollCleanup();pScrollCleanup=null;}
+  }
+
+  function bindDrawerScroll(target,isWindow){
+    unbindDrawerScroll();
+    if(!target)return;
+    const readY=()=>{
+      if(isWindow){
+        const d=target.document;
+        return Math.max(target.scrollY||0,d.documentElement.scrollTop||0,d.body.scrollTop||0);
+      }
+      return target.scrollTop||0;
+    };
+    const onScroll=()=>{
+      const y=readY();
+      if(!pScrollExpanded&&y>PSCROLL_EXPAND)setDrawerExpanded(true);
+      else if(pScrollExpanded&&y<=PSCROLL_COLLAPSE)setDrawerExpanded(false);
+    };
+    target.addEventListener('scroll',onScroll,{passive:true});
+    pScrollCleanup=()=>target.removeEventListener('scroll',onScroll);
+  }
+
+  function pbarStart(){
+    pbar.classList.add('run');pbar.style.width='16%';
+    clearInterval(pbarTimer);let w=16;
+    pbarTimer=setInterval(()=>{w=Math.min(w+(92-w)*0.16,92);pbar.style.width=w+'%';},220);
+  }
+  function pbarDone(){
+    clearInterval(pbarTimer);pbar.style.width='100%';
+    setTimeout(()=>{pbar.classList.remove('run');setTimeout(()=>{pbar.style.width='0';},300);},220);
+  }
+
+  // Accent colour per context
+  function pDotColor(klass){
+    if(/ai-card/.test(klass))   return ['#c084fc','rgba(168,85,247,.8)'];
+    if(/mgr-card/.test(klass))  return ['#f5c040','rgba(245,192,64,.8)'];
+    return ['#5ba3f7','rgba(91,163,247,.8)'];
+  }
+
+  let pLoadFallback=null;
+
+  function openProjectDrawer(opts){
+    const [c,glow]=pDotColor(opts.klass||'');
+    pDot.style.background=c;pDot.style.boxShadow=`0 0 10px ${glow}`;
+    pOrg.textContent=opts.org||'';
+    pName.textContent=opts.name||'';
+    clearTimeout(pLoadFallback);
+    setDrawerExpanded(false);
+    unbindDrawerScroll();
+
+    if(opts.url){
+      // Case study in drawer iframe (?embed=1 strips legacy chrome)
+      pInline.classList.remove('show');pInline.style.display='none';pInline.innerHTML='';
+      pframe.style.display='block';pframe.classList.remove('ready');
+      pshim.classList.remove('hide');
+      const pageUrl=new URL(opts.url,location.href);
+      pageUrl.searchParams.set('embed','1');
+      pageUrl.searchParams.set('_',String(Date.now()));
+      pbarStart();
+      pframe.src=pageUrl.href;
+      pLoadFallback=setTimeout(()=>{
+        if(pframe.style.display!=='none'&&!pframe.classList.contains('ready')){
+          pshim.classList.add('hide');
+          pframe.classList.add('ready');
+        }
+      },5000);
+    }else{
+      // No dedicated page → themed inline detail
+      pframe.classList.remove('ready');pframe.style.display='none';pframe.src='about:blank';
+      pshim.classList.add('hide');
+      const bg=opts.bg||'linear-gradient(145deg,#0d0d12 0%,#1a1a22 100%)';
+      pInline.style.display='block';
+      pInline.innerHTML=
+        '<div class="pdrawer-hero" style="background-image:'+bg+'">'
+          +'<div class="gfx">'+(opts.gfx||'')+'</div>'
+          +'<div class="badge">'+(opts.badge||'Case')+'</div>'
+        +'</div>'
+        +'<div class="pdrawer-inline-content">'
+          +'<div class="pdrawer-inline-eyebrow">'+(opts.org||'')+'</div>'
+          +'<h2 class="pdrawer-inline-title">'+(opts.name||'')+'</h2>'
+          +'<p class="pdrawer-inline-desc">'+(opts.tag||'')+'</p>'
+          +'<div class="pdrawer-soon">Detailed case study coming soon</div>'
+        +'</div>';
+      requestAnimationFrame(()=>{
+        pInline.classList.add('show');
+        bindDrawerScroll(pInline,false);
+      });
+    }
+    pdrawer.classList.add('on');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeProjectDrawer(){
+    setDrawerExpanded(false);
+    unbindDrawerScroll();
+    pdrawer.classList.remove('on');
+    document.body.style.overflow='';
+    setTimeout(()=>{
+      pframe.src='about:blank';pframe.classList.remove('ready');
+      pInline.classList.remove('show');pInline.innerHTML='';
+    },520);
+  }
+
+  function stripLegacyChromeInFrame(){
+    try{
+      const doc=pframe.contentDocument;
+      if(!doc)return;
+      doc.documentElement.setAttribute('data-embed','');
+      doc.querySelectorAll(
+        '.navigation-wrap,.menu,.w-nav,.w-nav-menu,footer.footer-dark,#footer'
+      ).forEach(el=>el.remove());
+      if(!doc.getElementById('case-study-frame-css')){
+        const link=doc.createElement('link');
+        link.id='case-study-frame-css';
+        link.rel='stylesheet';
+        link.href=new URL('./Adil Portfolio/case-study.css',location.href).href;
+        doc.head.appendChild(link);
+      }
+    }catch(e){/* cross-origin guard */}
+  }
+
+  pframe.addEventListener('load',()=>{
+    if(pframe.src && pframe.src!=='about:blank' && !/about:blank$/.test(pframe.src)){
+      clearTimeout(pLoadFallback);
+      stripLegacyChromeInFrame();
+      pbarDone();
+      pshim.classList.add('hide');
+      requestAnimationFrame(()=>pframe.classList.add('ready'));
+      try{bindDrawerScroll(pframe.contentWindow,true);}catch(e){}
+    }
+  });
+
+  // Project cards → drawer only (no full-page navigation)
+  document.addEventListener('click',e=>{
+    const projCard=e.target.closest('.proj-card[data-project-url]');
+    if(projCard){
+      e.preventDefault();
+      e.stopPropagation();
+      openProjectDrawer({
+        url:projCard.dataset.projectUrl,
+        org:(projCard.querySelector('.proj-org')||{}).textContent||'',
+        name:(projCard.querySelector('.proj-name')||{}).textContent||''
+      });
+      return;
+    }
+    const mgrCard=e.target.closest('.mgr-card');
+    if(mgrCard){
+      const caseUrl=mgrCard.dataset.caseUrl;
+      if(caseUrl){
+        openProjectDrawer({
+          url:caseUrl,
+          klass:mgrCard.className,
+          org:(mgrCard.querySelector('.proj-org')||{}).textContent||'',
+          name:(mgrCard.querySelector('.proj-name')||{}).textContent||''
+        });
+        return;
+      }
+      const cs=getComputedStyle(mgrCard);
+      openProjectDrawer({
+        klass:mgrCard.className,
+        bg:cs.backgroundImage&&cs.backgroundImage!=='none'?cs.backgroundImage:null,
+        gfx:(mgrCard.querySelector('.mgr-card-gfx')||{}).textContent||'',
+        badge:(mgrCard.querySelector('.mgr-card-badge')||{}).textContent||'Case',
+        org:(mgrCard.querySelector('.proj-org')||{}).textContent||'',
+        name:(mgrCard.querySelector('.proj-name')||{}).textContent||'',
+        tag:(mgrCard.querySelector('.mgr-card-tag')||{}).textContent||''
+      });
+    }
+  },true);
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&pdrawer.classList.contains('on'))closeProjectDrawer();
+  });
+
+</script>
+</body>
+</html>

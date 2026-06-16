@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="case-study">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adil Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="./Adil Portfolio/stylecss.css" rel="stylesheet">
+  <link href="./Adil Portfolio/case-study.css" rel="stylesheet">
+  <link href="./Adil Portfolio/ai/chat-ui.css" rel="stylesheet">
+  <style id="case-study-critical">
+    .navigation-wrap,.menu,.w-nav,.w-nav-menu,footer.footer-dark,#footer{
+      display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important
+    }
+  </style>
+  <script src="./Adil Portfolio/case-study.js"></script>
+</head>
+<body class="body">
+
+  <div class="hero-section project-page">
+    <h1 class="h1-centerated">Building Design Lab Pitchdeck</h1>
+  </div>
+
+  <div class="wrapper project_page_content_width">
+    <img src="./Adil Portfolio/design-lab/Pitch deck design lab.png" alt="Building Design Lab Pitchdeck">
+  </div>
+
+  <!-- DESIGN-LAB-CHAT-START — remove this block + ai scripts to revert -->
+  <div class="proj-chat-float" data-project-chat="design-lab">
+    <div class="proj-chat-panel" id="projChatPanel" role="dialog" aria-hidden="true" aria-label="Ask about Design Lab">
+      <div class="proj-chat-panel-head">
+        <span class="proj-chat-panel-title">Ask about Design Lab</span>
+        <button type="button" class="proj-chat-panel-close" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="proj-chat-log" role="log" aria-live="polite"></div>
+      <div class="proj-chat-chips">
+        <button type="button" class="proj-chat-chip" data-q="What was the plan of action?">Plan of action</button>
+        <button type="button" class="proj-chat-chip" data-q="How were roles and responsibilities structured?">Roles</button>
+        <button type="button" class="proj-chat-chip" data-q="Tell me about the onboarding approach">Onboarding</button>
+        <button type="button" class="proj-chat-chip" data-q="How did research shape the vision?">Research</button>
+      </div>
+      <form class="proj-chat-form" autocomplete="off">
+        <input class="proj-chat-input" type="text" name="q" placeholder="Ask anything…" required>
+        <button class="proj-chat-send" type="submit" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <div class="proj-chat-shell">
+      <div class="proj-chat-lm-ring" aria-hidden="true"></div>
+      <button type="button" class="proj-chat-fab" aria-expanded="false" aria-controls="projChatPanel" aria-label="Open Design Lab assistant">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- DESIGN-LAB-CHAT-END -->
+
+  <script src="./Adil Portfolio/liquid-metal.js"></script>
+  <script src="./Adil Portfolio/ai/config.js"></script>
+  <script src="./Adil Portfolio/ai/projects/design-lab.js"></script>
+  <script src="./Adil Portfolio/ai/engine.js"></script>
+  <script src="./Adil Portfolio/ai/chat-ui.js"></script>
+</body>
+</html>

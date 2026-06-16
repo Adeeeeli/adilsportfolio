@@ -1,0 +1,65 @@
+/* Case study pages — content only, no legacy site chrome */
+
+.navigation-wrap,
+.menu,
+.w-nav,
+.w-nav-menu,
+.w-nav-overlay,
+.w-nav-button,
+footer.footer-dark,
+#footer {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.hero-section.project-page {
+  padding-top: 28px !important;
+  padding-bottom: 32px !important;
+}
+
+/* In project drawer: title is in parent chrome — hide duplicate hero */
+html.case-study[data-embed] .hero-section.project-page {
+  display: none !important;
+}
+
+html.case-study[data-embed],
+html.case-study[data-embed] body {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.case-study body {
+  margin: 0;
+}
+
+html.case-study[data-embed] .project_page_content_width {
+  max-width: none;
+  padding: 0;
+}
+
+.project_page_content_width img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Full-page export includes Figma chrome strip at top of JPEG */
+.case-study-crop img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: -132px;
+}
+
+.case-study-crop {
+  overflow: hidden;
+}
