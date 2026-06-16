@@ -192,13 +192,15 @@
       .drawer.open{transform:translateX(-50%) translateY(0)}}
 
     /* Handle */
-    .handle-zone{padding:14px 0 6px;display:flex;justify-content:center;
-      cursor:pointer;flex-shrink:0;touch-action:none}
-    .handle-bar{width:32px;height:3px;border-radius:2px;
-      background:rgba(255,255,255,.15);
+    .handle-zone{
+      padding:18px 0 12px;display:flex;justify-content:center;align-items:center;
+      cursor:pointer;flex-shrink:0;touch-action:none;
+      -webkit-user-select:none;user-select:none;min-height:48px}
+    .handle-bar{width:36px;height:4px;border-radius:2px;
+      background:rgba(255,255,255,.22);
       transition:all .25s}
     .handle-zone:hover .handle-bar,.drawer.open .handle-bar
-      {background:rgba(255,255,255,.3);width:40px}
+      {background:rgba(255,255,255,.38);width:44px}
 
     /* Tabs — subtle glass */
     .tabs{display:flex;gap:6px;padding:6px 16px 10px;flex-shrink:0}
@@ -264,6 +266,9 @@
     /* ── SECTION LABEL ─────────────────────── */
     .eyebrow{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
       color:rgba(255,255,255,.2);margin-bottom:12px}
+    .proj-row-wrap + .eyebrow{margin-top:28px}
+    .eyebrow.eyebrow-prose{text-transform:none;letter-spacing:.15px;font-weight:600;
+      color:rgba(255,255,255,.32);font-size:11px}
 
     /* ── PROJECT CARDS ─────────────────────── */
     .proj-row{
@@ -430,6 +435,14 @@
     /* People split card */
     .mgr-card.people-build{background:linear-gradient(145deg,#001a0a 0%,#002e14 40%,#005c2e 100%)}
     .people-build .mgr-card-orb{background:#34d399}
+
+    /* Team delivery cards */
+    .mgr-card.summit{background:linear-gradient(145deg,#1a0a00 0%,#3d2200 40%,#b45309 100%)}
+    .summit .mgr-card-orb{background:#fb923c}
+    .mgr-card.seat-ai{background:linear-gradient(145deg,#0a0018 0%,#1a1040 40%,#4f46e5 100%)}
+    .seat-ai .mgr-card-orb{background:#818cf8}
+    .mgr-card.wallet-qa{background:linear-gradient(145deg,#001a14 0%,#003328 40%,#059669 100%)}
+    .wallet-qa .mgr-card-orb{background:#2dd4bf}
 
     /* AI card gradients */
     .mgr-card.ai-card{background:linear-gradient(145deg,#0d001a 0%,#1e0040 40%,#4c0099 100%)}
@@ -1001,7 +1014,7 @@
           <div class="mgr-card culture">
             <div class="mgr-card-orb"></div>
             <div class="mgr-card-gfx">↑</div>
-            <div class="mgr-card-badge">Culture</div>
+            <div class="mgr-card-badge">Process</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
               <span class="proj-org">Process and Culture</span>
@@ -1044,6 +1057,44 @@
               <span class="proj-org">Innovation</span>
               <span class="proj-name">The Lab Mindset</span>
               <span class="mgr-card-tag">Experimental culture — concepts that ship</span>
+            </div>
+          </div>
+
+        </div><!-- /proj-row -->
+
+        <div class="eyebrow eyebrow-prose">My team did this:</div>
+        <div class="proj-row">
+
+          <div class="mgr-card summit">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">WS</div>
+            <div class="mgr-card-badge">Event</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Qatar Airways</span>
+              <span class="proj-name">Web Summit</span>
+            </div>
+          </div>
+
+          <div class="mgr-card seat-ai">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">AI</div>
+            <div class="mgr-card-badge">AI</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">In-flight · Experience</span>
+              <span class="proj-name">Seat AI</span>
+            </div>
+          </div>
+
+          <div class="mgr-card wallet-qa">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">◈</div>
+            <div class="mgr-card-badge">Payments</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Loyalty · Digital</span>
+              <span class="proj-name">Wallet</span>
             </div>
           </div>
 
@@ -1479,7 +1530,11 @@
 
 
   /* ── HANDLE CLICK ── */
-  $('handleZone').addEventListener('click',()=>open?closeDrawer():openDrawer(mode));
+  let handleDragged=false;
+  $('handleZone').addEventListener('click',()=>{
+    if(handleDragged){handleDragged=false;return}
+    open?closeDrawer():openDrawer(mode);
+  });
 
   drawerDismiss.addEventListener('click',closeDrawer);
 
@@ -1491,27 +1546,75 @@
     if(open)closeDrawer();
   });
 
-  /* ── TOUCH SWIPE — hero & handle only ── */
-  let ty0=0,tt0=0;
+  /* ── TOUCH DRAG — drawer open/close (Safari-friendly) ── */
+  (function initDrawerTouch(){
+    const handleZone=$('handleZone');
+    const tabs=drawer.querySelector('.tabs');
+    let sy0=0,sx0=0,st0=0,tracking=false,axis=null,activeZone=null;
 
-  function attachSwipe(el,openFn,closeFn){
-    el.addEventListener('touchstart',e=>{
-      ty0=e.touches[0].clientY;tt0=Date.now();
-    },{passive:true});
-    el.addEventListener('touchend',e=>{
-      const dy=ty0-e.changedTouches[0].clientY,
-            dt=Date.now()-tt0,vel=Math.abs(dy)/dt;
-      if(vel>.3||Math.abs(dy)>50){
-        if(dy>0&&openFn)openFn();
-        if(dy<0&&closeFn)closeFn();
+    function touchZone(e){
+      const t=e.target;
+      if($('pdrawer').classList.contains('on'))return null;
+      if($('csheet').classList.contains('on'))return null;
+      if(handleZone.contains(t))return 'handle';
+      if(tabs&&tabs.contains(t))return 'header';
+      if(drawer.contains(t)){
+        if(open&&scrollEl.contains(t)&&scrollEl.scrollTop<=0)return 'scroll-top';
+        if(!open&&!scrollEl.contains(t))return 'drawer';
+        if(!open&&scrollEl.contains(t))return 'peek-scroll';
       }
-    },{passive:true});
-  }
+      if(!open&&heroText&&heroText.contains(t))return 'hero';
+      if(!open&&e.touches[0].clientY>window.innerHeight*0.58)return 'bottom';
+      return null;
+    }
 
-  attachSwipe(heroText,()=>openDrawer(mode),null);
-  attachSwipe(heroPhoto,()=>openDrawer(mode),null);
-  attachSwipe(heroNameBack,()=>openDrawer(mode),null);
-  attachSwipe($('handleZone'),null,()=>{if(open)closeDrawer()});
+    function onStart(e){
+      activeZone=touchZone(e);
+      if(!activeZone)return;
+      if(open&&activeZone!=='handle'&&activeZone!=='header'&&activeZone!=='scroll-top')return;
+      sy0=e.touches[0].clientY;
+      sx0=e.touches[0].clientX;
+      st0=Date.now();
+      tracking=true;
+      axis=null;
+    }
+
+    function onMove(e){
+      if(!tracking)return;
+      const dy=sy0-e.touches[0].clientY;
+      const dx=sx0-e.touches[0].clientX;
+      if(axis===null&&(Math.abs(dy)>6||Math.abs(dx)>6)){
+        axis=Math.abs(dy)>=Math.abs(dx)?'y':'x';
+      }
+      if(axis!=='y')return;
+      if(!open&&dy>8&&activeZone!=='peek-scroll')e.preventDefault();
+      if(open&&dy<-8&&scrollEl.scrollTop<=0)e.preventDefault();
+    }
+
+    function onEnd(e){
+      if(!tracking)return;
+      tracking=false;
+      const dy=sy0-e.changedTouches[0].clientY;
+      const dt=Math.max(Date.now()-st0,1);
+      const vel=dy/dt;
+      if(Math.abs(dy)>10)handleDragged=true;
+
+      const swipeUp=dy>24||(dy>10&&vel>0.06);
+      const swipeDown=dy<-24||(dy<-10&&vel<-0.06);
+
+      if(swipeUp&&!open){
+        if(activeZone==='peek-scroll'&&scrollEl.scrollTop>0)return;
+        openDrawer(mode);
+      }else if(swipeDown&&open&&scrollEl.scrollTop<=0){
+        closeDrawer();
+      }
+    }
+
+    document.addEventListener('touchstart',onStart,{passive:true});
+    document.addEventListener('touchmove',onMove,{passive:false});
+    document.addEventListener('touchend',onEnd,{passive:true});
+    document.addEventListener('touchcancel',onEnd,{passive:true});
+  })();
 
   /* ── SCROLL / WHEEL to open drawer ── */
   let wheelLock = false;
