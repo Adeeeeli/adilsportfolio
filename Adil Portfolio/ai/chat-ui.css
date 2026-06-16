@@ -36,22 +36,6 @@
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-/* Liquid metal ring — matches Home.html .lm-ring */
-.proj-chat-lm-ring {
-  position: absolute;
-  pointer-events: none;
-  z-index: 1;
-  border-radius: 999px;
-  opacity: 0;
-  -webkit-mask-image: radial-gradient(circle, transparent 47%, black 50%, black 100%);
-  mask-image: radial-gradient(circle, transparent 47%, black 50%, black 100%);
-  transition: opacity 0.22s ease;
-}
-
-.proj-chat-lm-ring canvas {
-  display: block;
-}
-
 .proj-chat-float.is-open .proj-chat-shell {
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.75);
@@ -80,7 +64,21 @@
 .proj-chat-fab svg {
   width: 18px;
   height: 18px;
+}
+
+.proj-chat-fab .chat-ai-icon__bubble {
   stroke-width: 1.8;
+  fill: none;
+}
+
+.proj-chat-fab .chat-ai-icon__sparkle {
+  stroke: none;
+  opacity: 0.95;
+}
+
+.proj-chat-fab:hover .chat-ai-icon__sparkle,
+.proj-chat-float.is-open .proj-chat-fab .chat-ai-icon__sparkle {
+  opacity: 1;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -113,13 +111,13 @@
     0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-/* Expanded panel — floats above trigger */
+/* Expanded panel — grows with conversation, caps near full viewport */
 .proj-chat-panel {
   position: absolute;
   bottom: calc(100% + 12px);
   left: 50%;
-  width: min(380px, calc(100vw - 32px));
-  max-height: min(58vh, 520px);
+  width: min(420px, calc(100vw - 32px));
+  max-height: min(calc(100dvh - 88px), calc(100vh - 88px), 78vh);
   display: flex;
   flex-direction: column;
   padding: 6px;
@@ -136,13 +134,18 @@
   transition:
     opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-    visibility 0.28s;
+    visibility 0.28s,
+    max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .proj-chat-float.is-open .proj-chat-panel {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.proj-chat-float.is-open .proj-chat-panel.has-thread {
+  max-height: min(calc(100dvh - 72px), calc(100vh - 72px), 84vh);
 }
 
 .proj-chat-panel-head {
@@ -188,16 +191,22 @@
 }
 
 .proj-chat-log {
-  flex: 1;
-  min-height: 120px;
-  max-height: min(34vh, 280px);
+  flex: 0 1 auto;
+  min-height: 88px;
+  max-height: min(calc(100dvh - 250px), calc(100vh - 250px), 62vh);
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   padding: 4px 8px 8px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+.proj-chat-panel.has-thread .proj-chat-log {
+  min-height: 140px;
+  max-height: min(calc(100dvh - 200px), calc(100vh - 200px), 72vh);
 }
 
 .proj-chat-log .msg {
@@ -231,6 +240,10 @@
   gap: 6px;
   padding: 0 8px 6px;
   flex-shrink: 0;
+}
+
+.proj-chat-chips.is-hidden {
+  display: none;
 }
 
 .proj-chat-chip {
@@ -348,5 +361,14 @@
 
   .proj-chat-panel {
     width: min(360px, calc(100vw - 24px));
+    max-height: min(calc(100dvh - 80px), 82vh);
+  }
+
+  .proj-chat-log {
+    max-height: min(calc(100dvh - 220px), 68vh);
+  }
+
+  .proj-chat-panel.has-thread .proj-chat-log {
+    max-height: min(calc(100dvh - 180px), 74vh);
   }
 }

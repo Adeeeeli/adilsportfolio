@@ -5,28 +5,15 @@
     const fab = root.querySelector('.proj-chat-fab');
     const panel = root.querySelector('.proj-chat-panel');
     const closeBtn = root.querySelector('.proj-chat-panel-close');
-    const shell = root.querySelector('.proj-chat-shell');
-    const ring = root.querySelector('.proj-chat-lm-ring');
     const $input = root.querySelector('.proj-chat-input');
     if (!fab || !panel) return;
-
-    let lmRing = null;
-    if (ring && shell && window.initLiquidMetalRing) {
-      lmRing = window.initLiquidMetalRing(ring, fab, shell);
-    }
-
-    function refreshRing() {
-      if (lmRing && lmRing.refresh) lmRing.refresh();
-    }
 
     function open() {
       root.classList.add('is-open');
       fab.setAttribute('aria-expanded', 'true');
       panel.setAttribute('aria-hidden', 'false');
-      refreshRing();
       window.setTimeout(function () {
         if ($input) $input.focus();
-        refreshRing();
       }, 280);
     }
 
@@ -34,7 +21,6 @@
       root.classList.remove('is-open');
       fab.setAttribute('aria-expanded', 'false');
       panel.setAttribute('aria-hidden', 'true');
-      refreshRing();
     }
 
     function toggle() {
@@ -65,16 +51,29 @@
     const $form = root.querySelector('.proj-chat-form');
     const $input = root.querySelector('.proj-chat-input');
     const $send = root.querySelector('.proj-chat-send');
+    const $panel = root.querySelector('.proj-chat-panel');
+    const $chips = root.querySelector('.proj-chat-chips');
     if (!$log || !$form || !$input || !$send) return;
 
     const history = [];
     const MAX_CTX = 10;
+
+    function syncChatLayout() {
+      const msgs = $log.querySelectorAll('.msg');
+      if ($panel) {
+        $panel.classList.toggle('has-thread', msgs.length > 1);
+      }
+    }
 
     function append(role, text) {
       const el = document.createElement('div');
       el.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
       el.textContent = text;
       $log.appendChild(el);
+      if (role === 'user' && $chips) {
+        $chips.classList.add('is-hidden');
+      }
+      syncChatLayout();
       $log.scrollTop = $log.scrollHeight;
     }
 
@@ -91,6 +90,7 @@
       } else if (t) {
         t.remove();
       }
+      syncChatLayout();
       $log.scrollTop = $log.scrollHeight;
     }
 
@@ -140,6 +140,7 @@
     });
 
     append('bot', project.greeting || 'Ask me about this project.');
+    syncChatLayout();
   }
 
   window.initProjectChat = initProjectChat;

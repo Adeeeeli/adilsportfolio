@@ -24,7 +24,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     /* ── RESET ─────────────────────────────── */
@@ -79,14 +79,14 @@
       transform:translateX(-50%);
       z-index:1;
       margin:0;
+      font-family:'Inter',Arial,sans-serif;
       font-size:clamp(52px,14vw,120px);
-      font-weight:800;
-      letter-spacing:-2px;
-      line-height:.88;
+      font-weight:900;
+      letter-spacing:-4px;
+      line-height:1;
       white-space:nowrap;
       text-transform:uppercase;
       color:#fff;
-      opacity:.32;
       pointer-events:none;
       transition:transform .6s cubic-bezier(.32,0,.67,0),opacity .5s ease}
     .hero-name-back.pushed{
@@ -129,7 +129,8 @@
       .hero-text{top:3%}
       .hero-name-back{
         top:13%;
-        font-size:clamp(48px,10vw,100px)}}
+        font-size:clamp(48px,10vw,100px);
+        letter-spacing:-4px}}
 
     .role-pill{
       display:inline-flex;align-items:center;gap:8px;
@@ -271,6 +272,35 @@
       scrollbar-width:none;margin:0 -16px;padding-left:16px;padding-right:16px}
     .proj-row::-webkit-scrollbar{display:none}
 
+    /* Desktop scroll hint — subtle fade + chevron on horizontal rows */
+    .proj-row-wrap{position:relative}
+    .proj-row-hint{display:none}
+    @media (min-width:768px) and (hover:hover) and (pointer:fine){
+      .proj-row-wrap.can-scroll:not(.at-end)::after{
+        content:'';position:absolute;right:0;top:0;bottom:4px;width:52px;
+        pointer-events:none;border-radius:0 16px 16px 0;
+        background:linear-gradient(90deg,rgba(8,8,10,0),rgba(8,8,10,.55) 68%,rgba(8,8,10,.82))}
+      .proj-row-wrap.can-scroll:not(.at-start)::before{
+        content:'';position:absolute;left:0;top:0;bottom:4px;width:36px;z-index:1;
+        pointer-events:none;border-radius:16px 0 0 16px;
+        background:linear-gradient(270deg,rgba(8,8,10,0),rgba(8,8,10,.45))}
+      .proj-row-hint{
+        display:flex;
+        position:absolute;right:12px;top:50%;z-index:2;
+        align-items:center;gap:1px;
+        color:rgba(255,255,255,.24);pointer-events:none;
+        opacity:0;transform:translateY(-50%);
+        transition:opacity .35s ease}
+      .proj-row-wrap.can-scroll:not(.at-end) .proj-row-hint{
+        opacity:1;animation:rowHintNudge 3s ease-in-out infinite}
+      .proj-row-hint svg{width:11px;height:11px;stroke-width:2.2}
+      @keyframes rowHintNudge{
+        0%,100%{transform:translateY(-50%) translateX(0);opacity:.2}
+        50%{transform:translateY(-50%) translateX(4px);opacity:.42}}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .proj-row-wrap.can-scroll:not(.at-end) .proj-row-hint{animation:none;opacity:.28}}
+
     .proj-card{
       position:relative;flex-shrink:0;
       width:158px;height:218px;border-radius:16px;overflow:hidden;
@@ -338,6 +368,26 @@
       transition:transform .45s ease}
     .mgr-card:hover .mgr-card-img{transform:scale(1.06)}
     .mgr-card.has-img{background:#050505}
+    .mgr-card.has-img .mgr-card-gfx,
+    .mgr-card.has-img .mgr-card-orb{display:none}
+
+    /* Recordr hero card */
+    .mgr-card.recordr.has-img{
+      border-color:rgba(249,115,22,.28);
+      box-shadow:0 2px 16px rgba(0,0,0,.45),0 0 0 1px rgba(249,115,22,.08) inset}
+    .mgr-card.recordr.has-img:hover{
+      box-shadow:0 10px 36px rgba(0,0,0,.55),0 0 32px rgba(249,115,22,.22),0 0 0 1px rgba(251,146,60,.16) inset}
+    .mgr-card.recordr .mgr-card-img{
+      background-position:center 44%;
+      filter:saturate(1.14) contrast(1.06) brightness(1.05)}
+    .mgr-card.recordr:hover .mgr-card-img{filter:saturate(1.2) contrast(1.08) brightness(1.07)}
+    .mgr-card.recordr .mgr-card-img::after{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 38%,rgba(249,115,22,.28) 0%,transparent 58%),
+        linear-gradient(to bottom,rgba(0,0,0,.04) 0%,rgba(0,0,0,.12) 42%,rgba(0,0,0,.78) 82%,rgba(0,0,0,.94) 100%)}
+    .mgr-card.recordr .proj-overlay{
+      background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.06) 38%,rgba(0,0,0,.62) 72%,rgba(0,0,0,.88) 100%)}
 
     /* Unique gradient bg per card */
     .mgr-card.people{background:linear-gradient(145deg,#1a0f00 0%,#3d1f00 40%,#7a3d00 100%)}
@@ -386,15 +436,28 @@
     .mgr-card.ai-card.violet{background:linear-gradient(145deg,#0a001a 0%,#1a0040 40%,#5b21b6 100%)}
     .mgr-card.ai-card.pink{background:linear-gradient(145deg,#1a0020 0%,#3d0050 40%,#7c3aed 100%)}
     .mgr-card.ai-card.indigo{background:linear-gradient(145deg,#000d1a 0%,#001a3d 40%,#1d4ed8 100%)}
+    .mgr-card.ai-card.amber{background:linear-gradient(145deg,#1a0800 0%,#3d1800 40%,#c2410c 100%)}
+    .mgr-card.ai-card.teal{background:linear-gradient(145deg,#001a18 0%,#003d38 40%,#0d9488 100%)}
     .mgr-card.ai-card .mgr-card-orb{background:#a855f7}
     .mgr-card.ai-card.pink .mgr-card-orb{background:#ec4899}
     .mgr-card.ai-card.indigo .mgr-card-orb{background:#6366f1}
+    .mgr-card.ai-card.amber .mgr-card-orb{background:#f97316}
+    .mgr-card.ai-card.violet .mgr-card-orb{background:#8b5cf6}
+    .mgr-card.ai-card.teal .mgr-card-orb{background:#2dd4bf}
 
     /* AI badge accent */
     .mgr-card.ai-card .mgr-card-badge{
       background:rgba(168,85,247,.12);
       border-color:rgba(168,85,247,.22);
       color:rgba(196,132,252,.9)}
+    .mgr-card.ai-card.amber .mgr-card-badge,
+    .mgr-card.ai-card.recordr .mgr-card-badge{
+      background:rgba(249,115,22,.18);
+      border-color:rgba(251,146,60,.38);
+      color:rgba(254,215,170,.96);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px)}
+    .mgr-card.ai-card.recordr.has-img{background:#050505}
 
     /* Body.ai orb shift */
     body.ai .orb.a{background:radial-gradient(circle,rgba(120,40,220,0.45) 0%,transparent 70%);opacity:.13}
@@ -655,7 +718,7 @@
 
     /* ── UTIL ──────────────────────────────── */
     @media(max-width:375px){
-      .hero-name-back{top:19%;font-size:44px;letter-spacing:-2px}}
+      .hero-name-back{top:19%;font-size:44px;letter-spacing:-3px}}
     @media(prefers-reduced-motion:reduce){
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
     }
@@ -931,7 +994,18 @@
             <div class="proj-info">
               <span class="proj-org">Scale & Structure</span>
               <span class="proj-name">Building Design Lab Pitchdeck</span>
-              <span class="mgr-card-tag">Creating a trusted division inside design into the highest delivery engine within digital.</span>
+            </div>
+          </div>
+
+          <!-- Culture -->
+          <div class="mgr-card culture">
+            <div class="mgr-card-orb"></div>
+            <div class="mgr-card-gfx">↑</div>
+            <div class="mgr-card-badge">Culture</div>
+            <div class="proj-overlay"></div>
+            <div class="proj-info">
+              <span class="proj-org">Process and Culture</span>
+              <span class="proj-name">Design Process 2.0</span>
             </div>
           </div>
 
@@ -944,20 +1018,6 @@
             <div class="proj-info">
               <span class="proj-org">Individual Impact</span>
               <span class="proj-name">Building People</span>
-              <span class="mgr-card-tag">Mentorship, career acceleration & unlocking potential</span>
-            </div>
-          </div>
-
-          <!-- Culture -->
-          <div class="mgr-card culture">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">↑</div>
-            <div class="mgr-card-badge">Culture</div>
-            <div class="proj-overlay"></div>
-            <div class="proj-info">
-              <span class="proj-org">Before → After</span>
-              <span class="proj-name">Shifting the Standard</span>
-              <span class="mgr-card-tag">From output-driven to ownership-driven design culture</span>
             </div>
           </div>
 
@@ -999,66 +1059,48 @@
 
           <div class="mgr-card ai-card">
             <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">AI</div>
-            <div class="mgr-card-badge">Agent</div>
+            <div class="mgr-card-gfx">Q</div>
+            <div class="mgr-card-badge">Live</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
-              <span class="proj-org">Claude · Cursor</span>
-              <span class="proj-name">AI Design Agent</span>
-              <span class="mgr-card-tag">Agentic workflows built to accelerate design output</span>
+              <span class="proj-org">Translation · AI</span>
+              <span class="proj-name">Qutbah</span>
+              <span class="mgr-card-tag">Live Arabic khutbah translations</span>
             </div>
           </div>
 
           <div class="mgr-card ai-card pink">
             <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">⬡</div>
-            <div class="mgr-card-badge">Product</div>
+            <div class="mgr-card-gfx">◈</div>
+            <div class="mgr-card-badge">Marketplace</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
-              <span class="proj-org">AI-Native</span>
-              <span class="proj-name">Coming Soon</span>
-              <span class="mgr-card-tag">Building in public — drop back in</span>
+              <span class="proj-org">Qatar · Automotive</span>
+              <span class="proj-name">Imshi</span>
+              <span class="mgr-card-tag">Qatar's car marketplace</span>
             </div>
           </div>
 
-          <div class="mgr-card ai-card indigo">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">∞</div>
-            <div class="mgr-card-badge">Tool</div>
+          <div class="mgr-card ai-card amber has-img recordr">
+            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/recordr-card.jpg')"></div>
+            <div class="mgr-card-badge">Open Source</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
-              <span class="proj-org">Automation</span>
-              <span class="proj-name">Coming Soon</span>
-              <span class="mgr-card-tag">AI-powered ops tools for design teams</span>
+              <span class="proj-org">Tool · Recording</span>
+              <span class="proj-name">Recordr</span>
+              <span class="mgr-card-tag">Open source screen recording with mouse movements</span>
             </div>
           </div>
 
-        </div><!-- /proj-row -->
-
-        <div class="eyebrow" style="margin-top:24px">Experimentations with AI</div>
-        <div class="proj-row">
-
-          <div class="mgr-card ai-card violet">
+          <div class="mgr-card ai-card teal">
             <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">✦</div>
-            <div class="mgr-card-badge">Exploration</div>
+            <div class="mgr-card-gfx">3D</div>
+            <div class="mgr-card-badge">Concept</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
-              <span class="proj-org">Generative UI</span>
-              <span class="proj-name">AI-Driven Interfaces</span>
-              <span class="mgr-card-tag">Exploring AI as a design medium, not just a tool</span>
-            </div>
-          </div>
-
-          <div class="mgr-card ai-card pink">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">◎</div>
-            <div class="mgr-card-badge">Research</div>
-            <div class="proj-overlay"></div>
-            <div class="proj-info">
-              <span class="proj-org">Prompt Engineering</span>
-              <span class="proj-name">Design Prompting</span>
-              <span class="mgr-card-tag">Structured prompting frameworks for design work</span>
+              <span class="proj-org">WebGL · 3D</span>
+              <span class="proj-name">Elevare</span>
+              <span class="mgr-card-tag">WebGL 3D website concept</span>
             </div>
           </div>
 
@@ -1149,7 +1191,6 @@
         tabDsn=$('tabDsn'),tabMgr=$('tabMgr'),tabAi=$('tabAi'),
         panelDsn=$('panelDsn'),panelMgr=$('panelMgr'),panelAi=$('panelAi'),
         scrollEl=$('scroll');
-  if(heroNameBack) heroNameBack.textContent='ADIL AHMAD';
 
   /* ── OPEN / CLOSE ── */
   function openDrawer(m){
@@ -1707,6 +1748,42 @@
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'&&pdrawer.classList.contains('on'))closeProjectDrawer();
   });
+
+  /* Desktop-only horizontal scroll hints on project rows */
+  (function initProjRowScrollHints(){
+    var hintSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>';
+
+    function updateWrap(wrap, row){
+      var max=row.scrollWidth-row.clientWidth;
+      var x=row.scrollLeft;
+      wrap.classList.toggle('can-scroll',max>6);
+      wrap.classList.toggle('at-start',x<=6);
+      wrap.classList.toggle('at-end',x>=max-6);
+    }
+
+    document.querySelectorAll('.proj-row').forEach(function(row){
+      if(row.closest('.proj-row-wrap'))return;
+      var wrap=document.createElement('div');
+      wrap.className='proj-row-wrap';
+      row.parentNode.insertBefore(wrap,row);
+      wrap.appendChild(row);
+
+      var hint=document.createElement('div');
+      hint.className='proj-row-hint';
+      hint.setAttribute('aria-hidden','true');
+      hint.innerHTML=hintSvg+hintSvg;
+      wrap.appendChild(hint);
+
+      function refresh(){updateWrap(wrap,row);}
+      row.addEventListener('scroll',refresh,{passive:true});
+      window.addEventListener('resize',refresh);
+      if(typeof ResizeObserver!=='undefined'){
+        var ro=new ResizeObserver(refresh);
+        ro.observe(row);
+      }
+      refresh();
+    });
+  })();
 
 </script>
 </body>
