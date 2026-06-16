@@ -107,6 +107,10 @@
       return null;
     }
 
+    function urlForRoute(route){
+      return route === DEFAULT_ROUTE ? location.pathname : '#/' + route;
+    }
+
     /* ── PROGRESS BAR ─────────────────────────────── */
     function barStart(){
       bar.classList.add('run');
@@ -141,7 +145,7 @@
       setTimeout(function(){
         frame.src = absForRoute(route);
         if(push){
-          history.pushState({ route: route }, '', '#/' + route);
+          history.pushState({ route: route }, '', urlForRoute(route));
         }
       }, 160);
     }
@@ -217,7 +221,7 @@
 
     /* ── BOOT ─────────────────────────────────────── */
     var startRoute = routeFromHash() || DEFAULT_ROUTE;
-    history.replaceState({ route: startRoute }, '', '#/' + startRoute);
+    history.replaceState({ route: startRoute }, '', urlForRoute(startRoute));
     frame.src = absForRoute(startRoute);
   })();
   </script>

@@ -4,15 +4,7 @@
   <meta charset="utf-8">
   <title>Redirecting…</title>
   <script>
-    (function () {
-      var path = location.pathname.replace(/\/$/, '');
-      var segment = path.split('/').filter(Boolean).pop() || '';
-      if (/^Home$/i.test(segment)) {
-        location.replace(location.origin + '/#/Home.html');
-        return;
-      }
-      location.replace(location.origin + '/');
-    })();
+    location.replace(location.origin + '/');
   </script>
   <meta http-equiv="refresh" content="0;url=/">
 </head>
