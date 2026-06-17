@@ -5,7 +5,7 @@
   <script>
     if (window.top === window.self) location.replace('/');
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
   <meta http-equiv="Cache-Control" content="no-cache">
   <title>Adil Ahmad · Product Design Manager</title>
   <meta name="description" content="Portfolio of Adil Ahmad, Product Design Manager at Qatar Airways. Explore leadership case studies, design work, and AI experiments.">
@@ -33,6 +33,10 @@
       background:#000;color:#fff;
       font-family:'Inter',Arial,sans-serif;
       -webkit-font-smoothing:antialiased}
+    html{
+      --vv-bottom:0px;
+      --vv-top:0px;
+      --vv-height:100dvh}
     a{text-decoration:none;color:inherit}
     button{cursor:pointer;font-family:inherit;border:none;background:none}
 
@@ -68,7 +72,8 @@
       opacity:.025}
 
     /* ── HERO ──────────────────────────────── */
-    .page{position:relative;z-index:1;width:100%;height:100vh;overflow:hidden}
+    .page{position:relative;z-index:1;width:100%;
+      height:var(--vv-height,100dvh);min-height:100dvh;overflow:hidden}
 
     /* Name behind portrait */
     .hero-name-back{
@@ -180,15 +185,15 @@
 
     /* ── DRAWER ────────────────────────────── */
     .drawer{
-      position:fixed;bottom:0;left:0;right:0;z-index:20;
+      position:fixed;bottom:var(--vv-bottom,0px);left:0;right:0;z-index:20;
       background:rgba(8,8,10,.97);
       backdrop-filter:blur(60px);-webkit-backdrop-filter:blur(60px);
       border-radius:24px 24px 0 0;
       border-top:1px solid rgba(255,255,255,.1);
       box-shadow:0 -24px 60px rgba(0,0,0,.65);
-      transform:translateY(calc(100% - 38vh));
+      transform:translateY(calc(100% - var(--drawer-peek,38dvh)));
       transition:transform .55s cubic-bezier(.32,0,.67,0);
-      height:88vh;
+      height:var(--drawer-height,calc(var(--vv-height,100dvh) * 0.88));
       display:flex;flex-direction:column;will-change:transform}
 
     .drawer.open{transform:translateY(0)}
@@ -206,7 +211,7 @@
 
     @media(min-width:620px){
       .drawer{max-width:500px;left:50%;right:auto;
-        transform:translateX(-50%) translateY(calc(100% - 38vh));
+        transform:translateX(-50%) translateY(calc(100% - var(--drawer-peek,38dvh)));
         border-left:1px solid rgba(255,255,255,.08);
         border-right:1px solid rgba(255,255,255,.08)}
       .drawer.open{transform:translateX(-50%) translateY(0)}}
@@ -273,7 +278,7 @@
     .scroll{
       flex:1;min-height:0;
       overflow-y:hidden;overflow-x:hidden;
-      padding:4px 16px 140px;
+      padding:4px 16px calc(112px + env(safe-area-inset-bottom,0px) + var(--vv-bottom,0px));
       scrollbar-width:none;
       overscroll-behavior:contain;
       touch-action:pan-x pinch-zoom}
@@ -556,7 +561,9 @@
 
     /* ── BOTTOM NAV ────────────────────────── */
     .bnav{
-      position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+      position:fixed;
+      bottom:calc(12px + env(safe-area-inset-bottom,0px) + var(--vv-bottom,0px));
+      left:50%;transform:translateX(-50%);
       z-index:50;display:flex;align-items:center;gap:2px;padding:5px;
       background:rgba(10,10,12,.94);
       backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
@@ -631,6 +638,7 @@
     .pdrawer-inner{
       position:relative;
       width:min(980px,100%);height:94vh;
+      margin-bottom:var(--vv-bottom,0px);
       background:rgba(9,9,11,.99);
       border-radius:24px 24px 0 0;
       border:1px solid rgba(255,255,255,.1);border-bottom:none;
@@ -750,6 +758,7 @@
       border-top:1px solid rgba(255,255,255,.1);
       box-shadow:0 -24px 60px rgba(0,0,0,.65);
       padding-bottom:env(safe-area-inset-bottom,20px);
+      margin-bottom:var(--vv-bottom,0px);
       transform:translateY(100%);transition:transform .45s cubic-bezier(.32,0,.67,0)}
     .csheet.on .csheet-inner{transform:translateY(0)}
 
@@ -1289,6 +1298,37 @@
         panelDsn=$('panelDsn'),panelMgr=$('panelMgr'),panelAi=$('panelAi'),
         scrollEl=$('scroll');
 
+  /* ── iOS Safari: keep fixed UI above bottom browser chrome ── */
+  (function initVisualViewport(){
+    const root=document.documentElement;
+    function syncViewport(){
+      const vv=window.visualViewport;
+      if(!vv){
+        root.style.setProperty('--vv-height','100dvh');
+        root.style.setProperty('--vv-bottom','0px');
+        root.style.setProperty('--vv-top','0px');
+        root.style.setProperty('--drawer-peek','38dvh');
+        root.style.setProperty('--drawer-height','88dvh');
+        return;
+      }
+      const bottom=Math.max(0,Math.round(window.innerHeight-vv.height-vv.offsetTop));
+      const top=Math.max(0,Math.round(vv.offsetTop));
+      const height=Math.round(vv.height);
+      root.style.setProperty('--vv-bottom',bottom+'px');
+      root.style.setProperty('--vv-top',top+'px');
+      root.style.setProperty('--vv-height',height+'px');
+      root.style.setProperty('--drawer-peek',Math.round(height*0.38)+'px');
+      root.style.setProperty('--drawer-height',Math.round(height*0.88)+'px');
+    }
+    syncViewport();
+    if(window.visualViewport){
+      visualViewport.addEventListener('resize',syncViewport);
+      visualViewport.addEventListener('scroll',syncViewport);
+    }
+    window.addEventListener('resize',syncViewport);
+    window.addEventListener('orientationchange',syncViewport);
+  })();
+
   /* ── OPEN / CLOSE ── */
   function openDrawer(m){
     if(open)return;
@@ -1604,10 +1644,15 @@
     const tabs=drawer.querySelector('.tabs');
     let sy0=0,sx0=0,st0=0,tracking=false,axis=null,activeZone=null;
 
+    function isHorizontalRow(t){
+      return !!(t&&t.closest&&t.closest('.proj-row'));
+    }
+
     function touchZone(e){
       const t=e.target;
       if($('pdrawer').classList.contains('on'))return null;
       if($('csheet').classList.contains('on'))return null;
+      if(isHorizontalRow(t))return null;
       if(handleZone.contains(t))return 'handle';
       if(tabs&&tabs.contains(t))return 'header';
       if(drawer.contains(t)){
@@ -1615,8 +1660,6 @@
         if(!open)return 'drawer';
         return null;
       }
-      if(!open&&heroText&&heroText.contains(t))return 'hero';
-      if(!open&&e.touches[0].clientY>window.innerHeight*0.58)return 'bottom';
       return null;
     }
 
@@ -1635,8 +1678,8 @@
       if(!tracking)return;
       const dy=sy0-e.touches[0].clientY;
       const dx=sx0-e.touches[0].clientX;
-      if(axis===null&&(Math.abs(dy)>6||Math.abs(dx)>6)){
-        axis=Math.abs(dy)>=Math.abs(dx)?'y':'x';
+      if(axis===null&&(Math.abs(dy)>8||Math.abs(dx)>8)){
+        axis=Math.abs(dy)>Math.abs(dx)*1.15?'y':'x';
       }
       if(axis!=='y')return;
       if(!open&&dy>8&&activeZone!=='header'&&activeZone!=='handle')e.preventDefault();
@@ -1647,12 +1690,15 @@
       if(!tracking)return;
       tracking=false;
       const dy=sy0-e.changedTouches[0].clientY;
+      const dx=sx0-e.changedTouches[0].clientX;
       const dt=Math.max(Date.now()-st0,1);
       const vel=dy/dt;
-      if(Math.abs(dy)>10)handleDragged=true;
+      if(Math.abs(dy)>10||Math.abs(dx)>10)handleDragged=true;
 
-      const swipeUp=dy>24||(dy>10&&vel>0.06);
-      const swipeDown=dy<-24||(dy<-10&&vel<-0.06);
+      if(axis!=='y')return;
+
+      const swipeUp=dy>28||(dy>14&&vel>0.08);
+      const swipeDown=dy<-28||(dy<-14&&vel<-0.08);
 
       if(swipeUp&&!open){
         openDrawer(mode);
