@@ -1,0 +1,102 @@
+/* Qutbah case study — responsive product showcase */
+
+.qutbah-case {
+  background: #06080f;
+  color: #fff;
+}
+
+.qutbah-intro {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px 32px;
+  text-align: center;
+}
+
+.qutbah-intro-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 12px;
+}
+
+.qutbah-intro-lead {
+  font-size: clamp(15px, 2.2vw, 18px);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: -0.2px;
+}
+
+.qutbah-intro-lead strong {
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 600;
+}
+
+.qutbah-shot-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #06080f;
+}
+
+.qutbah-shot-frame {
+  display: block;
+  width: 1440px;
+  height: 900px;
+  border: 0;
+  transform-origin: top left;
+  background: #06080f;
+}
+
+html.case-study[data-embed] .qutbah-intro {
+  display: none;
+}
+
+html.case-study[data-embed] .qutbah-shot-wrap {
+  max-width: none;
+}
+
+.qutbah-meta {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.qutbah-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.qutbah-meta-pill::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(52, 211, 153, 0.8);
+  box-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
+}
+
+html.case-study[data-embed] .qutbah-meta {
+  padding: 24px 16px 48px;
+}
+
+@media (max-width: 600px) {
+  .qutbah-intro {
+    padding-bottom: 20px;
+  }
+}

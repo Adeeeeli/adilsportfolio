@@ -11,6 +11,12 @@
     return s;
   }
 
+  function allSections(project) {
+    const globalSections =
+      (window.PORTFOLIO_GLOBAL && window.PORTFOLIO_GLOBAL.sections) || [];
+    return (project.sections || []).concat(globalSections);
+  }
+
   function searchSections(sections, query) {
     const ranked = sections
       .map(function (it) { return { it: it, s: score(query, it) }; })
@@ -23,15 +29,28 @@
       return x.role + ': ' + x.text;
     }).join(' | ');
     return (
-      "I can answer questions about " + project.title + " — try asking about the plan of action, " +
-      "roles, onboarding, research, or how the lab was structured." +
-      (prev ? " (We've been discussing: " + prev + ")" : "")
+      "Good question. I can go deeper on " + project.title +
+      " — try asking about the problem we solved, how the team was structured, or what changed in practice." +
+      (prev ? " (We've been on: " + prev + ")" : "")
     );
   }
 
   function localAnswer(project, query, history) {
-    const hit = searchSections(project.sections || [], query);
+    const hit = searchSections(allSections(project), query);
     return hit || synthesizeFallback(project, query, history);
+  }
+
+  function buildSystemPrompt(project) {
+    const voice = window.PORTFOLIO_VOICE_CONTEXT || '';
+    const base = project.systemPrompt || '';
+    if (!voice) return base;
+    return base + '\n\n---\n\nVOICE & IDENTITY CONTEXT:\n' + voice;
+  }
+
+  async function ensureVoiceReady() {
+    if (window.PORTFOLIO_VOICE_READY) {
+      await window.PORTFOLIO_VOICE_READY;
+    }
   }
 
   async function portfolioAsk(projectId, query, history) {
@@ -40,6 +59,7 @@
 
     const cfg = window.PORTFOLIO_AI || { mode: 'local' };
     if (cfg.mode === 'llm' && cfg.llm && cfg.llm.endpoint) {
+      await ensureVoiceReady();
       const res = await fetch(cfg.llm.endpoint, {
         method: 'POST',
         headers: Object.assign({ 'Content-Type': 'application/json' }, cfg.llm.headers || {}),
@@ -47,10 +67,11 @@
           projectId: projectId,
           query: query,
           history: history,
-          systemPrompt: project.systemPrompt || '',
-          context: project.sections || [],
+          systemPrompt: buildSystemPrompt(project),
+          context: allSections(project),
           summary: project.summary || '',
-          fullContext: project.fullContext || ''
+          fullContext: project.fullContext || '',
+          voiceContext: window.PORTFOLIO_VOICE_CONTEXT || ''
         })
       });
       if (!res.ok) throw new Error('LLM request failed (' + res.status + ')');
@@ -62,4 +83,5 @@
   }
 
   window.portfolioAsk = portfolioAsk;
+  window.portfolioBuildSystemPrompt = buildSystemPrompt;
 })();

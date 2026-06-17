@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="case-study">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qutbah · Live Arabic Khutbah Translation</title>
+  <meta name="description" content="Qutbah — real-time on-device AI translation for the Friday sermon. Quran recognition, Hadith attribution, Apple STT.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="./Adil Portfolio/stylecss.css" rel="stylesheet">
+  <link href="./Adil Portfolio/case-study.css" rel="stylesheet">
+  <link href="./Adil Portfolio/qutbah/qutbah-case.css" rel="stylesheet">
+  <link href="./Adil Portfolio/ai/chat-ui.css" rel="stylesheet">
+  <style id="case-study-critical">
+    .navigation-wrap,.menu,.w-nav,.w-nav-menu,footer.footer-dark,#footer{
+      display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important
+    }
+    html.case-study,html.case-study body{background:#06080F}
+  </style>
+  <script src="./Adil Portfolio/case-study.js"></script>
+</head>
+<body class="body qutbah-case">
+
+  <div class="hero-section project-page">
+    <h1 class="h1-centerated">Qutbah</h1>
+  </div>
+
+  <div class="qutbah-intro">
+    <div class="qutbah-intro-eyebrow">Translation · AI · Live on iOS</div>
+    <p class="qutbah-intro-lead">
+      <strong>Real-time AI translation</strong> for the Friday sermon — Quran verses, Hadith attribution,
+      and spoken Arabic, on-device, in seconds.
+    </p>
+  </div>
+
+  <div class="qutbah-shot-wrap" id="qutbahShotWrap">
+    <iframe
+      class="qutbah-shot-frame"
+      id="qutbahShotFrame"
+      title="Qutbah product showcase"
+      src="./Adil Portfolio/qutbah/qutbah-product-shot.html?embed=1"
+      loading="lazy"></iframe>
+  </div>
+
+  <div class="qutbah-meta" aria-label="Technology stack">
+    <span class="qutbah-meta-pill">React Native · Expo SDK 54</span>
+    <span class="qutbah-meta-pill">Apple On-Device STT</span>
+    <span class="qutbah-meta-pill">Local Quran + Hadith Corpus</span>
+    <span class="qutbah-meta-pill">Groq LLaMA 3.1</span>
+  </div>
+
+  <!-- QUTBAH-CHAT-START -->
+  <div class="proj-chat-float" data-project-chat="qutbah">
+    <div class="proj-chat-panel" id="projChatPanel" role="dialog" aria-hidden="true" aria-label="Ask about Qutbah">
+      <div class="proj-chat-panel-head">
+        <span class="proj-chat-panel-title">Ask about Qutbah</span>
+        <button type="button" class="proj-chat-panel-close" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="proj-chat-log" role="log" aria-live="polite"></div>
+      <div class="proj-chat-chips">
+        <button type="button" class="proj-chat-chip" data-q="What is Qutbah?">What is Qutbah</button>
+        <button type="button" class="proj-chat-chip" data-q="How does Quran recognition work?">Quran matching</button>
+        <button type="button" class="proj-chat-chip" data-q="Does it work offline?">Offline</button>
+        <button type="button" class="proj-chat-chip" data-q="What tech stack did you use?">Tech stack</button>
+      </div>
+      <form class="proj-chat-form" autocomplete="off">
+        <input class="proj-chat-input" type="text" name="q" placeholder="Ask anything…" required>
+        <button class="proj-chat-send" type="submit" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <div class="proj-chat-shell">
+      <button type="button" class="proj-chat-fab" aria-expanded="false" aria-controls="projChatPanel" aria-label="Open Qutbah assistant">
+        <svg class="chat-ai-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <defs>
+            <clipPath id="chatAiBubbleClip">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </clipPath>
+          </defs>
+          <g class="chat-ai-icon__sparkle" clip-path="url(#chatAiBubbleClip)" transform="translate(12.25 9.35) scale(0.36) translate(-12.25 -14.05)" fill="currentColor">
+            <path d="M20.2522 14.206C20.2541 14.5118 20.1612 14.8107 19.9863 15.0615C19.8113 15.3123 19.563 15.5028 19.2753 15.6066L14.4397 17.3935L12.6585 22.2329C12.553 22.5194 12.3621 22.7668 12.1117 22.9414C11.8612 23.1161 11.5632 23.2098 11.2578 23.2098C10.9525 23.2098 10.6545 23.1161 10.404 22.9414C10.1536 22.7668 9.96271 22.5194 9.85722 22.2329L8.06472 17.3935L3.22535 15.6122C2.93878 15.5068 2.69147 15.3159 2.51677 15.0655C2.34208 14.815 2.24841 14.517 2.24841 14.2116C2.24841 13.9063 2.34208 13.6082 2.51677 13.3578C2.69147 13.1073 2.93878 12.9165 3.22535 12.811L8.06472 11.0185L9.84597 6.17912C9.95146 5.89255 10.1423 5.64524 10.3928 5.47054C10.6432 5.29585 10.9412 5.20218 11.2466 5.20218C11.552 5.20218 11.85 5.29585 12.1004 5.47054C12.3509 5.64524 12.5417 5.89255 12.6472 6.17912L14.4397 11.0185L19.2791 12.7997C19.5669 12.9045 19.8151 13.0961 19.9894 13.348C20.1638 13.5999 20.2556 13.8997 20.2522 14.206Z"/>
+          </g>
+          <path class="chat-ai-icon__bubble" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- QUTBAH-CHAT-END -->
+
+  <script>
+  (function () {
+    var BASE_W = 1440;
+    var BASE_H = 900;
+    var wrap = document.getElementById('qutbahShotWrap');
+    var frame = document.getElementById('qutbahShotFrame');
+
+    function scaleShot() {
+      if (!wrap || !frame) return;
+      var w = wrap.clientWidth;
+      var scale = Math.min(1, w / BASE_W);
+      frame.style.transform = 'scale(' + scale + ')';
+      wrap.style.height = Math.ceil(BASE_H * scale) + 'px';
+    }
+
+    window.addEventListener('resize', scaleShot);
+    frame.addEventListener('load', scaleShot);
+    scaleShot();
+  })();
+  </script>
+
+  <script src="./Adil Portfolio/ai/config.js"></script>
+  <script src="./Adil Portfolio/ai/adil-global.js"></script>
+  <script src="./Adil Portfolio/ai/voice-loader.js"></script>
+  <script src="./Adil Portfolio/ai/projects/qutbah.js"></script>
+  <script src="./Adil Portfolio/ai/engine.js"></script>
+  <script src="./Adil Portfolio/ai/chat-ui.js"></script>
+</body>
+</html>

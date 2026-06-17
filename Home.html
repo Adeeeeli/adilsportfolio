@@ -118,7 +118,7 @@
 
     /* Role above photo */
     .hero-text{
-      position:absolute;top:8%;left:0;right:0;
+      position:absolute;top:calc(8% - 8px);left:0;right:0;
       display:flex;flex-direction:column;align-items:center;gap:10px;
       text-align:center;padding:0 24px;z-index:3;
       transition:transform .6s cubic-bezier(.32,0,.67,0),opacity .5s ease}
@@ -126,22 +126,42 @@
 
     @media(min-width:620px){
       .hero-photo{width:min(300px,50vw);bottom:30vh}
-      .hero-text{top:3%}
+      .hero-text{top:calc(3% - 8px)}
       .hero-name-back{
         top:13%;
         font-size:clamp(48px,10vw,100px);
         letter-spacing:-4px}}
 
-    .role-pill{
+    .hero-pill{
+      position:relative;overflow:hidden;
       display:inline-flex;align-items:center;gap:8px;
-      padding:6px 16px;border-radius:999px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.1);
-      font-size:12px;font-weight:500;color:rgba(255,255,255,.5)}
-    .rdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;
-      background:#3d8ef5;box-shadow:0 0 8px rgba(61,142,245,.7);
-      transition:background 1.2s,box-shadow 1.2s}
-    body.mgr .rdot{background:#f5c040;box-shadow:0 0 8px rgba(245,192,64,.7)}
+      padding:8px 16px;border-radius:999px;
+      background:rgba(8,8,12,.72);
+      backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.16),
+        inset 0 -1px 0 rgba(255,255,255,.04),
+        0 0 0 1px rgba(255,255,255,.04),
+        0 10px 36px rgba(0,0,0,.5);
+      font-size:12px;font-weight:500;letter-spacing:.2px}
+    .hero-pill::before{
+      content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;
+      background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.04) 42%,rgba(255,255,255,.2));
+      -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+      -webkit-mask-composite:xor;mask-composite:exclude;
+      pointer-events:none}
+    .hero-pill-brand{
+      position:relative;z-index:1;
+      display:inline-flex;align-items:center;gap:7px;
+      color:rgba(255,255,255,.88);font-weight:600}
+    .hero-pill-logo{height:13px;width:auto;display:block;flex-shrink:0;opacity:.95}
+    .hero-pill-sep{
+      position:relative;z-index:1;
+      color:rgba(255,255,255,.28);font-weight:400}
+    .hero-pill-role{
+      position:relative;z-index:1;
+      color:rgba(255,255,255,.62);white-space:nowrap}
 
     /* Small avatar top-left when drawer is open */
     .mini-bar{
@@ -249,13 +269,18 @@
       color:#c49af0;
       box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
 
-    /* Scroll */
+    /* Scroll — vertical only when drawer is fully open; horizontal rows still swipe in peek */
     .scroll{
       flex:1;min-height:0;
-      overflow-y:scroll;overflow-x:hidden;
-      -webkit-overflow-scrolling:touch;
+      overflow-y:hidden;overflow-x:hidden;
       padding:4px 16px 140px;
-      scrollbar-width:none}
+      scrollbar-width:none;
+      overscroll-behavior:contain;
+      touch-action:pan-x pinch-zoom}
+    .drawer.open .scroll{
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      touch-action:pan-y}
     .scroll::-webkit-scrollbar{display:none}
 
     /* Panels */
@@ -273,6 +298,7 @@
     /* ── PROJECT CARDS ─────────────────────── */
     .proj-row{
       display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;
+      touch-action:pan-x pinch-zoom;
       padding-bottom:4px;scroll-snap-type:x mandatory;
       scrollbar-width:none;margin:0 -16px;padding-left:16px;padding-right:16px}
     .proj-row::-webkit-scrollbar{display:none}
@@ -394,12 +420,42 @@
     .mgr-card.recordr .proj-overlay{
       background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.06) 38%,rgba(0,0,0,.62) 72%,rgba(0,0,0,.88) 100%)}
 
+    /* Image case cards — same chrome as Designer tab proj-card */
+    .mgr-card.design-process.has-img,
+    .mgr-card.building-people.has-img,
+    .mgr-card.xd-to-figma.has-img{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.09);
+      box-shadow:0 2px 12px rgba(0,0,0,.5);
+      transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+    .mgr-card.design-process.has-img:hover,
+    .mgr-card.building-people.has-img:hover,
+    .mgr-card.xd-to-figma.has-img:hover{
+      box-shadow:0 8px 32px rgba(0,0,0,.65);
+      border-color:rgba(255,255,255,.15)}
+    .mgr-card.design-process .mgr-card-img,
+    .mgr-card.building-people .mgr-card-img,
+    .mgr-card.xd-to-figma .mgr-card-img{
+      background-position:center center;
+      background-size:cover}
+    .mgr-card.design-process .mgr-card-img::after,
+    .mgr-card.building-people .mgr-card-img::after,
+    .mgr-card.xd-to-figma .mgr-card-img::after{display:none}
+    .mgr-card.design-process .proj-overlay,
+    .mgr-card.building-people .proj-overlay,
+    .mgr-card.xd-to-figma .proj-overlay{
+      background:linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,.05) 35%,
+        rgba(0,0,0,.65) 70%,
+        rgba(0,0,0,.9) 100%)}
+
     /* Unique gradient bg per card */
     .mgr-card.people{background:linear-gradient(145deg,#1a0f00 0%,#3d1f00 40%,#7a3d00 100%)}
     .mgr-card.people.has-img{background:#050505}
     .mgr-card.culture{background:linear-gradient(145deg,#0d0a1a 0%,#1e1040 40%,#3d1f7a 100%)}
     .mgr-card.process{background:linear-gradient(145deg,#00111a 0%,#00253d 40%,#005c8a 100%)}
-    .mgr-card.labs{background:linear-gradient(145deg,#001a0d 0%,#003320 40%,#006645 100%)}
 
     /* Large graphic number/glyph as visual */
     .mgr-card-gfx{
@@ -414,7 +470,6 @@
     .people .mgr-card-orb{background:#f59840;top:-20px;left:-20px}
     .culture .mgr-card-orb{background:#7c3aed;top:-20px;left:-20px}
     .process .mgr-card-orb{background:#0ea5e9;top:-20px;left:-20px}
-    .labs .mgr-card-orb{background:#10b981;top:-20px;left:-20px}
 
     /* Metric badge */
     .mgr-card-badge{
@@ -730,6 +785,10 @@
       padding:20px 24px 16px;letter-spacing:.1px}
 
     /* ── UTIL ──────────────────────────────── */
+    @media(max-width:600px){
+      .hero-pill{font-size:10px;padding:7px 12px;gap:6px}
+      .hero-pill-brand{gap:5px}
+      .hero-pill-logo{height:11px}}
     @media(max-width:375px){
       .hero-name-back{top:19%;font-size:44px;letter-spacing:-3px}}
     @media(prefers-reduced-motion:reduce){
@@ -798,9 +857,13 @@
 
   <!-- Hero role -->
   <div class="hero-text" id="heroText">
-    <div class="role-pill">
-      <span class="rdot"></span>
-      Product Design Manager · Qatar Airways
+    <div class="hero-pill">
+      <span class="hero-pill-brand">
+        <img class="hero-pill-logo" src="./Adil Portfolio/Qatar Airways logo.svg" alt="">
+        Qatar Airways
+      </span>
+      <span class="hero-pill-sep">·</span>
+      <span class="hero-pill-role">Product Design Manager</span>
     </div>
   </div>
 
@@ -1010,10 +1073,9 @@
             </div>
           </div>
 
-          <!-- Culture -->
-          <div class="mgr-card culture">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">↑</div>
+          <!-- Design Process 2.0 -->
+          <div class="mgr-card culture has-img design-process" data-case-url="./DesignProcess20.html">
+            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/design-process-2.0-card.png')"></div>
             <div class="mgr-card-badge">Process</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
@@ -1023,9 +1085,8 @@
           </div>
 
           <!-- Building People -->
-          <div class="mgr-card people-build">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">↑</div>
+          <div class="mgr-card people-build has-img building-people" data-case-url="./BuildingPeople.html">
+            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/building-people-card.png')"></div>
             <div class="mgr-card-badge">Growth</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
@@ -1034,35 +1095,20 @@
             </div>
           </div>
 
-          <!-- Process -->
-          <div class="mgr-card process">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">⌬</div>
+          <!-- From XD to Figma -->
+          <div class="mgr-card process has-img xd-to-figma">
+            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/xd-to-figma-card.png')"></div>
             <div class="mgr-card-badge">Process</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
-              <span class="proj-org">Design Ops</span>
-              <span class="proj-name">Systematic by Design</span>
-              <span class="mgr-card-tag">Frameworks, rituals & governance across 5 platforms</span>
-            </div>
-          </div>
-
-          <!-- Design Labs -->
-          <div class="mgr-card labs">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">⬡</div>
-            <div class="mgr-card-badge">Design Labs</div>
-            <div class="proj-overlay"></div>
-            <div class="proj-info">
-              <span class="proj-org">Innovation</span>
-              <span class="proj-name">The Lab Mindset</span>
-              <span class="mgr-card-tag">Experimental culture — concepts that ship</span>
+              <span class="proj-org">Transformation</span>
+              <span class="proj-name">From XD to Figma</span>
             </div>
           </div>
 
         </div><!-- /proj-row -->
 
-        <div class="eyebrow eyebrow-prose">My team did this:</div>
+        <div class="eyebrow">Leadership in action:</div>
         <div class="proj-row">
 
           <div class="mgr-card summit">
@@ -1108,7 +1154,7 @@
         <div class="eyebrow">AI Projects</div>
         <div class="proj-row">
 
-          <div class="mgr-card ai-card">
+          <div class="mgr-card ai-card qutbah" data-case-url="./Qutbah.html">
             <div class="mgr-card-orb"></div>
             <div class="mgr-card-gfx">Q</div>
             <div class="mgr-card-badge">Live</div>
@@ -1266,10 +1312,16 @@
     miniBar.classList.remove('show');
     drawerDismiss.classList.remove('show');
     drawerDismiss.tabIndex=-1;
+    scrollEl.scrollTop=0;
     open=false;
     if(nbDsn) nbDsn.className='nb';
     if(nbMgr) nbMgr.className='nb';
   }
+
+  /* Lock vertical scroll in drawer peek state (Safari fallback) */
+  scrollEl.addEventListener('scroll',function(){
+    if(!open) scrollEl.scrollTop=0;
+  },{passive:true});
 
   /* ── HERO PHOTO — pointer parallax ── */
   (()=>{
@@ -1560,8 +1612,8 @@
       if(tabs&&tabs.contains(t))return 'header';
       if(drawer.contains(t)){
         if(open&&scrollEl.contains(t)&&scrollEl.scrollTop<=0)return 'scroll-top';
-        if(!open&&!scrollEl.contains(t))return 'drawer';
-        if(!open&&scrollEl.contains(t))return 'peek-scroll';
+        if(!open)return 'drawer';
+        return null;
       }
       if(!open&&heroText&&heroText.contains(t))return 'hero';
       if(!open&&e.touches[0].clientY>window.innerHeight*0.58)return 'bottom';
@@ -1587,7 +1639,7 @@
         axis=Math.abs(dy)>=Math.abs(dx)?'y':'x';
       }
       if(axis!=='y')return;
-      if(!open&&dy>8&&activeZone!=='peek-scroll')e.preventDefault();
+      if(!open&&dy>8&&activeZone!=='header'&&activeZone!=='handle')e.preventDefault();
       if(open&&dy<-8&&scrollEl.scrollTop<=0)e.preventDefault();
     }
 
@@ -1603,7 +1655,6 @@
       const swipeDown=dy<-24||(dy<-10&&vel<-0.06);
 
       if(swipeUp&&!open){
-        if(activeZone==='peek-scroll'&&scrollEl.scrollTop>0)return;
         openDrawer(mode);
       }else if(swipeDown&&open&&scrollEl.scrollTop<=0){
         closeDrawer();

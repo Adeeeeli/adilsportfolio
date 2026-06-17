@@ -1,0 +1,136 @@
+/* Building People — text case study */
+
+html.case-study,
+html.case-study body {
+  background: #08080a;
+}
+
+.bp-case {
+  color: #fff;
+  padding-bottom: 80px;
+}
+
+.bp-hero {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 8px 24px 48px;
+  text-align: center;
+}
+
+.bp-hero-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(52, 211, 153, 0.65);
+  margin-bottom: 16px;
+}
+
+.bp-hero-lead {
+  font-size: clamp(22px, 4.5vw, 32px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.bp-hero-lead em {
+  font-style: normal;
+  color: #6ee7b7;
+}
+
+.bp-prose {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.bp-section {
+  padding: 36px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.bp-section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.bp-section h2 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  margin-bottom: 20px;
+}
+
+.bp-section p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.58);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.bp-section p:last-child {
+  margin-bottom: 0;
+}
+
+.bp-section p strong {
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 600;
+}
+
+.bp-list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.bp-list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 8px;
+}
+
+.bp-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(52, 211, 153, 0.55);
+}
+
+.bp-pull {
+  font-size: clamp(18px, 3vw, 22px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 8px 0 20px;
+}
+
+html.case-study[data-embed] .hero-section.project-page {
+  display: none !important;
+}
+
+html.case-study[data-embed] .bp-hero {
+  padding-top: 28px;
+}
+
+@media (min-width: 768px) {
+  .bp-section {
+    padding: 44px 0;
+  }
+
+  .bp-section p,
+  .bp-list li {
+    font-size: 17px;
+  }
+}
