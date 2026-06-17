@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache">
   <title>Adil Ahmad · Product Design Manager</title>
   <meta name="description" content="Portfolio of Adil Ahmad, Product Design Manager at Qatar Airways. Explore leadership case studies, design work, and AI experiments.">
   <meta property="og:title" content="Adil Ahmad · Product Design Manager">
@@ -20,7 +21,14 @@
 
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:100%;height:100%;overflow:hidden;background:#000}
+    html,body{width:100%;min-height:100%;background:#000}
+    html{
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      overscroll-behavior:none}
+    body{overflow-x:hidden}
+    @media (pointer:fine){
+      html,body{height:100%;overflow:hidden}}
 
     /* ── APP VIEWPORT (isolated page) ── */
     #viewport{
@@ -30,6 +38,20 @@
       transition:opacity .42s cubic-bezier(.16,1,.3,1),transform .42s cubic-bezier(.16,1,.3,1);
       z-index:1}
     #viewport.ready{opacity:1;transform:scale(1)}
+
+    /* iOS Safari: clip iframe to visible area; page scroll collapses toolbar */
+    .scroll-runway{display:none}
+    @media (pointer:coarse){
+      body{min-height:calc(var(--shell-h,100dvh) + 72px)}
+      html{overscroll-behavior-y:auto}
+      #viewport{
+        position:sticky;top:0;
+        inset:auto;
+        height:var(--shell-h,100dvh);
+        touch-action:pan-y}
+      .scroll-runway{
+        display:block;height:72px;width:100%;
+        pointer-events:none}}
 
     /* ── CROSSFADE COVER ── */
     #cover{
@@ -67,6 +89,7 @@
 <body>
   <div id="bar"></div>
   <iframe id="viewport" title="Adil Ahmad — Portfolio" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <div class="scroll-runway" aria-hidden="true"></div>
   <div id="cover"></div>
   <div id="boot"><span class="mark">Adil Ahmad</span></div>
 
@@ -86,6 +109,25 @@
     var currentRoute = null;   // route currently shown (relative to ROOT, encoded)
     var booted = false;
     var barTimer = null;
+    var isTouchUI = window.matchMedia('(pointer:coarse)').matches;
+
+    /* iOS Safari: size iframe to visible viewport (above bottom toolbar) */
+    (function initMobileShell(){
+      if(!isTouchUI||!window.visualViewport)return;
+      var root=document.documentElement;
+      var timer=null;
+      function sync(){
+        clearTimeout(timer);
+        timer=setTimeout(function(){
+          var h=Math.round(visualViewport.height);
+          root.style.setProperty('--shell-h',h+'px');
+        },60);
+      }
+      sync();
+      visualViewport.addEventListener('resize',sync);
+      visualViewport.addEventListener('scroll',sync);
+      window.addEventListener('orientationchange',function(){setTimeout(sync,350);});
+    })();
 
     /* ── ROUTE HELPERS ───────────────────────────── */
     function cleanRoute(route){

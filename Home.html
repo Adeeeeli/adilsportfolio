@@ -30,25 +30,11 @@
     /* ── RESET ─────────────────────────────── */
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html,body{
-      width:100%;min-height:100%;
+      width:100%;height:100%;overflow:hidden;
       background:#000;color:#fff;
       font-family:'Inter',Arial,sans-serif;
       -webkit-font-smoothing:antialiased}
-    html{
-      overflow-y:auto;
-      overscroll-behavior:none;
-      -webkit-text-size-adjust:100%}
-    body{
-      overflow-x:hidden;
-      min-height:100svh;
-      min-height:-webkit-fill-available;
-      min-height:100dvh}
-    html{
-      --browser-ui:0px;
-      --safe-bottom:env(safe-area-inset-bottom,0px)}
-    /* lvh−svh ≈ height of visible Safari chrome when toolbar is showing */
-    @media (pointer:coarse){
-      html{--browser-ui:max(0px,calc(100lvh - 100svh))}}
+    html{--safe-bottom:env(safe-area-inset-bottom,0px)}
     a{text-decoration:none;color:inherit}
     button{cursor:pointer;font-family:inherit;border:none;background:none}
 
@@ -84,21 +70,7 @@
       opacity:.025}
 
     /* ── HERO ──────────────────────────────── */
-    .page{
-      position:relative;z-index:1;width:100%;
-      height:100svh;height:-webkit-fill-available;
-      overflow:hidden;
-      margin:0 auto}
-
-    /* Scrollable hero — lets iOS Safari collapse its bottom toolbar */
-    .hero-stage{
-      position:absolute;inset:0;z-index:1;
-      overflow-y:auto;overflow-x:hidden;
-      -webkit-overflow-scrolling:touch;
-      overscroll-behavior-y:contain;
-      touch-action:pan-y}
-    .page.drawer-open .hero-stage{overflow:hidden;pointer-events:none}
-    .hero-stage-scroll{position:relative;min-height:calc(100% + 2px);height:100%}
+    .page{position:relative;z-index:1;width:100%;height:100%;overflow:hidden}
 
     /* Name behind portrait */
     .hero-name-back{
@@ -210,17 +182,15 @@
 
     /* ── DRAWER ────────────────────────────── */
     .drawer{
-      position:fixed;
-      bottom:calc(var(--browser-ui,0px) + var(--safe-bottom));
-      left:0;right:0;z-index:20;
+      position:fixed;bottom:0;left:0;right:0;z-index:20;
       background:rgba(8,8,10,.97);
       backdrop-filter:blur(60px);-webkit-backdrop-filter:blur(60px);
       border-radius:24px 24px 0 0;
       border-top:1px solid rgba(255,255,255,.1);
       box-shadow:0 -24px 60px rgba(0,0,0,.65);
-      transform:translateY(calc(100% - 38svh));
+      transform:translateY(calc(100% - 38vh));
       transition:transform .55s cubic-bezier(.32,0,.67,0);
-      height:min(88svh,calc(100svh - var(--browser-ui,0px)));
+      height:88vh;
       display:flex;flex-direction:column;will-change:transform}
 
     .drawer.open{transform:translateY(0)}
@@ -588,9 +558,7 @@
 
     /* ── BOTTOM NAV ────────────────────────── */
     .bnav{
-      position:fixed;
-      bottom:calc(14px + var(--browser-ui,0px) + var(--safe-bottom));
-      left:50%;transform:translateX(-50%);
+      position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
       z-index:50;display:flex;align-items:center;gap:2px;padding:5px;
       background:rgba(10,10,12,.94);
       backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
@@ -665,7 +633,6 @@
     .pdrawer-inner{
       position:relative;
       width:min(980px,100%);height:94vh;
-      margin-bottom:var(--browser-ui,0px);
       background:rgba(9,9,11,.99);
       border-radius:24px 24px 0 0;
       border:1px solid rgba(255,255,255,.1);border-bottom:none;
@@ -785,7 +752,6 @@
       border-top:1px solid rgba(255,255,255,.1);
       box-shadow:0 -24px 60px rgba(0,0,0,.65);
       padding-bottom:env(safe-area-inset-bottom,20px);
-      margin-bottom:var(--browser-ui,0px);
       transform:translateY(100%);transition:transform .45s cubic-bezier(.32,0,.67,0)}
     .csheet.on .csheet-inner{transform:translateY(0)}
 
@@ -882,9 +848,6 @@
 <!-- Page -->
 <div class="page" id="page">
 
-  <div class="hero-stage" id="heroStage" aria-hidden="false">
-  <div class="hero-stage-scroll">
-
   <!-- Mini bar (visible when drawer is fully open) -->
   <div class="mini-bar" id="miniBar" aria-label="Profile quick info">
     <img class="mini-av" src="./Adil Portfolio/Adil-profile.jpeg" alt="Adil Ahmad profile photo">
@@ -912,9 +875,6 @@
       <img src="./Adil Portfolio/adil_middle.png" alt="Adil Ahmad">
     </div>
   </div>
-
-  </div><!-- /hero-stage-scroll -->
-  </div><!-- /hero-stage -->
 
   <!-- Tap outside drawer to return to homepage -->
   <button type="button" class="drawer-dismiss" id="drawerDismiss"
@@ -1333,28 +1293,6 @@
 
   const isTouchUI=window.matchMedia('(pointer:coarse)').matches;
 
-  /* iOS Safari: measure toolbar height when CSS lvh−svh returns 0 (Safari 26+) */
-  (function initSafariToolbarInset(){
-    if(!isTouchUI||!window.visualViewport)return;
-    const root=document.documentElement;
-    let timer=null;
-    function sync(){
-      clearTimeout(timer);
-      timer=setTimeout(()=>{
-        const vv=window.visualViewport;
-        const measured=Math.max(0,Math.round(window.innerHeight-vv.height-vv.offsetTop));
-        if(measured>0){
-          root.style.setProperty('--browser-ui',measured+'px');
-        }else{
-          root.style.removeProperty('--browser-ui');
-        }
-      },120);
-    }
-    sync();
-    visualViewport.addEventListener('resize',sync);
-    window.addEventListener('orientationchange',sync);
-  })();
-
   /* ── OPEN / CLOSE ── */
   function openDrawer(m){
     if(open)return;
@@ -1381,8 +1319,6 @@
     drawerDismiss.classList.remove('show');
     drawerDismiss.tabIndex=-1;
     scrollEl.scrollTop=0;
-    const heroStage=$('heroStage');
-    if(heroStage) heroStage.scrollTop=0;
     open=false;
     if(nbDsn) nbDsn.className='nb';
     if(nbMgr) nbMgr.className='nb';
