@@ -215,9 +215,9 @@
 
     /* Handle */
     .handle-zone{
-      padding:18px 0 12px;display:flex;justify-content:center;align-items:center;
+      padding:10px 0 0;display:flex;justify-content:center;align-items:flex-start;
       cursor:pointer;flex-shrink:0;touch-action:none;
-      -webkit-user-select:none;user-select:none;min-height:48px}
+      -webkit-user-select:none;user-select:none}
     .handle-bar{width:36px;height:4px;border-radius:2px;
       background:rgba(255,255,255,.22);
       transition:all .25s}
@@ -225,7 +225,7 @@
       {background:rgba(255,255,255,.38);width:44px}
 
     /* Tabs — subtle glass */
-    .tabs{display:flex;gap:6px;padding:6px 16px 10px;flex-shrink:0}
+    .tabs{display:flex;gap:6px;padding:10px 16px 10px;flex-shrink:0}
     .tab{
       position:relative;overflow:hidden;
       flex:1;padding:8px 0;border-radius:11px;
@@ -528,6 +528,32 @@
       backdrop-filter:blur(8px);
       -webkit-backdrop-filter:blur(8px)}
     .mgr-card.ai-card.recordr.has-img{background:#050505}
+
+    /* Qutbah hero card */
+    .mgr-card.qutbah.has-img{
+      background:#050505;
+      border-color:rgba(52,211,153,.22);
+      box-shadow:0 2px 16px rgba(0,0,0,.45),0 0 0 1px rgba(52,211,153,.06) inset}
+    .mgr-card.qutbah.has-img:hover{
+      box-shadow:0 10px 36px rgba(0,0,0,.55),0 0 32px rgba(52,211,153,.18),0 0 0 1px rgba(110,231,183,.14) inset}
+    .mgr-card.qutbah .mgr-card-img{
+      background-position:center top;
+      background-size:cover;
+      filter:saturate(1.08) contrast(1.04) brightness(0.92)}
+    .mgr-card.qutbah:hover .mgr-card-img{filter:saturate(1.12) contrast(1.06) brightness(0.94)}
+    .mgr-card.qutbah .mgr-card-img::after{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 85% 50% at 50% 22%,rgba(52,211,153,.2) 0%,transparent 58%),
+        linear-gradient(to bottom,rgba(0,0,0,.02) 0%,rgba(0,0,0,.1) 40%,rgba(0,0,0,.78) 82%,rgba(0,0,0,.94) 100%)}
+    .mgr-card.qutbah .proj-overlay{
+      background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.06) 38%,rgba(0,0,0,.62) 72%,rgba(0,0,0,.88) 100%)}
+    .mgr-card.ai-card.qutbah .mgr-card-badge{
+      background:rgba(52,211,153,.16);
+      border-color:rgba(110,231,183,.32);
+      color:rgba(167,243,208,.96);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px)}
 
     /* Body.ai orb shift */
     body.ai .orb.a{background:radial-gradient(circle,rgba(120,40,220,0.45) 0%,transparent 70%);opacity:.13}
@@ -1156,9 +1182,8 @@
         <div class="eyebrow">AI Projects</div>
         <div class="proj-row">
 
-          <div class="mgr-card ai-card qutbah" data-case-url="./Qutbah.html">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">Q</div>
+          <div class="mgr-card ai-card qutbah has-img" data-case-url="./Qutbah.html">
+            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/qutbah/qutbah-card.png')"></div>
             <div class="mgr-card-badge">Live</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
