@@ -1,7 +1,19 @@
 (function () {
   'use strict';
 
-  function setupFloatUI(root) {
+  function trackEvent(name, params, attempt) {
+    if (window.AdilAnalytics) {
+      AdilAnalytics.event(name, params || {});
+      return;
+    }
+    if ((attempt || 0) < 25) {
+      setTimeout(function () {
+        trackEvent(name, params, (attempt || 0) + 1);
+      }, 120);
+    }
+  }
+
+  function setupFloatUI(root, projectId) {
     const fab = root.querySelector('.proj-chat-fab');
     const panel = root.querySelector('.proj-chat-panel');
     const closeBtn = root.querySelector('.proj-chat-panel-close');
@@ -12,6 +24,7 @@
       root.classList.add('is-open');
       fab.setAttribute('aria-expanded', 'true');
       panel.setAttribute('aria-hidden', 'false');
+      trackEvent('ai_chat_panel_open', { project_id: projectId || '' });
       window.setTimeout(function () {
         if ($input) $input.focus();
       }, 280);
@@ -21,6 +34,7 @@
       root.classList.remove('is-open');
       fab.setAttribute('aria-expanded', 'false');
       panel.setAttribute('aria-hidden', 'true');
+      trackEvent('ai_chat_panel_close', { project_id: projectId || '' });
     }
 
     function toggle() {
@@ -45,7 +59,7 @@
     const project = window.PORTFOLIO_PROJECTS && window.PORTFOLIO_PROJECTS[projectId];
     if (!project) return;
 
-    setupFloatUI(root);
+    setupFloatUI(root, projectId);
 
     const $log = root.querySelector('.proj-chat-log');
     const $form = root.querySelector('.proj-chat-form');
@@ -94,7 +108,7 @@
       $log.scrollTop = $log.scrollHeight;
     }
 
-    async function submit(q) {
+    async function submit(q, source) {
       const text = (q || '').trim();
       if (!text) return;
 
@@ -103,6 +117,20 @@
       history.push({ role: 'user', text: text });
       while (history.length > MAX_CTX) history.shift();
       $input.value = '';
+
+      if (window.AdilAnalytics) {
+        AdilAnalytics.event('ai_chat_message', {
+          project_id: projectId,
+          message_length: text.length,
+          input_source: source || 'typed'
+        });
+      } else {
+        trackEvent('ai_chat_message', {
+          project_id: projectId,
+          message_length: text.length,
+          input_source: source || 'typed'
+        });
+      }
 
       try {
         typing(true);
@@ -123,7 +151,7 @@
 
     $form.addEventListener('submit', function (e) {
       e.preventDefault();
-      submit($input.value);
+      submit($input.value, 'typed');
     });
 
     $input.addEventListener('keydown', function (e) {
@@ -135,9 +163,11 @@
 
     root.querySelectorAll('.proj-chat-chip').forEach(function (chip) {
       chip.addEventListener('click', function () {
-        submit(chip.dataset.q || chip.textContent);
+        submit(chip.dataset.q || chip.textContent, 'chip');
       });
     });
+
+    trackEvent('ai_chat_ready', { project_id: projectId });
 
     append('bot', project.greeting || 'Ask me about this project.');
     syncChatLayout();

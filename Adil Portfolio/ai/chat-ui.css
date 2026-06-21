@@ -61,24 +61,11 @@
   transition: color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
-.proj-chat-fab svg {
+.proj-chat-fab svg,
+.proj-chat-fab img.chat-ai-icon {
   width: 18px;
   height: 18px;
-}
-
-.proj-chat-fab .chat-ai-icon__bubble {
-  stroke-width: 1.8;
-  fill: none;
-}
-
-.proj-chat-fab .chat-ai-icon__sparkle {
-  stroke: none;
-  opacity: 0.95;
-}
-
-.proj-chat-fab:hover .chat-ai-icon__sparkle,
-.proj-chat-float.is-open .proj-chat-fab .chat-ai-icon__sparkle {
-  opacity: 1;
+  display: block;
 }
 
 @media (hover: hover) and (pointer: fine) {

@@ -5,12 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adil Ahmad · About</title>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JL2894MXJN">
-
-
-
-</script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JL2894MXJN');</script>
+  <script src="./Adil Portfolio/analytics.js"></script>
+  <script>AdilAnalytics.initFrame();</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +16,10 @@
     html{scroll-behavior:smooth}
     body{background:#000;color:#fff;font-family:'Inter',sans-serif;
       -webkit-font-smoothing:antialiased;overflow-x:hidden}
+    @media (pointer:fine){
+      html,body{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}
+      body::-webkit-scrollbar{width:6px}
+      body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:999px}}
     a{text-decoration:none;color:inherit}
     button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
 
@@ -205,7 +205,7 @@
 
     @media(min-width:1024px){
       .s-numbers{
-        min-height:72vh;padding:0}
+        min-height:auto;padding:80px 0}
       .nums-inner{padding:0 32px}
       .nums-grid{max-width:880px}
       .num-item{padding:52px 28px 44px}
@@ -383,7 +383,8 @@
       .chap-body{font-size:16px;line-height:1.55;margin-bottom:28px}
       .chap-headline{margin-bottom:24px}
       .chap-watermark{right:2%;opacity:0}
-      .chap-watermark.on{opacity:.85}}
+      .chap-watermark.on{opacity:.85}
+      .chap-dots{bottom:calc(88px + env(safe-area-inset-bottom,0px))}}
 
     @media(min-width:1024px){
       .chapters-sticky{padding:0 max(56px,7vw)}
@@ -516,6 +517,7 @@
 
     @media(min-width:768px){
       .s-skills{max-width:720px;padding:100px 32px 120px}
+      .s-timeline{max-width:720px;padding:80px 32px 120px}
       .skills-headline{font-size:clamp(36px,4.2vw,52px);margin-bottom:40px;letter-spacing:-1.5px}
       .skill-wrap{gap:11px}
       .skill{font-size:14px;padding:10px 18px}}
@@ -631,6 +633,21 @@
       padding-bottom:env(safe-area-inset-bottom,20px);
       transform:translateY(100%);transition:transform .45s cubic-bezier(.32,0,.67,0)}
     .csheet.on .csheet-inner{transform:translateY(0)}
+    @media (min-width:768px) and (pointer:fine){
+      .csheet{align-items:center;padding:24px}
+      .csheet-inner{
+        max-width:440px;
+        border-radius:24px;
+        border:1px solid rgba(255,255,255,.1);
+        box-shadow:0 24px 80px rgba(0,0,0,.65);
+        transform:translateY(12px) scale(.97);
+        opacity:0;
+        transition:
+          transform .4s cubic-bezier(.16,1,.3,1),
+          opacity .35s ease}
+      .csheet.on .csheet-inner{
+        transform:translateY(0) scale(1);
+        opacity:1}}
     .csheet-handle-zone{padding:12px 0 4px;display:flex;justify-content:center;cursor:pointer}
     .handle-bar{width:32px;height:3px;border-radius:2px;background:rgba(255,255,255,.15)}
     .csheet-head{padding:12px 24px 20px}
@@ -915,6 +932,10 @@
 </div>
 
 <script>
+function aa(name,params){
+  if(window.AdilAnalytics) AdilAnalytics.event(name,params||{});
+}
+
 /* ── INTRO ────────────────────────────── */
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('intro').classList.add('gone'), 900);
@@ -1024,6 +1045,7 @@ window.addEventListener('load', () => {
     watermarks.forEach(wm => wm.classList.toggle('on', Number(wm.dataset.wm) === idx));
     if(artA) artA.style.opacity = idx === 2 ? '0' : '1';
     if(artC) artC.style.opacity = idx === 2 ? '1' : '0';
+    aa('about_chapter_view',{chapter_index:idx});
   }
 
   function onScroll(){
@@ -1097,13 +1119,19 @@ function openContact(){
   const currentActive=document.querySelector('.bnav .nb.lm-active');
   if(currentActive && currentActive.id!=='nbContact') contactPrevActiveId=currentActive.id;
   document.getElementById('csheet').classList.add('on');
-  document.getElementById('nbContact').style.color='rgba(34,197,94,.9)';
+  document.getElementById('nbContact').classList.add('contact-on');
+  document.body.style.overflow='hidden';
+  document.documentElement.style.overflow='hidden';
   if(window.__activateBottomNavById) window.__activateBottomNavById('nbContact');
+  aa('contact_open');
 }
 function closeContact(){
   document.getElementById('csheet').classList.remove('on');
-  document.getElementById('nbContact').style.color='';
+  document.getElementById('nbContact').classList.remove('contact-on');
+  document.body.style.overflow='';
+  document.documentElement.style.overflow='';
   if(window.__activateBottomNavById) window.__activateBottomNavById(contactPrevActiveId||'nbAbout');
+  aa('contact_close');
 }
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeContact(); });
   /* ── LIQUID METAL RING ── */
@@ -1279,6 +1307,7 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeContact();
       const btn=e.target.closest('.nb');
       if(!btn)return;
       activateNav(btn);
+      aa('nav_click',{nav_destination:(btn.id||'').replace(/^nb/,'').toLowerCase()||'unknown'});
     });
 
     setTimeout(()=>{updateRing();draw();},120);

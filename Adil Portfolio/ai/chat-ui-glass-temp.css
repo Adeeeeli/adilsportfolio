@@ -1,0 +1,124 @@
+/**
+ * TEMPORARY — glassmorphic chat panel experiment
+ *
+ * To revert: delete this file and remove the matching <link> from:
+ *   Qutbah.html, DesignLab.html, DesignProcess20.html, BuildingPeople.html
+ */
+
+/* ── Expanded panel — lighter glass, no dark grey wash ── */
+.proj-chat-panel {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.24) 0%,
+    rgba(255, 255, 255, 0.1) 42%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(36px) saturate(200%);
+  -webkit-backdrop-filter: blur(36px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.18),
+    0 6px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.proj-chat-float.is-open .proj-chat-panel {
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+/* ── Header copy — less muted ── */
+.proj-chat-panel-title {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* ── FAB shell (when panel open) ── */
+.proj-chat-float.is-open .proj-chat-shell {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.proj-chat-float.is-open .proj-chat-fab {
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Inner surfaces — airy, not muddy grey ── */
+.proj-chat-log .msg.bot {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.proj-chat-log .msg.user {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.proj-chat-chip {
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.proj-chat-chip:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.proj-chat-form input {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.proj-chat-form input::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.proj-chat-form input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.proj-chat-send {
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.proj-chat-send:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.proj-chat-panel-close {
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.proj-chat-panel-close:hover {
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.14);
+}

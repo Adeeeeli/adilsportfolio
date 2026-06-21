@@ -12,12 +12,8 @@
   <meta property="og:image" content="./Adil Portfolio/adil_middle.png">
   <meta name="twitter:card" content="summary_large_image">
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JL2894MXJN"></script>
-  <script>
-    window.dataLayer=window.dataLayer||[];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js',new Date());gtag('config','G-JL2894MXJN');
-  </script>
+  <script src="./Adil Portfolio/analytics.js"></script>
+  <script>AdilAnalytics.initShell();</script>
 
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -80,6 +76,12 @@
       color:rgba(255,255,255,.35);
       animation:bootPulse 1.4s ease-in-out infinite}
     @keyframes bootPulse{0%,100%{opacity:.3}50%{opacity:.7}}
+
+    @media (pointer:fine){
+      #viewport{
+        transform:none;
+        transition:opacity .32s cubic-bezier(.16,1,.3,1)}
+      #viewport.ready{transform:none}}
 
     @media(prefers-reduced-motion:reduce){
       #viewport,#cover,#bar,#boot{transition-duration:.01ms!important}
@@ -239,6 +241,10 @@
       if(doc){
         interceptDoc(doc);
         if(doc.title) document.title = doc.title;
+      }
+
+      if(currentRoute && window.AdilAnalytics){
+        AdilAnalytics.trackShellRoute(currentRoute, doc && doc.title ? doc.title : document.title);
       }
 
       barDone();

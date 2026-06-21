@@ -15,12 +15,8 @@
   <meta property="og:image" content="./Adil Portfolio/adil_middle.png">
   <meta name="twitter:card" content="summary_large_image">
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JL2894MXJN"></script>
-  <script>
-    window.dataLayer=window.dataLayer||[];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js',new Date());gtag('config','G-JL2894MXJN');
-  </script>
+  <script src="./Adil Portfolio/analytics.js"></script>
+  <script>AdilAnalytics.initFrame();</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -188,12 +184,17 @@
       border-radius:24px 24px 0 0;
       border-top:1px solid rgba(255,255,255,.1);
       box-shadow:0 -24px 60px rgba(0,0,0,.65);
-      transform:translateY(calc(100% - 38vh));
+      transform:translate3d(0,calc(100% - 38svh),0);
       transition:transform .55s cubic-bezier(.32,0,.67,0);
       height:88vh;
-      display:flex;flex-direction:column;will-change:transform}
+      display:flex;flex-direction:column;
+      will-change:transform;
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden}
+    @media(prefers-reduced-motion:reduce){
+      .drawer{transition:transform .01s linear}}
 
-    .drawer.open{transform:translateY(0)}
+    .drawer.open{transform:translate3d(0,0,0)}
 
     /* Tap hero / dimmed area above drawer to dismiss */
     .drawer-dismiss{
@@ -202,16 +203,39 @@
       background:rgba(0,0,0,.28);
       backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
       opacity:0;pointer-events:none;
-      transition:opacity .35s ease}
+      transition:opacity .48s ease}
     .drawer-dismiss.show{
       display:block;opacity:1;pointer-events:auto}
 
     @media(min-width:620px){
       .drawer{max-width:500px;left:50%;right:auto;
-        transform:translateX(-50%) translateY(calc(100% - 38svh));
+        transform:translate3d(-50%,calc(100% - 38svh),0);
         border-left:1px solid rgba(255,255,255,.08);
         border-right:1px solid rgba(255,255,255,.08)}
-      .drawer.open{transform:translateX(-50%) translateY(0)}}
+      .drawer.open{transform:translate3d(-50%,0,0)}}
+
+    /* Desktop: sit drawer above bottom nav, fix dismiss + stacking */
+    @media (pointer:fine){
+      .drawer{
+        bottom:78px;
+        height:min(88vh,calc(100vh - 94px));
+        z-index:55;
+        border-radius:24px;
+        border:1px solid rgba(255,255,255,.1);
+        box-shadow:0 -20px 56px rgba(0,0,0,.55),0 8px 32px rgba(0,0,0,.35)}
+      .drawer-dismiss{
+        z-index:54;
+        bottom:78px}
+      .drawer-dismiss.show{
+        inset:auto;top:0;left:0;right:0;bottom:78px}
+      #page.drawer-open ~ .bnav{
+        opacity:0;pointer-events:none;
+        transform:translateX(-50%) translateY(10px);
+        transition:opacity .45s ease,transform .55s cubic-bezier(.32,0,.67,0)}
+      .proj-row{
+        cursor:grab;
+        scroll-behavior:smooth}
+      .proj-row:active{cursor:grabbing}}
 
     /* Handle */
     .handle-zone{
@@ -305,18 +329,10 @@
       scrollbar-width:none;margin:0 -16px;padding-left:16px;padding-right:16px}
     .proj-row::-webkit-scrollbar{display:none}
 
-    /* Desktop scroll hint — subtle fade + chevron on horizontal rows */
+    /* Desktop scroll hint — chevron only, no row-wide dark fades */
     .proj-row-wrap{position:relative}
     .proj-row-hint{display:none}
     @media (min-width:768px) and (hover:hover) and (pointer:fine){
-      .proj-row-wrap.can-scroll:not(.at-end)::after{
-        content:'';position:absolute;right:0;top:0;bottom:4px;width:52px;
-        pointer-events:none;border-radius:0 16px 16px 0;
-        background:linear-gradient(90deg,rgba(8,8,10,0),rgba(8,8,10,.55) 68%,rgba(8,8,10,.82))}
-      .proj-row-wrap.can-scroll:not(.at-start)::before{
-        content:'';position:absolute;left:0;top:0;bottom:4px;width:36px;z-index:1;
-        pointer-events:none;border-radius:16px 0 0 16px;
-        background:linear-gradient(270deg,rgba(8,8,10,0),rgba(8,8,10,.45))}
       .proj-row-hint{
         display:flex;
         position:absolute;right:12px;top:50%;z-index:2;
@@ -357,21 +373,21 @@
       transition:transform .45s ease}
     .proj-card:hover .proj-img{transform:scale(1.07)}
 
+    /* Per-card bottom scrim — each .proj-overlay is inside its own card */
     .proj-overlay{
-      position:absolute;inset:0;
+      position:absolute;left:0;right:0;bottom:0;height:88px;
+      z-index:1;pointer-events:none;
       background:linear-gradient(
-        to bottom,
-        rgba(0,0,0,0) 0%,
-        rgba(0,0,0,.05) 35%,
-        rgba(0,0,0,.65) 70%,
-        rgba(0,0,0,.9) 100%)}
+        to top,
+        rgba(0,0,0,.96) 0%,
+        rgba(0,0,0,.78) 38%,
+        rgba(0,0,0,.28) 68%,
+        rgba(0,0,0,0) 100%)}
 
-    /* Glass info bar at bottom */
     .proj-info{
-      position:absolute;bottom:0;left:0;right:0;
+      position:absolute;bottom:0;left:0;right:0;z-index:2;
       padding:10px 12px 13px;
-      background:rgba(0,0,0,.15);
-      border-top:1px solid rgba(255,255,255,.06)}
+      background:none}
     .proj-org{display:block;font-size:9px;font-weight:600;letter-spacing:1px;
       text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:2px}
     .proj-name{display:block;font-size:13px;font-weight:600;
@@ -416,11 +432,7 @@
     .mgr-card.recordr:hover .mgr-card-img{filter:saturate(1.2) contrast(1.08) brightness(1.07)}
     .mgr-card.recordr .mgr-card-img::after{
       content:'';position:absolute;inset:0;pointer-events:none;
-      background:
-        radial-gradient(ellipse 90% 70% at 50% 38%,rgba(249,115,22,.28) 0%,transparent 58%),
-        linear-gradient(to bottom,rgba(0,0,0,.04) 0%,rgba(0,0,0,.12) 42%,rgba(0,0,0,.78) 82%,rgba(0,0,0,.94) 100%)}
-    .mgr-card.recordr .proj-overlay{
-      background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.06) 38%,rgba(0,0,0,.62) 72%,rgba(0,0,0,.88) 100%)}
+      background:radial-gradient(ellipse 90% 70% at 50% 38%,rgba(249,115,22,.28) 0%,transparent 58%)}
 
     /* Image case cards — same chrome as Designer tab proj-card */
     .mgr-card.design-process.has-img,
@@ -443,15 +455,6 @@
     .mgr-card.design-process .mgr-card-img::after,
     .mgr-card.building-people .mgr-card-img::after,
     .mgr-card.xd-to-figma .mgr-card-img::after{display:none}
-    .mgr-card.design-process .proj-overlay,
-    .mgr-card.building-people .proj-overlay,
-    .mgr-card.xd-to-figma .proj-overlay{
-      background:linear-gradient(
-        to bottom,
-        rgba(0,0,0,0) 0%,
-        rgba(0,0,0,.05) 35%,
-        rgba(0,0,0,.65) 70%,
-        rgba(0,0,0,.9) 100%)}
 
     /* Unique gradient bg per card */
     .mgr-card.people{background:linear-gradient(145deg,#1a0f00 0%,#3d1f00 40%,#7a3d00 100%)}
@@ -475,15 +478,11 @@
 
     /* Metric badge */
     .mgr-card-badge{
-      position:absolute;top:12px;left:12px;
+      position:absolute;top:12px;left:12px;z-index:3;
       padding:3px 9px;border-radius:999px;
       background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.12);
       font-size:10px;font-weight:600;letter-spacing:.2px;color:rgba(255,255,255,.75)}
-
-    /* Bottom info */
-    .mgr-card .proj-overlay{
-      background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.08) 40%,rgba(0,0,0,.72) 75%,rgba(0,0,0,.9) 100%)}
 
     /* Tag line under card name */
     .mgr-card-tag{display:block;font-size:10px;font-weight:400;
@@ -543,11 +542,7 @@
     .mgr-card.qutbah:hover .mgr-card-img{filter:saturate(1.12) contrast(1.06) brightness(0.94)}
     .mgr-card.qutbah .mgr-card-img::after{
       content:'';position:absolute;inset:0;pointer-events:none;
-      background:
-        radial-gradient(ellipse 85% 50% at 50% 22%,rgba(52,211,153,.2) 0%,transparent 58%),
-        linear-gradient(to bottom,rgba(0,0,0,.02) 0%,rgba(0,0,0,.1) 40%,rgba(0,0,0,.78) 82%,rgba(0,0,0,.94) 100%)}
-    .mgr-card.qutbah .proj-overlay{
-      background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.06) 38%,rgba(0,0,0,.62) 72%,rgba(0,0,0,.88) 100%)}
+      background:radial-gradient(ellipse 85% 50% at 50% 22%,rgba(52,211,153,.2) 0%,transparent 58%)}
     .mgr-card.ai-card.qutbah .mgr-card-badge{
       background:rgba(52,211,153,.16);
       border-color:rgba(110,231,183,.32);
@@ -760,7 +755,19 @@
     .pdrawer-soon::before{content:'';width:6px;height:6px;border-radius:50%;
       background:#f5c040;box-shadow:0 0 8px rgba(245,192,64,.7)}
 
-    @media(min-width:620px){.pdrawer-inner:not(.is-expanded){height:92vh}}
+    @media(min-width:620px){.pdrawer-inner:not(.is-expanded){height:min(92vh,900px)}}
+
+    @media (pointer:fine){
+      .pdrawer{align-items:center;padding:24px}
+      .pdrawer-inner:not(.is-expanded){
+        height:min(88vh,860px);
+        border-radius:24px;
+        border:1px solid rgba(255,255,255,.1);
+        transform:translateY(24px) scale(.98)}
+      .pdrawer.on .pdrawer-inner:not(.is-expanded){transform:translateY(0) scale(1)}
+      .pdrawer-inner.is-expanded{
+        width:100%;height:100%;
+        border-radius:0}}
 
     /* ── CONTACT SHEET ────────────────────── */
     .csheet{
@@ -780,6 +787,22 @@
       padding-bottom:env(safe-area-inset-bottom,20px);
       transform:translateY(100%);transition:transform .45s cubic-bezier(.32,0,.67,0)}
     .csheet.on .csheet-inner{transform:translateY(0)}
+
+    @media (min-width:768px) and (pointer:fine){
+      .csheet{align-items:center;padding:24px}
+      .csheet-inner{
+        max-width:440px;
+        border-radius:24px;
+        border:1px solid rgba(255,255,255,.1);
+        box-shadow:0 24px 80px rgba(0,0,0,.65);
+        transform:translateY(12px) scale(.97);
+        opacity:0;
+        transition:
+          transform .4s cubic-bezier(.16,1,.3,1),
+          opacity .35s ease}
+      .csheet.on .csheet-inner{
+        transform:translateY(0) scale(1);
+        opacity:1}}
 
     .csheet-handle-zone{padding:12px 0 4px;display:flex;justify-content:center;cursor:pointer}
 
@@ -1188,8 +1211,7 @@
             <div class="proj-overlay"></div>
             <div class="proj-info">
               <span class="proj-org">Translation · AI</span>
-              <span class="proj-name">Qutbah</span>
-              <span class="mgr-card-tag">Live Arabic khutbah translations</span>
+              <span class="proj-name">Qutbah a live Khutbah to english translation</span>
             </div>
           </div>
 
@@ -1200,8 +1222,7 @@
             <div class="proj-overlay"></div>
             <div class="proj-info">
               <span class="proj-org">Qatar · Automotive</span>
-              <span class="proj-name">Imshi</span>
-              <span class="mgr-card-tag">Qatar's car marketplace</span>
+              <span class="proj-name">IMSHI a car marketplace</span>
             </div>
           </div>
 
@@ -1211,8 +1232,7 @@
             <div class="proj-overlay"></div>
             <div class="proj-info">
               <span class="proj-org">Tool · Recording</span>
-              <span class="proj-name">Recordr</span>
-              <span class="mgr-card-tag">Open source screen recording with mouse movements</span>
+              <span class="proj-name">Recordr open source screen recording</span>
             </div>
           </div>
 
@@ -1224,7 +1244,6 @@
             <div class="proj-info">
               <span class="proj-org">WebGL · 3D</span>
               <span class="proj-name">Elevare</span>
-              <span class="mgr-card-tag">WebGL 3D website concept</span>
             </div>
           </div>
 
@@ -1318,6 +1337,13 @@
 
   const isTouchUI=window.matchMedia('(pointer:coarse)').matches;
 
+  function aa(name,params){
+    if(window.AdilAnalytics) AdilAnalytics.event(name,params||{});
+  }
+  function modeLabel(m){
+    return m==='mgr'?'manager':m==='ai'?'ai':'designer';
+  }
+
   /* ── OPEN / CLOSE ── */
   function openDrawer(m){
     if(open)return;
@@ -1332,6 +1358,7 @@
     drawerDismiss.tabIndex=0;
     open=true;
     setNav(m);
+    aa('drawer_open',{portfolio_mode:modeLabel(m)});
   }
 
   function closeDrawer(){
@@ -1347,6 +1374,7 @@
     open=false;
     if(nbDsn) nbDsn.className='nb';
     if(nbMgr) nbMgr.className='nb';
+    aa('drawer_close',{portfolio_mode:modeLabel(mode)});
   }
 
   /* Lock vertical scroll in drawer peek state (Safari fallback) */
@@ -1415,6 +1443,7 @@
   }
 
   function applyMode(m){
+    const prev=mode;
     mode=m;
     tabDsn.classList.toggle('on',m==='dsn');
     tabMgr.classList.toggle('on',m==='mgr');
@@ -1425,6 +1454,7 @@
     document.body.classList.toggle('mgr',m==='mgr');
     document.body.classList.toggle('ai',m==='ai');
     scrollEl.scrollTop=0;
+    if(prev!==m) aa('portfolio_mode',{portfolio_mode:modeLabel(m),previous_mode:modeLabel(prev)});
   }
 
   function setNav(m){
@@ -1605,6 +1635,7 @@
       const btn=e.target.closest('.nb');
       if(!btn)return;
       activateNav(btn);
+      aa('nav_click',{nav_destination:(btn.id||'').replace(/^nb/,'').toLowerCase()||'unknown'});
     });
 
     setTimeout(()=>{updateRing();draw();},120);
@@ -1629,7 +1660,14 @@
     if(open)closeDrawer();
   });
 
-  /* ── TOUCH DRAG — handle + tabs only on phone; never on document ── */
+  function overlayBlocksDrawer(){
+    return $('lbg').classList.contains('on')||
+           $('csheet').classList.contains('on')||
+           $('thinking').classList.contains('on')||
+           $('pdrawer').classList.contains('on');
+  }
+
+  /* ── TOUCH DRAG — handle + tabs on phone; never on document ── */
   (function initDrawerTouch(){
     const handleZone=$('handleZone');
     const tabs=drawer.querySelector('.tabs');
@@ -1646,8 +1684,7 @@
     }
 
     function onStart(e){
-      if($('pdrawer').classList.contains('on'))return;
-      if($('csheet').classList.contains('on'))return;
+      if(overlayBlocksDrawer())return;
       const t=e.target;
       activeZone=touchZone(t);
       if(!activeZone)return;
@@ -1704,24 +1741,24 @@
   })();
 
   /* ── SCROLL / WHEEL to open drawer (desktop only) ── */
-  let wheelLock = false;
-  document.addEventListener('wheel', e => {
-    if(isTouchUI) return;
-    if(wheelLock) return;
-    if($('pdrawer').classList.contains('on')) return;
-    if(e.deltaY > 18 && !open){
-      wheelLock = true;
+  let wheelLock=false;
+  document.addEventListener('wheel',e=>{
+    if(isTouchUI)return;
+    if(wheelLock)return;
+    if(overlayBlocksDrawer())return;
+    if(e.target.closest('.proj-row'))return;
+    if(e.deltaY>18&&!open){
+      wheelLock=true;
       openDrawer(mode);
-      setTimeout(()=>{ wheelLock=false; }, 600);
-    } else if(e.deltaY < -18 && open){
-      // Only close if the drawer scroll content is at the top
-      if(scrollEl.scrollTop <= 0){
-        wheelLock = true;
+      setTimeout(()=>{wheelLock=false;},600);
+    }else if(e.deltaY<-18&&open){
+      if(scrollEl.scrollTop<=0){
+        wheelLock=true;
         closeDrawer();
-        setTimeout(()=>{ wheelLock=false; }, 600);
+        setTimeout(()=>{wheelLock=false;},600);
       }
     }
-  }, {passive:true});
+  },{passive:true});
 
   /* ── CONTACT SHEET ── */
   function openContact(){
@@ -1730,13 +1767,17 @@
     if(currentActive && currentActive.id!=='nbContact') contactPrevActiveId=currentActive.id;
     $('csheet').classList.add('on');
     $('nbContact').classList.add('contact-on');
+    document.body.style.overflow='hidden';
     if(window.__activateBottomNavById) window.__activateBottomNavById('nbContact');
+    aa('contact_open');
   }
   function closeContact(){
     $('csheet').classList.remove('on');
     $('nbContact').classList.remove('contact-on');
+    document.body.style.overflow='';
     const restoreId=contactPrevActiveId||'nbHome';
     if(window.__activateBottomNavById) window.__activateBottomNavById(restoreId);
+    aa('contact_close');
   }
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeContact()});
 
@@ -1744,10 +1785,15 @@
   function openLb(src,label){
     $('lbImg').src=src;$('lbLabel').textContent=label;
     $('lbg').classList.add('on');
+    document.body.style.overflow='hidden';
+    aa('lightbox_open',{image_label:label||''});
   }
   function closeLb(e){
     if(e&&e.target!==$('lbg'))return;
     $('lbg').classList.remove('on');
+    if(!$('csheet').classList.contains('on')&&!$('pdrawer').classList.contains('on')){
+      document.body.style.overflow='';
+    }
   }
   document.addEventListener('keydown',e=>{if(e.key==='Escape')$('lbg').classList.remove('on')});
 
@@ -1780,9 +1826,11 @@
       return target.scrollTop||0;
     };
     const onScroll=()=>{
-      const y=readY();
-      if(!pScrollExpanded&&y>PSCROLL_EXPAND)setDrawerExpanded(true);
-      else if(pScrollExpanded&&y<=PSCROLL_COLLAPSE)setDrawerExpanded(false);
+      if(isTouchUI){
+        const y=readY();
+        if(!pScrollExpanded&&y>PSCROLL_EXPAND)setDrawerExpanded(true);
+        else if(pScrollExpanded&&y<=PSCROLL_COLLAPSE)setDrawerExpanded(false);
+      }
     };
     target.addEventListener('scroll',onScroll,{passive:true});
     pScrollCleanup=()=>target.removeEventListener('scroll',onScroll);
@@ -1856,6 +1904,17 @@
     }
     pdrawer.classList.add('on');
     document.body.style.overflow='hidden';
+    let casePath='';
+    if(opts.url){
+      try{casePath=new URL(opts.url,location.href).pathname;}catch(e){casePath=opts.url;}
+    }
+    aa('case_study_open',{
+      project_name:opts.name||'',
+      project_org:opts.org||'',
+      portfolio_mode:modeLabel(mode),
+      case_study_path:casePath,
+      inline_preview:!opts.url
+    });
   }
 
   function closeProjectDrawer(){
@@ -1867,6 +1926,7 @@
       pframe.src='about:blank';pframe.classList.remove('ready');
       pInline.classList.remove('show');pInline.innerHTML='';
     },520);
+    aa('case_study_close');
   }
 
   function stripLegacyChromeInFrame(){
@@ -1967,6 +2027,14 @@
 
       function refresh(){updateWrap(wrap,row);}
       row.addEventListener('scroll',refresh,{passive:true});
+      if(!isTouchUI){
+        row.addEventListener('wheel',function(e){
+          if(row.scrollWidth<=row.clientWidth+6)return;
+          if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;
+          e.preventDefault();
+          row.scrollLeft+=e.deltaY;
+        },{passive:false});
+      }
       window.addEventListener('resize',refresh);
       if(typeof ResizeObserver!=='undefined'){
         var ro=new ResizeObserver(refresh);
