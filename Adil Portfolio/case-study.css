@@ -37,6 +37,14 @@ html.case-study[data-embed] body {
   -webkit-overflow-scrolling: touch;
 }
 
+@media (pointer: coarse) {
+  html.case-study[data-embed],
+  html.case-study[data-embed] body {
+    touch-action: pan-y;
+    overscroll-behavior-y: contain;
+  }
+}
+
 html.case-study body {
   margin: 0;
 }

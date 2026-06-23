@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>IMSHI — Product Shot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  width:1440px;height:900px;overflow:hidden;
+  background:#0a0909;
+  font-family:'DM Sans',system-ui,sans-serif;
+  position:relative}
+.bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 820px 640px at 72% 42%,rgba(236,72,153,.09) 0%,transparent 62%),
+    radial-gradient(ellipse 480px 380px at 12% 18%,rgba(251,146,60,.06) 0%,transparent 58%),
+    linear-gradient(155deg,#121010 0%,#0a0909 55%,#080707 100%)}
+.left{
+  position:absolute;left:88px;top:50%;transform:translateY(-50%);
+  width:500px;z-index:10}
+.badge{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:5px 13px;border-radius:999px;
+  background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.28);
+  color:#f9a8d4;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:22px}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#ec4899;box-shadow:0 0 8px rgba(236,72,153,.7)}
+.logo-row{display:flex;align-items:center;gap:18px;margin-bottom:14px}
+.logo-row img{width:64px;height:64px;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.app-name{font-size:76px;font-weight:800;color:#fff;letter-spacing:-3px;line-height:1}
+.tagline{font-size:22px;line-height:1.45;color:rgba(255,255,255,.52);max-width:28ch;margin:18px 0 32px;letter-spacing:-.02em}
+.stats{display:flex;gap:28px}
+.stat strong{display:block;font-size:28px;font-weight:800;color:#fff;letter-spacing:-1px}
+.stat span{font-size:12px;color:rgba(255,255,255,.38);letter-spacing:.04em;text-transform:uppercase}
+.phones{
+  position:absolute;right:64px;top:50%;transform:translateY(-50%);
+  width:760px;height:780px;z-index:5}
+.phone{
+  position:absolute;
+  border-radius:44px;padding:11px;
+  background:linear-gradient(145deg,#3a3a3a,#161616);
+  box-shadow:0 50px 120px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.06)}
+.phone img{
+  display:block;width:100%;height:auto;border-radius:34px;
+  background:#f3f2f1}
+.phone--back{
+  right:0;top:48px;width:300px;
+  transform:rotate(5deg);
+  box-shadow:0 40px 100px rgba(0,0,0,.55)}
+.phone--front{
+  left:24px;top:0;width:320px;z-index:2}
+.label{
+  position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);
+  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.32);white-space:nowrap}
+.phone--front .label{color:rgba(249,168,212,.55)}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="left">
+  <div class="badge">Qatar · Marketplace</div>
+  <div class="logo-row">
+    <img src="imshi-icon.png" alt="">
+    <div class="app-name">IMSHI</div>
+  </div>
+  <p class="tagline">A car marketplace for petrol heads — browse, list, and connect without the clutter.</p>
+  <div class="stats">
+    <div class="stat"><strong>146</strong><span>Makes indexed</span></div>
+    <div class="stat"><strong>49.8k</strong><span>Vehicle variants</span></div>
+    <div class="stat"><strong>QAR</strong><span>Local pricing</span></div>
+  </div>
+</div>
+<div class="phones">
+  <div class="phone phone--back">
+    <img src="imshi-home-search.png" alt="IMSHI homepage with expanded search filters" width="440" height="956">
+    <span class="label">Search filters</span>
+  </div>
+  <div class="phone phone--front">
+    <img src="imshi-home.png" alt="IMSHI homepage — search widget, body types, recently viewed" width="440" height="956">
+    <span class="label">Home</span>
+  </div>
+</div>
+</body>
+</html>

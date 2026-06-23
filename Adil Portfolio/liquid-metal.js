@@ -48,8 +48,10 @@
     '  uv.x*=asp;',
     '  float r=length(uv);',
     '  float theta=atan(uv.y,uv.x);',
-    '  float inner=0.62, outer=0.92;',
-    '  float ring=smoothstep(inner-0.04,inner,r)*smoothstep(outer+0.04,outer,r);',
+    '  float midR=0.80;',
+    '  float ringHalf=0.095;',
+    '  float ringDist=abs(r-midR);',
+    '  float ring=1.0-smoothstep(ringHalf-0.018,ringHalf+0.018,ringDist);',
     '  float t=u_t*0.28;',
     '  vec2 noiseUV=vec2(theta/(2.0*3.14159)+0.5, r);',
     '  noiseUV+=vec2(t*0.4, t*0.15);',
@@ -61,11 +63,7 @@
     '  float specDist=abs(fract(a-specAngle+0.5)-0.5)*2.0;',
     '  float spec=pow(max(0.0,1.0-specDist),4.0)*1.8;',
     '  col+=vec3(spec*0.9,spec*0.85,spec*0.7);',
-    '  float depthMask=smoothstep(inner,outer,r);',
-    '  col*=0.55+0.7*depthMask;',
-    '  float rim=smoothstep(outer,outer-0.06,r)*smoothstep(inner,inner+0.06,r);',
-    '  col+=vec3(0.08,0.06,0.12)*rim;',
-    '  float alpha=ring*smoothstep(0.0,0.04,ring);',
+    '  float alpha=ring;',
     '  gl_FragColor=vec4(col*alpha,alpha);',
     '}'
   ].join('\n');
@@ -124,10 +122,11 @@
       var r = targetEl.getBoundingClientRect();
       var c = containerEl.getBoundingClientRect();
       var pad = 3;
-      var w = r.width + pad * 2;
-      var h = r.height + pad * 2;
-      ringEl.style.left = r.left - c.left - pad + 'px';
-      ringEl.style.top = r.top - c.top - pad + 'px';
+      var side = Math.max(r.width, r.height) + pad * 2;
+      var w = side;
+      var h = side;
+      ringEl.style.left = (r.left - c.left - (side - r.width) / 2) + 'px';
+      ringEl.style.top = (r.top - c.top - (side - r.height) / 2) + 'px';
       ringEl.style.width = w + 'px';
       ringEl.style.height = h + 'px';
       ringEl.style.opacity = '1';

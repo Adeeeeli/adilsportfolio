@@ -35,19 +35,21 @@
       z-index:1}
     #viewport.ready{opacity:1;transform:scale(1)}
 
-    /* iOS Safari: clip iframe to visible area; page scroll collapses toolbar */
+    /* Touch / tablet: scroll inside the iframe — parent shell stays fixed */
     .scroll-runway{display:none}
     @media (pointer:coarse){
-      body{min-height:calc(var(--shell-h,100dvh) + 72px)}
-      html{overscroll-behavior-y:auto}
+      html,body{
+        height:100%;
+        min-height:0;
+        overflow:hidden}
       #viewport{
-        position:sticky;top:0;
-        inset:auto;
+        position:fixed;
+        top:0;left:0;right:0;bottom:0;
+        width:100%;
         height:var(--shell-h,100dvh);
-        touch-action:pan-y}
-      .scroll-runway{
-        display:block;height:72px;width:100%;
-        pointer-events:none}}
+        max-height:100dvh;
+        touch-action:auto}
+      .scroll-runway{display:none!important}}
 
     /* ── CROSSFADE COVER ── */
     #cover{

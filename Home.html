@@ -66,7 +66,8 @@
       opacity:.025}
 
     /* ── HERO ──────────────────────────────── */
-    .page{position:relative;z-index:1;width:100%;height:100%;overflow:hidden}
+    .page{position:relative;z-index:1;width:100%;height:100%;overflow:hidden;
+      touch-action:pan-y}
 
     /* Name behind portrait */
     .hero-name-back{
@@ -302,7 +303,7 @@
       padding:4px 16px calc(88px + var(--safe-bottom));
       scrollbar-width:none;
       overscroll-behavior:contain;
-      touch-action:pan-x pinch-zoom}
+      touch-action:pan-y pinch-zoom}
     .drawer.open .scroll{
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
@@ -550,6 +551,27 @@
       backdrop-filter:blur(8px);
       -webkit-backdrop-filter:blur(8px)}
 
+    .mgr-card.imshi.has-img{
+      background:#050505;
+      border-color:rgba(236,72,153,.2);
+      box-shadow:0 2px 16px rgba(0,0,0,.45),0 0 0 1px rgba(236,72,153,.05) inset}
+    .mgr-card.imshi.has-img:hover{
+      box-shadow:0 10px 36px rgba(0,0,0,.55),0 0 32px rgba(236,72,153,.16),0 0 0 1px rgba(249,168,212,.12) inset}
+    .mgr-card.imshi .mgr-card-img{
+      background-position:center 38%;
+      background-size:cover;
+      filter:saturate(1.05) contrast(1.03) brightness(0.9)}
+    .mgr-card.imshi:hover .mgr-card-img{filter:saturate(1.08) contrast(1.05) brightness(0.92)}
+    .mgr-card.imshi .mgr-card-img::after{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 85% 50% at 50% 22%,rgba(236,72,153,.18) 0%,transparent 58%)}
+    .mgr-card.ai-card.imshi .mgr-card-badge{
+      background:rgba(236,72,153,.14);
+      border-color:rgba(249,168,212,.28);
+      color:rgba(251,207,232,.96);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px)}
+
     /* Body.ai orb shift */
     body.ai .orb.a{background:radial-gradient(circle,rgba(120,40,220,0.45) 0%,transparent 70%);opacity:.13}
     body.ai .orb.b{background:radial-gradient(circle,rgba(80,20,180,0.4) 0%,transparent 70%);opacity:.09}
@@ -600,16 +622,14 @@
       background:radial-gradient(circle at 38% 32%,#1c1c1e 0%,#050505 100%);
       color:rgba(255,255,255,.88);
       box-shadow:inset 0 1px 2px rgba(255,255,255,.06),inset 0 -2px 6px rgba(0,0,0,.5)}
-    /* lm-ring: WebGL canvas masked to a thin donut ring around active button */
+    /* lm-ring: WebGL canvas — ring geometry from shader (uniform annulus) */
     .lm-ring{
       position:absolute;
       pointer-events:none;
       z-index:1;
       border-radius:999px;
       opacity:0;
-      /* donut mask — outer full circle, inner transparent hole */
-      -webkit-mask-image:radial-gradient(circle,transparent 47%,black 50%,black 100%);
-      mask-image:radial-gradient(circle,transparent 47%,black 50%,black 100%);
+      overflow:hidden;
       transition:left .35s cubic-bezier(.34,1.46,.64,1),
                  top .35s cubic-bezier(.34,1.46,.64,1),
                  opacity .22s ease}
@@ -651,6 +671,15 @@
       backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
       opacity:0;pointer-events:none;transition:opacity .4s ease}
     .pdrawer.on{opacity:1;pointer-events:all}
+    .pdrawer.is-closing{
+      transition:opacity .42s ease}
+    .pdrawer.is-closing .pdrawer-inner{
+      transition:
+        transform .58s cubic-bezier(.18,1,.34,1),
+        width .47s cubic-bezier(.18,1,.34,1),
+        height .47s cubic-bezier(.18,1,.34,1),
+        border-radius .47s cubic-bezier(.18,1,.34,1),
+        box-shadow .47s ease}
     .pdrawer-inner{
       position:relative;
       width:min(980px,100%);height:94vh;
@@ -757,17 +786,17 @@
 
     @media(min-width:620px){.pdrawer-inner:not(.is-expanded){height:min(92vh,900px)}}
 
-    @media (pointer:fine){
-      .pdrawer{align-items:center;padding:24px}
-      .pdrawer-inner:not(.is-expanded){
-        height:min(88vh,860px);
-        border-radius:24px;
-        border:1px solid rgba(255,255,255,.1);
-        transform:translateY(24px) scale(.98)}
-      .pdrawer.on .pdrawer-inner:not(.is-expanded){transform:translateY(0) scale(1)}
-      .pdrawer-inner.is-expanded{
-        width:100%;height:100%;
-        border-radius:0}}
+    /* Touch — let case study content scroll natively inside the drawer */
+    @media (pointer:coarse){
+      .pdrawer-body,
+      .pdrawer-frame,
+      .pdrawer-inline{
+        touch-action:pan-y;
+        -webkit-overflow-scrolling:touch}
+      .pdrawer-head,
+      .pdrawer-grip{
+        touch-action:none}
+    }
 
     /* ── CONTACT SHEET ────────────────────── */
     .csheet{
@@ -1215,9 +1244,8 @@
             </div>
           </div>
 
-          <div class="mgr-card ai-card pink">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">◈</div>
+          <div class="mgr-card ai-card pink has-img imshi" data-case-url="./Imshi.html">
+            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/imshi/imshi-card.png')"></div>
             <div class="mgr-card-badge">Marketplace</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
@@ -1387,6 +1415,7 @@
     const page=$('page'),tilt=$('heroPhotoTilt');
     if(!page||!tilt)return;
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    if(isTouchUI)return;
 
     const MAX_SHIFT=9;
     const MAX_TILT=4;
@@ -1526,9 +1555,11 @@
         float r=length(uv);
         float theta=atan(uv.y,uv.x); // -pi..pi
 
-        // Ring mask — thin band
-        float inner=0.62, outer=0.92;
-        float ring=smoothstep(inner-0.04,inner,r)*smoothstep(outer+0.04,outer,r);
+        // Uniform-thickness annulus — same width at every angle
+        float midR=0.80;
+        float ringHalf=0.095;
+        float ringDist=abs(r-midR);
+        float ring=1.0-smoothstep(ringHalf-0.018,ringHalf+0.018,ringDist);
 
         // Polar-noise for organic flow on the ring
         float t=u_t*0.28;
@@ -1547,15 +1578,7 @@
         float spec=pow(max(0.0,1.0-specDist),4.0)*1.8;
         col+=vec3(spec*0.9,spec*0.85,spec*0.7);
 
-        // Depth: darker at inner edge, brighter at outer
-        float depthMask=smoothstep(inner,outer,r);
-        col*=0.55+0.7*depthMask;
-
-        // Subtle rim glow
-        float rim=smoothstep(outer,outer-0.06,r)*smoothstep(inner,inner+0.06,r);
-        col+=vec3(0.08,0.06,0.12)*rim;
-
-        float alpha=ring*smoothstep(0.0,0.04,ring);
+        float alpha=ring;
         gl_FragColor=vec4(col*alpha,alpha);
       }
     `;
@@ -1608,9 +1631,10 @@
       const r=el.getBoundingClientRect();
       const navRect=$('bnav').getBoundingClientRect();
       const pad=3;
-      const w=r.width+pad*2, h=r.height+pad*2;
-      ring.style.left=(r.left-navRect.left-pad)+'px';
-      ring.style.top=(r.top-navRect.top-pad)+'px';
+      const side=Math.max(r.width,r.height)+pad*2;
+      const w=side, h=side;
+      ring.style.left=(r.left-navRect.left-(side-r.width)/2)+'px';
+      ring.style.top=(r.top-navRect.top-(side-r.height)/2)+'px';
       ring.style.width=w+'px';
       ring.style.height=h+'px';
       ring.style.opacity='1';
@@ -1667,20 +1691,27 @@
            $('pdrawer').classList.contains('on');
   }
 
-  /* ── TOUCH DRAG — handle + tabs on phone; never on document ── */
+  /* ── TOUCH DRAG — swipe up on hero + drawer peek; rows stay horizontal ── */
   (function initDrawerTouch(){
     const handleZone=$('handleZone');
     const tabs=drawer.querySelector('.tabs');
+    const pageEl=$('page');
     let sy0=0,sx0=0,st0=0,tracking=false,axis=null,activeZone=null;
 
     function touchZone(t){
       if(t.closest('.proj-row'))return null;
+      if(t.closest('.bnav'))return null;
       if(handleZone.contains(t))return 'handle';
       if(tabs&&tabs.contains(t))return 'header';
-      if(isTouchUI)return null;
       if(open&&scrollEl.contains(t)&&scrollEl.scrollTop<=0)return 'scroll-top';
       if(!open&&drawer.contains(t))return 'drawer';
+      if(!open&&pageEl.contains(t))return 'page';
       return null;
+    }
+
+    function canCloseOnSwipeDown(){
+      return activeZone==='handle'||
+        (scrollEl.scrollTop<=0&&(activeZone==='scroll-top'||activeZone==='header'));
     }
 
     function onStart(e){
@@ -1705,7 +1736,7 @@
       }
       if(axis!=='y')return;
       if(!open&&dy>10)e.preventDefault();
-      if(open&&dy<-10&&scrollEl.scrollTop<=0&&activeZone==='handle')e.preventDefault();
+      if(open&&dy<-10&&canCloseOnSwipeDown())e.preventDefault();
     }
 
     function onEnd(e){
@@ -1723,15 +1754,20 @@
 
       if(swipeUp&&!open){
         openDrawer(mode);
-      }else if(swipeDown&&open&&(activeZone==='handle'||(!isTouchUI&&scrollEl.scrollTop<=0))){
+      }else if(swipeDown&&open&&canCloseOnSwipeDown()){
         closeDrawer();
       }
     }
 
-    drawer.addEventListener('touchstart',onStart,{passive:true});
-    drawer.addEventListener('touchmove',onMove,{passive:false});
-    drawer.addEventListener('touchend',onEnd,{passive:true});
-    drawer.addEventListener('touchcancel',onEnd,{passive:true});
+    function bindTouch(el){
+      el.addEventListener('touchstart',onStart,{passive:true});
+      el.addEventListener('touchmove',onMove,{passive:false});
+      el.addEventListener('touchend',onEnd,{passive:true});
+      el.addEventListener('touchcancel',onEnd,{passive:true});
+    }
+
+    bindTouch(drawer);
+    bindTouch(pageEl);
 
     document.querySelectorAll('.proj-row').forEach(row=>{
       row.addEventListener('touchstart',e=>e.stopPropagation(),{passive:true,capture:true});
@@ -1804,6 +1840,14 @@
         pOrg=$('pdrawerOrg'),pName=$('pdrawerName'),pDot=$('pdrawerDot');
   let pbarTimer=null,pScrollCleanup=null,pScrollExpanded=false;
   const PSCROLL_EXPAND=12,PSCROLL_COLLAPSE=4;
+  const PSCROLL_EXPAND_TOUCH=6,PSCROLL_COLLAPSE_TOUCH=8;
+  const PTOUCH_CLOSE_DIST=52,PTOUCH_CLOSE_VEL=0.32;
+
+  function pScrollThresholds(){
+    return isTouchUI
+      ? {expand:PSCROLL_EXPAND_TOUCH,collapse:PSCROLL_COLLAPSE_TOUCH}
+      : {expand:PSCROLL_EXPAND,collapse:PSCROLL_COLLAPSE};
+  }
 
   function setDrawerExpanded(on){
     pScrollExpanded=on;
@@ -1818,22 +1862,137 @@
   function bindDrawerScroll(target,isWindow){
     unbindDrawerScroll();
     if(!target)return;
+    const pdrawerBody=pdrawer.querySelector('.pdrawer-body');
     const readY=()=>{
       if(isWindow){
-        const d=target.document;
-        return Math.max(target.scrollY||0,d.documentElement.scrollTop||0,d.body.scrollTop||0);
+        try{
+          const d=target.document;
+          return Math.max(target.scrollY||0,d.documentElement.scrollTop||0,d.body.scrollTop||0);
+        }catch(e){return 0;}
       }
       return target.scrollTop||0;
     };
     const onScroll=()=>{
-      if(isTouchUI){
-        const y=readY();
-        if(!pScrollExpanded&&y>PSCROLL_EXPAND)setDrawerExpanded(true);
-        else if(pScrollExpanded&&y<=PSCROLL_COLLAPSE)setDrawerExpanded(false);
+      const {expand,collapse}=pScrollThresholds();
+      const y=readY();
+      if(!pScrollExpanded&&y>expand)setDrawerExpanded(true);
+      else if(pScrollExpanded&&y<=collapse)setDrawerExpanded(false);
+    };
+    const onWheelClose=(e)=>{
+      if(isTouchUI)return;
+      if(!pdrawer.classList.contains('on'))return;
+      const {collapse}=pScrollThresholds();
+      if(readY()>collapse)return;
+      if(e.deltaY>=-8)return;
+      e.preventDefault();
+      closeProjectDrawer();
+    };
+    let touchStartY=0,touchStartT=0,touchPulling=false;
+    const onTouchStart=(e)=>{
+      if(!isTouchUI||!pdrawer.classList.contains('on'))return;
+      const {collapse}=pScrollThresholds();
+      if(readY()>collapse)return;
+      touchStartY=e.touches[0].clientY;
+      touchStartT=Date.now();
+      touchPulling=true;
+    };
+    const onTouchMove=(e)=>{
+      if(!touchPulling||!isTouchUI||!pdrawer.classList.contains('on'))return;
+      const {collapse}=pScrollThresholds();
+      if(readY()>collapse){touchPulling=false;return;}
+      const dy=e.touches[0].clientY-touchStartY;
+      if(dy<10)return;
+      const dt=Math.max(Date.now()-touchStartT,1);
+      if(dy>PTOUCH_CLOSE_DIST||(dy>28&&dy/dt>PTOUCH_CLOSE_VEL)){
+        touchPulling=false;
+        closeProjectDrawer();
       }
     };
-    target.addEventListener('scroll',onScroll,{passive:true});
-    pScrollCleanup=()=>target.removeEventListener('scroll',onScroll);
+    const onTouchEnd=()=>{touchPulling=false;};
+    const scrollNodes=[target];
+    if(isWindow){
+      try{
+        const d=target.document;
+        if(d.documentElement&&d.documentElement!==target)scrollNodes.push(d.documentElement);
+        if(d.body&&d.body!==target)scrollNodes.push(d.body);
+      }catch(e){}
+    }
+    scrollNodes.forEach(node=>node.addEventListener('scroll',onScroll,{passive:true}));
+    if(!isTouchUI){
+      target.addEventListener('wheel',onWheelClose,{passive:false,capture:true});
+      pdrawerBody.addEventListener('wheel',onWheelClose,{passive:false,capture:true});
+    }
+    let touchEl=pdrawerBody;
+    if(isWindow){
+      try{touchEl=target.document;}catch(e){}
+    }
+    if(isTouchUI){
+      touchEl.addEventListener('touchstart',onTouchStart,{passive:true});
+      touchEl.addEventListener('touchmove',onTouchMove,{passive:true});
+      touchEl.addEventListener('touchend',onTouchEnd,{passive:true});
+      touchEl.addEventListener('touchcancel',onTouchEnd,{passive:true});
+      bindCaseDrawerSheetTouch();
+    }
+    pScrollCleanup=()=>{
+      scrollNodes.forEach(node=>node.removeEventListener('scroll',onScroll));
+      if(!isTouchUI){
+        target.removeEventListener('wheel',onWheelClose,{capture:true});
+        pdrawerBody.removeEventListener('wheel',onWheelClose,{capture:true});
+      }
+      if(isTouchUI){
+        touchEl.removeEventListener('touchstart',onTouchStart);
+        touchEl.removeEventListener('touchmove',onTouchMove);
+        touchEl.removeEventListener('touchend',onTouchEnd);
+        touchEl.removeEventListener('touchcancel',onTouchEnd);
+        unbindCaseDrawerSheetTouch();
+      }
+    };
+  }
+
+  let pSheetTouchCleanup=null;
+  function bindCaseDrawerSheetTouch(){
+    unbindCaseDrawerSheetTouch();
+    if(!isTouchUI)return;
+    const grip=pdrawer.querySelector('.pdrawer-grip');
+    const head=pdrawer.querySelector('.pdrawer-head');
+    let sy0=0,st0=0,tracking=false;
+    function onStart(e){
+      if(!pdrawer.classList.contains('on'))return;
+      sy0=e.touches[0].clientY;
+      st0=Date.now();
+      tracking=true;
+    }
+    function onMove(e){
+      if(!tracking)return;
+      const dy=e.touches[0].clientY-sy0;
+      if(dy>12)e.preventDefault();
+    }
+    function onEnd(e){
+      if(!tracking)return;
+      tracking=false;
+      const dy=e.changedTouches[0].clientY-sy0;
+      const dt=Math.max(Date.now()-st0,1);
+      if(dy>36||(dy>20&&dy/dt>0.28))closeProjectDrawer();
+    }
+    [grip,head].forEach(el=>{
+      if(!el)return;
+      el.addEventListener('touchstart',onStart,{passive:true});
+      el.addEventListener('touchmove',onMove,{passive:false});
+      el.addEventListener('touchend',onEnd,{passive:true});
+      el.addEventListener('touchcancel',onEnd,{passive:true});
+    });
+    pSheetTouchCleanup=()=>{
+      [grip,head].forEach(el=>{
+        if(!el)return;
+        el.removeEventListener('touchstart',onStart);
+        el.removeEventListener('touchmove',onMove);
+        el.removeEventListener('touchend',onEnd);
+        el.removeEventListener('touchcancel',onEnd);
+      });
+    };
+  }
+  function unbindCaseDrawerSheetTouch(){
+    if(pSheetTouchCleanup){pSheetTouchCleanup();pSheetTouchCleanup=null;}
   }
 
   function pbarStart(){
@@ -1917,15 +2076,20 @@
     });
   }
 
+  const PDRAWER_CLOSE_MS=580;
+
   function closeProjectDrawer(){
     setDrawerExpanded(false);
     unbindDrawerScroll();
+    unbindCaseDrawerSheetTouch();
+    pdrawer.classList.add('is-closing');
     pdrawer.classList.remove('on');
     document.body.style.overflow='';
     setTimeout(()=>{
+      pdrawer.classList.remove('is-closing');
       pframe.src='about:blank';pframe.classList.remove('ready');
       pInline.classList.remove('show');pInline.innerHTML='';
-    },520);
+    },PDRAWER_CLOSE_MS);
     aa('case_study_close');
   }
 
@@ -1934,6 +2098,14 @@
       const doc=pframe.contentDocument;
       if(!doc)return;
       doc.documentElement.setAttribute('data-embed','');
+      if(isTouchUI){
+        doc.documentElement.style.touchAction='pan-y';
+        doc.documentElement.style.webkitOverflowScrolling='touch';
+        if(doc.body){
+          doc.body.style.touchAction='pan-y';
+          doc.body.style.webkitOverflowScrolling='touch';
+        }
+      }
       doc.querySelectorAll(
         '.navigation-wrap,.menu,.w-nav,.w-nav-menu,footer.footer-dark,#footer'
       ).forEach(el=>el.remove());

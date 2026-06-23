@@ -7,6 +7,7 @@
 
   <script src="./Adil Portfolio/analytics.js"></script>
   <script>AdilAnalytics.initFrame();</script>
+  <script>if(window.parent!==window)document.documentElement.classList.add('shell-scroll');</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +17,16 @@
     html{scroll-behavior:smooth}
     body{background:#000;color:#fff;font-family:'Inter',sans-serif;
       -webkit-font-smoothing:antialiased;overflow-x:hidden}
+    /* Touch in iframe shell: body is the scroll container */
+    @media (pointer:coarse){
+      html.shell-scroll{height:100%;overflow:hidden}
+      html.shell-scroll body{
+        height:100%;
+        overflow-y:auto;
+        overflow-x:hidden;
+        -webkit-overflow-scrolling:touch;
+        overscroll-behavior-y:contain;
+        touch-action:pan-y}}
     @media (pointer:fine){
       html,body{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}
       body::-webkit-scrollbar{width:6px}
@@ -577,16 +588,14 @@
       background:radial-gradient(circle at 38% 32%,#1c1c1e 0%,#050505 100%);
       color:rgba(255,255,255,.88);
       box-shadow:inset 0 1px 2px rgba(255,255,255,.06),inset 0 -2px 6px rgba(0,0,0,.5)}
-    /* lm-ring: WebGL canvas masked to a thin donut ring around active button */
+    /* lm-ring: WebGL canvas — ring geometry from shader (uniform annulus) */
     .lm-ring{
       position:absolute;
       pointer-events:none;
       z-index:1;
       border-radius:999px;
       opacity:0;
-      /* donut mask — outer full circle, inner transparent hole */
-      -webkit-mask-image:radial-gradient(circle,transparent 47%,black 50%,black 100%);
-      mask-image:radial-gradient(circle,transparent 47%,black 50%,black 100%);
+      overflow:hidden;
       transition:left .35s cubic-bezier(.34,1.46,.64,1),
                  top .35s cubic-bezier(.34,1.46,.64,1),
                  opacity .22s ease}
@@ -1198,9 +1207,11 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeContact();
         float r=length(uv);
         float theta=atan(uv.y,uv.x); // -pi..pi
 
-        // Ring mask — thin band
-        float inner=0.62, outer=0.92;
-        float ring=smoothstep(inner-0.04,inner,r)*smoothstep(outer+0.04,outer,r);
+        // Uniform-thickness annulus — same width at every angle
+        float midR=0.80;
+        float ringHalf=0.095;
+        float ringDist=abs(r-midR);
+        float ring=1.0-smoothstep(ringHalf-0.018,ringHalf+0.018,ringDist);
 
         // Polar-noise for organic flow on the ring
         float t=u_t*0.28;
@@ -1219,15 +1230,7 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeContact();
         float spec=pow(max(0.0,1.0-specDist),4.0)*1.8;
         col+=vec3(spec*0.9,spec*0.85,spec*0.7);
 
-        // Depth: darker at inner edge, brighter at outer
-        float depthMask=smoothstep(inner,outer,r);
-        col*=0.55+0.7*depthMask;
-
-        // Subtle rim glow
-        float rim=smoothstep(outer,outer-0.06,r)*smoothstep(inner,inner+0.06,r);
-        col+=vec3(0.08,0.06,0.12)*rim;
-
-        float alpha=ring*smoothstep(0.0,0.04,ring);
+        float alpha=ring;
         gl_FragColor=vec4(col*alpha,alpha);
       }
     `;
@@ -1280,9 +1283,10 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeContact();
       const r=el.getBoundingClientRect();
       const navRect=$('bnav').getBoundingClientRect();
       const pad=3;
-      const w=r.width+pad*2, h=r.height+pad*2;
-      ring.style.left=(r.left-navRect.left-pad)+'px';
-      ring.style.top=(r.top-navRect.top-pad)+'px';
+      const side=Math.max(r.width,r.height)+pad*2;
+      const w=side, h=side;
+      ring.style.left=(r.left-navRect.left-(side-r.width)/2)+'px';
+      ring.style.top=(r.top-navRect.top-(side-r.height)/2)+'px';
       ring.style.width=w+'px';
       ring.style.height=h+'px';
       ring.style.opacity='1';
