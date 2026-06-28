@@ -1,6 +1,11 @@
 (function () {
   'use strict';
 
+  function isMobileTouchUI() {
+    return window.matchMedia('(pointer: coarse), (hover: none)').matches ||
+      /iPhone|iPod|iPad|Android/i.test(navigator.userAgent);
+  }
+
   function trackEvent(name, params, attempt) {
     if (window.AdilAnalytics) {
       AdilAnalytics.event(name, params || {});
@@ -13,11 +18,56 @@
     }
   }
 
-  function setupFloatUI(root, projectId) {
+  function createFocusGuard($input) {
+    var userRequestedFocus = false;
+
+    function blurInput() {
+      if (!$input) return;
+      userRequestedFocus = false;
+      $input.blur();
+    }
+
+    function focusInput(allowProgrammatic) {
+      if (!$input) return;
+      if (isMobileTouchUI()) {
+        if (allowProgrammatic && userRequestedFocus) {
+          try {
+            $input.focus({ preventScroll: true });
+          } catch (e) {
+            $input.focus();
+          }
+        } else {
+          blurInput();
+        }
+        return;
+      }
+      try {
+        $input.focus({ preventScroll: true });
+      } catch (e) {
+        $input.focus();
+      }
+    }
+
+    if ($input && isMobileTouchUI()) {
+      $input.addEventListener('touchstart', function () {
+        userRequestedFocus = true;
+      }, { passive: true });
+
+      $input.addEventListener('focus', function () {
+        if (!userRequestedFocus) {
+          $input.blur();
+        }
+        userRequestedFocus = false;
+      });
+    }
+
+    return { focusInput: focusInput, blurInput: blurInput };
+  }
+
+  function setupFloatUI(root, projectId, focusGuard) {
     const fab = root.querySelector('.proj-chat-fab');
     const panel = root.querySelector('.proj-chat-panel');
     const closeBtn = root.querySelector('.proj-chat-panel-close');
-    const $input = root.querySelector('.proj-chat-input');
     if (!fab || !panel) return;
 
     function open() {
@@ -25,9 +75,12 @@
       fab.setAttribute('aria-expanded', 'true');
       panel.setAttribute('aria-hidden', 'false');
       trackEvent('ai_chat_panel_open', { project_id: projectId || '' });
-      window.setTimeout(function () {
-        if ($input) $input.focus();
-      }, 280);
+      if (focusGuard) focusGuard.blurInput();
+      if (!isMobileTouchUI()) {
+        window.setTimeout(function () {
+          if (focusGuard) focusGuard.focusInput(true);
+        }, 280);
+      }
     }
 
     function close() {
@@ -35,6 +88,7 @@
       fab.setAttribute('aria-expanded', 'false');
       panel.setAttribute('aria-hidden', 'true');
       trackEvent('ai_chat_panel_close', { project_id: projectId || '' });
+      if (focusGuard) focusGuard.blurInput();
     }
 
     function toggle() {
@@ -42,13 +96,48 @@
       else open();
     }
 
-    fab.addEventListener('click', toggle);
-    if (closeBtn) closeBtn.addEventListener('click', close);
+    fab.addEventListener('click', function () {
+      if (focusGuard) focusGuard.blurInput();
+      toggle();
+    });
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        if (focusGuard) focusGuard.blurInput();
+        close();
+      });
+    }
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && root.classList.contains('is-open')) {
         close();
         fab.focus();
+      }
+    });
+  }
+
+  function bindChipHandlers(root, $input, submit, focusGuard) {
+    root.querySelectorAll('.proj-chat-chip').forEach(function (chip) {
+      var chipQuery = function () {
+        return chip.dataset.q || chip.textContent;
+      };
+
+      var handleChipActivate = function () {
+        if (focusGuard) focusGuard.blurInput();
+        else if ($input) $input.blur();
+        submit(chipQuery(), 'chip');
+      };
+
+      if (isMobileTouchUI()) {
+        chip.addEventListener('touchend', function (e) {
+          e.preventDefault();
+          handleChipActivate();
+        }, { passive: false });
+
+        chip.addEventListener('click', function (e) {
+          e.preventDefault();
+        });
+      } else {
+        chip.addEventListener('click', handleChipActivate);
       }
     });
   }
@@ -59,15 +148,21 @@
     const project = window.PORTFOLIO_PROJECTS && window.PORTFOLIO_PROJECTS[projectId];
     if (!project) return;
 
-    setupFloatUI(root, projectId);
-
     const $log = root.querySelector('.proj-chat-log');
     const $form = root.querySelector('.proj-chat-form');
     const $input = root.querySelector('.proj-chat-input');
     const $send = root.querySelector('.proj-chat-send');
     const $panel = root.querySelector('.proj-chat-panel');
     const $chips = root.querySelector('.proj-chat-chips');
+
+    const focusGuard = $input ? createFocusGuard($input) : null;
+    setupFloatUI(root, projectId, focusGuard);
+
     if (!$log || !$form || !$input || !$send) return;
+
+    if (isMobileTouchUI()) {
+      $form.setAttribute('novalidate', '');
+    }
 
     const history = [];
     const MAX_CTX = 10;
@@ -112,6 +207,10 @@
       const text = (q || '').trim();
       if (!text) return;
 
+      if (source === 'chip' || isMobileTouchUI()) {
+        focusGuard.blurInput();
+      }
+
       $send.disabled = true;
       append('user', text);
       history.push({ role: 'user', text: text });
@@ -145,12 +244,17 @@
         console.error(err);
       } finally {
         $send.disabled = false;
-        $input.focus();
+        if (source === 'chip' || isMobileTouchUI()) {
+          focusGuard.blurInput();
+        } else {
+          focusGuard.focusInput(true);
+        }
       }
     }
 
     $form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (isMobileTouchUI()) focusGuard.blurInput();
       submit($input.value, 'typed');
     });
 
@@ -161,11 +265,17 @@
       }
     });
 
-    root.querySelectorAll('.proj-chat-chip').forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        submit(chip.dataset.q || chip.textContent, 'chip');
-      });
+    $send.addEventListener('click', function () {
+      focusGuard.blurInput();
     });
+
+    if (isMobileTouchUI()) {
+      $send.addEventListener('touchend', function () {
+        focusGuard.blurInput();
+      }, { passive: true });
+    }
+
+    bindChipHandlers(root, $input, submit, focusGuard);
 
     trackEvent('ai_chat_ready', { project_id: projectId });
 
@@ -174,6 +284,7 @@
   }
 
   window.initProjectChat = initProjectChat;
+  window.isMobileTouchUI = isMobileTouchUI;
 
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('[data-project-chat]').forEach(function (el) {

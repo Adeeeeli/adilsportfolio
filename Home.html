@@ -196,6 +196,13 @@
       .drawer{transition:transform .01s linear}}
 
     .drawer.open{transform:translate3d(0,0,0)}
+    .drawer.is-dragging{
+      transition:none!important}
+    .drawer.is-dragging .scroll{
+      overflow-y:hidden!important;
+      -webkit-overflow-scrolling:auto}
+    .drawer.is-snap{
+      transition:transform .48s cubic-bezier(.22,1,.36,1)!important}
 
     /* Tap hero / dimmed area above drawer to dismiss */
     .drawer-dismiss{
@@ -572,6 +579,27 @@
       backdrop-filter:blur(8px);
       -webkit-backdrop-filter:blur(8px)}
 
+    .mgr-card.elevare.has-img{
+      background:#050505;
+      border-color:rgba(20,184,166,.22);
+      box-shadow:0 2px 16px rgba(0,0,0,.45),0 0 0 1px rgba(20,184,166,.06) inset}
+    .mgr-card.elevare.has-img:hover{
+      box-shadow:0 10px 36px rgba(0,0,0,.55),0 0 32px rgba(20,184,166,.18),0 0 0 1px rgba(45,212,191,.12) inset}
+    .mgr-card.elevare .mgr-card-img{
+      background-position:center center;
+      background-size:cover;
+      filter:saturate(1.05) contrast(1.04) brightness(0.88)}
+    .mgr-card.elevare:hover .mgr-card-img{filter:saturate(1.08) contrast(1.06) brightness(0.92)}
+    .mgr-card.elevare .mgr-card-img::after{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 85% 50% at 50% 22%,rgba(138,21,56,.2) 0%,transparent 58%)}
+    .mgr-card.ai-card.elevare .mgr-card-badge{
+      background:rgba(20,184,166,.14);
+      border-color:rgba(45,212,191,.28);
+      color:rgba(153,246,228,.96);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px)}
+
     /* Body.ai orb shift */
     body.ai .orb.a{background:radial-gradient(circle,rgba(120,40,220,0.45) 0%,transparent 70%);opacity:.13}
     body.ai .orb.b{background:radial-gradient(circle,rgba(80,20,180,0.4) 0%,transparent 70%);opacity:.09}
@@ -608,7 +636,8 @@
       border-radius:999px;
       border:1px solid rgba(255,255,255,.08);
       box-shadow:0 8px 32px rgba(0,0,0,.6);
-      overflow:hidden;
+      overflow:visible;
+      isolation:isolate;
       animation:navIn .8s .4s cubic-bezier(.16,1,.3,1) both}
     @keyframes navIn{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 
@@ -621,15 +650,17 @@
     .nb.lm-active{
       background:radial-gradient(circle at 38% 32%,#1c1c1e 0%,#050505 100%);
       color:rgba(255,255,255,.88);
-      box-shadow:inset 0 1px 2px rgba(255,255,255,.06),inset 0 -2px 6px rgba(0,0,0,.5)}
-    /* lm-ring: WebGL canvas — ring geometry from shader (uniform annulus) */
+      box-shadow:inset 0 1px 2px rgba(255,255,255,.06),inset 0 -2px 6px rgba(0,0,0,.5);
+      z-index:4}
+    /* lm-ring: WebGL canvas — uniform annulus, sits above nav items */
     .lm-ring{
       position:absolute;
       pointer-events:none;
-      z-index:1;
+      z-index:3;
       border-radius:999px;
       opacity:0;
-      overflow:hidden;
+      overflow:visible;
+      will-change:left,top,opacity;
       transition:left .35s cubic-bezier(.34,1.46,.64,1),
                  top .35s cubic-bezier(.34,1.46,.64,1),
                  opacity .22s ease}
@@ -1264,13 +1295,12 @@
             </div>
           </div>
 
-          <div class="mgr-card ai-card teal">
-            <div class="mgr-card-orb"></div>
-            <div class="mgr-card-gfx">3D</div>
-            <div class="mgr-card-badge">Concept</div>
+          <div class="mgr-card ai-card teal has-img elevare" data-case-url="./Elevare.html">
+            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/elevare/elevare-card.png')"></div>
+            <div class="mgr-card-badge">Client</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
-              <span class="proj-org">WebGL · 3D</span>
+              <span class="proj-org">WebGL · 3D · Qatar</span>
               <span class="proj-name">Elevare</span>
             </div>
           </div>
@@ -1372,10 +1402,78 @@
     return m==='mgr'?'manager':m==='ai'?'ai':'designer';
   }
 
+  /* ── DRAWER DRAG (mobile touch) ── */
+  function drawerIsWide(){
+    return window.matchMedia('(min-width:620px)').matches;
+  }
+  function drawerPeekOffset(){
+    const visible=window.innerHeight*0.38;
+    return Math.max(0,drawer.offsetHeight-visible);
+  }
+  function drawerTransformY(){
+    const t=getComputedStyle(drawer).transform;
+    if(!t||t==='none')return open?0:drawerPeekOffset();
+    const y=new DOMMatrix(t).m42;
+    if(!Number.isFinite(y))return open?0:drawerPeekOffset();
+    return y;
+  }
+  function drawerTransformPrefix(){
+    return drawerIsWide()?'translate3d(-50%,':'translate3d(0,';
+  }
+  function clearDrawerDragStyles(){
+    drawer.classList.remove('is-dragging','is-snap');
+    drawer.style.transition='';
+    drawer.style.transform='';
+    drawerDismiss.style.opacity='';
+  }
+  function applyDrawerDragY(yPx){
+    const peek=drawerPeekOffset();
+    const y=Math.max(0,Math.min(peek,yPx));
+    drawer.style.transform=drawerTransformPrefix()+y+'px,0)';
+    const openAmt=peek>0?1-y/peek:1;
+    if(openAmt>0.06){
+      drawerDismiss.classList.add('show');
+      drawerDismiss.style.opacity=String(Math.min(1,openAmt*1.25));
+      drawerDismiss.tabIndex=0;
+    }else{
+      drawerDismiss.classList.remove('show');
+      drawerDismiss.style.opacity='';
+      drawerDismiss.tabIndex=-1;
+    }
+  }
+  function snapDrawerTo(shouldOpen){
+    const peek=drawerPeekOffset();
+    const targetY=shouldOpen?0:peek;
+    drawer.classList.remove('is-dragging');
+    drawer.classList.add('is-snap');
+    drawer.style.transition='transform .48s cubic-bezier(.22,1,.36,1)';
+    drawer.style.transform=drawerTransformPrefix()+targetY+'px,0)';
+    if(shouldOpen){
+      drawerDismiss.classList.add('show');
+      drawerDismiss.style.opacity='';
+    }
+    let done=false;
+    function finish(){
+      if(done)return;
+      done=true;
+      drawer.removeEventListener('transitionend',finish);
+      clearDrawerDragStyles();
+      if(shouldOpen){
+        if(!open)openDrawer(mode);
+        else drawer.classList.add('open');
+      }else{
+        closeDrawer();
+      }
+    }
+    drawer.addEventListener('transitionend',finish);
+    setTimeout(finish,520);
+  }
+
   /* ── OPEN / CLOSE ── */
   function openDrawer(m){
     if(open)return;
     if(m!==mode)applyMode(m);
+    clearDrawerDragStyles();
     drawer.classList.add('open');
     $('page').classList.add('drawer-open');
     heroText.classList.add('pushed');
@@ -1390,6 +1488,7 @@
   }
 
   function closeDrawer(){
+    clearDrawerDragStyles();
     drawer.classList.remove('open');
     $('page').classList.remove('drawer-open');
     heroText.classList.remove('pushed');
@@ -1556,26 +1655,26 @@
         float theta=atan(uv.y,uv.x); // -pi..pi
 
         // Uniform-thickness annulus — same width at every angle
-        float midR=0.80;
-        float ringHalf=0.095;
+        float midR=0.82;
+        float ringHalf=0.105;
         float ringDist=abs(r-midR);
-        float ring=1.0-smoothstep(ringHalf-0.018,ringHalf+0.018,ringDist);
+        float ring=1.0-smoothstep(ringHalf-0.020,ringHalf+0.020,ringDist);
 
         // Polar-noise for organic flow on the ring
-        float t=u_t*0.28;
+        float t=u_t*0.55;
         vec2 noiseUV=vec2(theta/(2.0*3.14159)+0.5, r);
-        noiseUV+=vec2(t*0.4, t*0.15);
+        noiseUV+=vec2(t*0.65, t*0.22);
         float n=fbm(noiseUV*3.5);
-        float n2=fbm(noiseUV*6.0-vec2(t*0.6,0.0));
+        float n2=fbm(noiseUV*6.0-vec2(t*0.9,0.0));
 
-        // Map angle (0=top, going clockwise) to palette position
-        float a=fract((theta+1.5707)/(2.0*3.14159)); // 0..1 from top clockwise
+        // Rotating iridescent sweep (0=top, clockwise)
+        float a=fract((theta+1.5707)/(2.0*3.14159)+u_t*0.12);
         vec3 col=chromePalette(a, n*0.5+n2*0.25);
 
-        // Specular hotspot — bright arc drifts slowly
-        float specAngle=fract(u_t*0.09+0.72); // slow drift
+        // Specular hotspot — drifts around the ring
+        float specAngle=fract(u_t*0.16);
         float specDist=abs(fract(a-specAngle+0.5)-0.5)*2.0;
-        float spec=pow(max(0.0,1.0-specDist),4.0)*1.8;
+        float spec=pow(max(0.0,1.0-specDist),3.0)*2.4;
         col+=vec3(spec*0.9,spec*0.85,spec*0.7);
 
         float alpha=ring;
@@ -1609,19 +1708,22 @@
     let W=0,H=0;
     function setSize(w,h){
       const pr=Math.min(window.devicePixelRatio,2);
-      W=Math.round(w*pr); H=Math.round(h*pr);
+      const side=Math.round(Math.max(w,h)*pr);
+      W=side; H=side;
       cv.width=W; cv.height=H;
       cv.style.width=w+'px'; cv.style.height=h+'px';
       gl.viewport(0,0,W,H);
     }
 
-    let raf,start=performance.now();
+    let raf,start=performance.now(),drawing=true;
     function draw(){
-      if(!W||!H){raf=requestAnimationFrame(draw);return;}
-      gl.uniform2f(uRes,W,H);
-      gl.uniform1f(uT,(performance.now()-start)*0.001);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-      gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+      if(!drawing)return;
+      if(W&&H){
+        gl.uniform2f(uRes,W,H);
+        gl.uniform1f(uT,(performance.now()-start)*0.001);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+      }
       raf=requestAnimationFrame(draw);
     }
 
@@ -1664,6 +1766,9 @@
 
     setTimeout(()=>{updateRing();draw();},120);
     window.addEventListener('resize',updateRing);
+    document.addEventListener('visibilitychange',()=>{
+      if(!document.hidden&&!drawing){drawing=true;draw();}
+    });
   })();
 
 
@@ -1691,12 +1796,13 @@
            $('pdrawer').classList.contains('on');
   }
 
-  /* ── TOUCH DRAG — swipe up on hero + drawer peek; rows stay horizontal ── */
+  /* ── TOUCH DRAG — finger-follow on mobile; threshold snap elsewhere ── */
   (function initDrawerTouch(){
     const handleZone=$('handleZone');
     const tabs=drawer.querySelector('.tabs');
     const pageEl=$('page');
     let sy0=0,sx0=0,st0=0,tracking=false,axis=null,activeZone=null;
+    let dragStartY=0,dragging=false;
 
     function touchZone(t){
       if(t.closest('.proj-row'))return null;
@@ -1707,6 +1813,11 @@
       if(!open&&drawer.contains(t))return 'drawer';
       if(!open&&pageEl.contains(t))return 'page';
       return null;
+    }
+
+    function canDragY(){
+      return activeZone==='handle'||activeZone==='header'||activeZone==='drawer'||
+        activeZone==='page'||(open&&activeZone==='scroll-top'&&scrollEl.scrollTop<=0);
     }
 
     function canCloseOnSwipeDown(){
@@ -1723,18 +1834,38 @@
       sy0=e.touches[0].clientY;
       sx0=e.touches[0].clientX;
       st0=Date.now();
+      dragStartY=drawerTransformY();
       tracking=true;
       axis=null;
+      dragging=false;
     }
 
     function onMove(e){
       if(!tracking)return;
-      const dy=sy0-e.touches[0].clientY;
+      const cy=e.touches[0].clientY;
+      const dy=sy0-cy;
       const dx=sx0-e.touches[0].clientX;
-      if(axis===null&&(Math.abs(dy)>10||Math.abs(dx)>10)){
-        axis=Math.abs(dy)>Math.abs(dx)*1.35?'y':'x';
+      if(axis===null&&(Math.abs(dy)>8||Math.abs(dx)>8)){
+        axis=Math.abs(dy)>Math.abs(dx)*1.25?'y':'x';
       }
       if(axis!=='y')return;
+
+      if(isTouchUI&&canDragY()){
+        if(!dragging&&Math.abs(dy)>4){
+          dragging=true;
+          dragStartY=drawerTransformY();
+          drawer.classList.add('is-dragging');
+          drawer.style.transition='none';
+          drawer.classList.remove('open');
+          drawer.style.transform=drawerTransformPrefix()+dragStartY+'px,0)';
+        }
+        if(dragging){
+          e.preventDefault();
+          applyDrawerDragY(dragStartY-dy);
+          return;
+        }
+      }
+
       if(!open&&dy>10)e.preventDefault();
       if(open&&dy<-10&&canCloseOnSwipeDown())e.preventDefault();
     }
@@ -1748,6 +1879,15 @@
       const dt=Math.max(Date.now()-st0,1);
       const vel=dy/dt;
       if(Math.abs(dy)>10||Math.abs(dx)>10)handleDragged=true;
+
+      if(isTouchUI&&dragging){
+        dragging=false;
+        const y=drawerTransformY();
+        const peek=drawerPeekOffset();
+        const shouldOpen=vel>0.55?true:vel<-0.55?false:y<peek*0.45;
+        snapDrawerTo(shouldOpen);
+        return;
+      }
 
       const swipeUp=dy>32||(dy>16&&vel>0.1);
       const swipeDown=dy<-32||(dy<-16&&vel<-0.1);

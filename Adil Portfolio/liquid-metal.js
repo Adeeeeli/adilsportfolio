@@ -48,20 +48,20 @@
     '  uv.x*=asp;',
     '  float r=length(uv);',
     '  float theta=atan(uv.y,uv.x);',
-    '  float midR=0.80;',
-    '  float ringHalf=0.095;',
+    '  float midR=0.82;',
+    '  float ringHalf=0.105;',
     '  float ringDist=abs(r-midR);',
-    '  float ring=1.0-smoothstep(ringHalf-0.018,ringHalf+0.018,ringDist);',
-    '  float t=u_t*0.28;',
+    '  float ring=1.0-smoothstep(ringHalf-0.020,ringHalf+0.020,ringDist);',
+    '  float t=u_t*0.55;',
     '  vec2 noiseUV=vec2(theta/(2.0*3.14159)+0.5, r);',
-    '  noiseUV+=vec2(t*0.4, t*0.15);',
+    '  noiseUV+=vec2(t*0.65, t*0.22);',
     '  float n=fbm(noiseUV*3.5);',
-    '  float n2=fbm(noiseUV*6.0-vec2(t*0.6,0.0));',
-    '  float a=fract((theta+1.5707)/(2.0*3.14159));',
+    '  float n2=fbm(noiseUV*6.0-vec2(t*0.9,0.0));',
+    '  float a=fract((theta+1.5707)/(2.0*3.14159)+u_t*0.12);',
     '  vec3 col=chromePalette(a, n*0.5+n2*0.25);',
-    '  float specAngle=fract(u_t*0.09+0.72);',
+    '  float specAngle=fract(u_t*0.16);',
     '  float specDist=abs(fract(a-specAngle+0.5)-0.5)*2.0;',
-    '  float spec=pow(max(0.0,1.0-specDist),4.0)*1.8;',
+    '  float spec=pow(max(0.0,1.0-specDist),3.0)*2.4;',
     '  col+=vec3(spec*0.9,spec*0.85,spec*0.7);',
     '  float alpha=ring;',
     '  gl_FragColor=vec4(col*alpha,alpha);',
@@ -109,8 +109,9 @@
 
     function setSize(w, h) {
       var pr = Math.min(window.devicePixelRatio || 1, 2);
-      W = Math.round(w * pr);
-      H = Math.round(h * pr);
+      var side = Math.round(Math.max(w, h) * pr);
+      W = side;
+      H = side;
       cv.width = W;
       cv.height = H;
       cv.style.width = w + 'px';
@@ -154,6 +155,12 @@
     }, 80);
 
     window.addEventListener('resize', onResize);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden && !running) {
+        running = true;
+        draw();
+      }
+    });
 
     if (typeof ResizeObserver !== 'undefined') {
       var ro = new ResizeObserver(onResize);
