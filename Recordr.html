@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" class="case-study">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Recordr — Case Study</title>
+<meta name="description" content="Recordr — macOS screen recorder with auto Smart Zoom, glass UI, and one-click export. Built with Electron from scratch." />
+<link href="./Adil Portfolio/case-study.css" rel="stylesheet" />
+<link href="./Adil Portfolio/recordr/recordr-case.css" rel="stylesheet" />
+<link href="./Adil Portfolio/ai/chat-ui.css" rel="stylesheet" />
+<link href="./Adil Portfolio/ai/chat-ui-glass-temp.css" rel="stylesheet" />
+<style id="case-study-critical">
+  .navigation-wrap,.menu,.w-nav,.w-nav-menu,footer.footer-dark,#footer{
+    display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important
+  }
+  html.case-study,html.case-study body{background:#08080a}
+</style>
+<script src="./Adil Portfolio/case-study.js"></script>
+</head>
+<body class="recordr-case-study">
+
+<div class="progress" id="prog"></div>
+
+<!-- COVER -->
+<header class="cover">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="wordmark"><span class="dot"></span>Recordr</div>
+    </div>
+  </div>
+  <div class="wrap cover-mid">
+    <div class="eyebrow">macOS app · screen recording</div>
+    <h1>Recordings that<br><span class="g">edit themselves.</span></h1>
+    <p class="sub">A macOS screen recorder in the spirit of Screen Studio — it films your screen, then automatically zooms into the action and drops it onto a beautiful background. Built from scratch with Electron.</p>
+  </div>
+  <div class="wrap">
+    <div class="meta">
+      <div><div class="k">Role</div><div class="v">Design &amp; Engineering</div></div>
+      <div><div class="k">Type</div><div class="v">Desktop app · macOS</div></div>
+      <div><div class="k">Year</div><div class="v">2026</div></div>
+      <div><div class="k">Built with</div><div class="v">Electron · Canvas · WebCodecs</div></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:34px">
+      <div class="scrollcue"><span class="ln"></span>Scroll to read</div>
+      <div class="kicker">01 — 08</div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 OVERVIEW -->
+<section class="block">
+  <div class="wrap">
+    <div class="twocol narrow">
+      <div>
+        <div class="kicker">01 / Overview</div>
+        <h2 style="font-size:clamp(30px,4.4vw,48px);margin-top:18px">What Recordr is</h2>
+      </div>
+      <div>
+        <p class="lead">Most screen recordings are flat and hard to follow. Recordr fixes that automatically — you hit record, do your thing, and it hands back a polished clip with cinematic zooms and a designed backdrop.</p>
+        <p style="margin-top:22px">No timeline scrubbing, no keyframing. A floating glass control bar stays out of the way while you work; the moment you stop, Recordr analyses your cursor, finds the moments that matter, and renders an export-ready video. It’s a from-scratch Electron app with a custom canvas compositor — not a wrapper around anything.</p>
+      </div>
+    </div>
+    <div class="stats" style="margin-top:60px">
+      <div class="s"><div class="num"><b>40+</b></div><div class="lab">Backgrounds</div></div>
+      <div class="s"><div class="num pp"><b>Auto</b></div><div class="lab">Smart Zoom</div></div>
+      <div class="s"><div class="num">MP4·WebM</div><div class="lab">One-click export</div></div>
+      <div class="s"><div class="num">4</div><div class="lab">Capture states</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 THE BIG IDEA -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow pp">02 / The big idea</div>
+      <h2>The zooms happen on their own.</h2>
+      <p>The headline feature is <b>Smart Zoom</b>. After you stop recording, Recordr scans the cursor telemetry, detects where you paused and focused, and lays down zoom regions automatically — punching in on the detail, panning between hotspots, easing back out. Every region is editable as a simple toggle, but you rarely need to touch it.</p>
+    </div>
+    <figure class="full-shot">
+      <div class="shotcard"><img src="./Adil Portfolio/recordr/screens/done.png" alt="Recordr Done screen — recording complete with the Smart Zoom region timeline"></div>
+      <figcaption>The finish screen — a framed, background-composited recording with the auto-detected Smart Zoom timeline (5 regions) ready to export.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 03 DESIGN SYSTEM -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">03 / Design language</div>
+      <h2>Raycast glass meets Apple HIG.</h2>
+      <p>The whole UI is a set of floating glass surfaces that hover over your desktop — heavy background blur, a single 1px top-edge sheen, system-native dark tones. Colour is used sparingly and with meaning: red to record, green to confirm, purple for anything Smart-Zoom.</p>
+    </div>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#0c0c0e"></div><div class="meta-s"><div class="nm">Canvas</div><div class="hex">#0C0C0E</div><div class="role">Base surface under the glass. iOS-style dark.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#ff3b30"></div><div class="meta-s"><div class="nm">Record Red</div><div class="hex">#FF3B30</div><div class="role">The record dot, stop button & primary action.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#32d74b"></div><div class="meta-s"><div class="nm">Confirm Green</div><div class="hex">#32D74B</div><div class="role">Success — “Recording complete”.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#bf5af2"></div><div class="meta-s"><div class="nm">Zoom Purple</div><div class="hex">#BF5AF2</div><div class="role">Every Smart Zoom region and badge.</div></div></div>
+    </div>
+    <div class="twocol" style="margin-top:34px">
+      <figure><div class="shotcard"><img src="./Adil Portfolio/recordr/screens/picker.png" alt="Recordr picker bar"></div>
+        <figcaption>The picker — source, camera, mic, Smart Zoom, settings, record. A 58px glass bar.</figcaption></figure>
+      <div>
+        <div class="kicker">Glass, not chrome</div>
+        <p style="margin-top:10px">Each surface uses <code style="font-family:var(--mono);font-size:13px;color:#d9d9de">backdrop-filter: blur(40px) saturate(180%)</code> so the desktop colour tints through but text stays readable. The same recipe scales from the thin picker bar to the settings popover and the finish card — one material, many sizes.</p>
+        <p style="margin-top:18px">Spring-timed micro-interactions (cubic-bezier overshoot) give buttons a tactile, native feel without a single heavyweight animation library.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 MOTION -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow pp">04 / Smart Zoom engine</div>
+      <h2>How the auto-zoom thinks.</h2>
+      <p>The zoom model is ported from the open-source OpenScreen project and tuned for feel. It’s the part that makes a raw screen capture look directed.</p>
+    </div>
+    <div class="principles">
+      <div class="cell"><div class="n">01</div><h4>Dwell detection</h4><p>After recording, it groups consecutive “still cursor” samples into candidate regions — the spots where you actually stopped to show something.</p></div>
+      <div class="cell"><div class="n">02</div><h4>Snappy in, gentle out</h4><p>Zoom-in ramps over ~600ms (fast, deliberate); zoom-out takes ~800ms (slow, calm). The asymmetry is what reads as intentional rather than twitchy.</p></div>
+      <div class="cell"><div class="n">03</div><h4>Connected pans</h4><p>Two regions close together don’t zoom out and back in — they pan across (~700ms), keeping the viewer locked on the content.</p></div>
+      <div class="cell"><div class="n">04</div><h4>Yours to override</h4><p>Every detected region is a chip on the timeline. Toggle one off, re-render, done — strength curves and gap filters keep transitions from ever colliding.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 THE FLOW -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">05 / The flow, screen by screen</div>
+      <h2>Four states, zero friction.</h2>
+      <p>The entire app is four moments — pick, record, render, finish — each its own floating surface. No main window, no project browser. It appears when you need it and disappears when you don’t.</p>
+    </div>
+
+    <div class="pull" style="margin-bottom:28px"><em>Pick —</em> choose a display or a single window, flip on camera, mic or Smart Zoom, and go.</div>
+    <div class="twocol" style="margin-bottom:60px">
+      <figure><div class="shotcard"><img src="./Adil Portfolio/recordr/screens/sources.png" alt="Source picker with window previews"></div>
+        <figcaption>Source flyout — live window & display previews, one click to select.</figcaption></figure>
+      <figure><div class="shotcard"><img src="./Adil Portfolio/recordr/screens/settings.png" alt="Settings — zoom, padding and background grid"></div>
+        <figcaption>Settings popover — zoom amount, padding, and 40+ gradient / wallpaper backgrounds.</figcaption></figure>
+    </div>
+
+    <div class="pull" style="margin-bottom:28px"><em>Record —</em> a thin pill with a live timer; toggle camera, mic and zoom mid-take.</div>
+    <figure style="margin-bottom:60px"><div class="shotcard"><img src="./Adil Portfolio/recordr/screens/recording.png" alt="Recording pill bar over a desktop"></div>
+      <figcaption>The recording bar floats over your real desktop — pulsing record dot, tabular timer, instant stop.</figcaption></figure>
+
+    <div class="pull" style="margin-bottom:28px"><em>Render —</em> a calm ripple loader while the compositor builds every frame.</div>
+    <figure style="margin-bottom:60px"><div class="shotcard"><img src="./Adil Portfolio/recordr/screens/rendering.png" alt="Rendering progress screen"></div>
+      <figcaption>Rendering — the canvas compositor draws background, padding, zoom and cursor frame-by-frame.</figcaption></figure>
+
+    <div class="pull"><em class="pp">Finish —</em> review, tweak the auto-zoom, and save to MP4 or WebM.</div>
+  </div>
+</section>
+
+<!-- 06 UNDER THE HOOD -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">06 / Under the hood</div>
+      <h2>How it’s built.</h2>
+      <p>A lean native stack: Electron for capture and windowing, a hand-written canvas compositor for the look, and a WebCodecs/muxer pipeline for export. No editor framework, no cloud.</p>
+    </div>
+    <div class="stack-tags" style="margin-bottom:52px">
+      <span>Electron</span><span>getDisplayMedia</span><span>desktopCapturer</span><span>Canvas 2D compositor</span>
+      <span>spring.js</span><span>OpenScreen zoom model</span><span>mp4-muxer (H.264)</span><span>WebM · VP9</span><span>SF Pro · system UI</span>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="idx">A.</div><div><h4>Capture</h4><p>Electron’s <code style="font-family:var(--mono);font-size:13px">desktopCapturer</code> + <code style="font-family:var(--mono);font-size:13px">getDisplayMedia</code> grab a display or window stream, with optional camera overlay and microphone, plus cursor telemetry for the zoom engine.</p></div></div>
+      <div class="step"><div class="idx">B.</div><div><h4>Compositor</h4><p>A custom canvas pipeline redraws every frame: chosen background (gradient, wallpaper or blurred desktop), padding, a rounded device frame, the cursor, motion blur, and the spring-eased zoom transform.</p></div></div>
+      <div class="step"><div class="idx">C.</div><div><h4>Smart Zoom</h4><p>Cursor samples become zoom regions via dwell detection; strength curves and connected-pan logic (ported from OpenScreen) drive a buttery, directed camera that follows the action while zoomed.</p></div></div>
+      <div class="step"><div class="idx">D.</div><div><h4>Export</h4><p>Composited frames are muxed straight to MP4 (H.264, best compatibility) with <code style="font-family:var(--mono);font-size:13px">mp4-muxer</code>, or WebM (VP9, smaller), with a live progress read-out.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 OUTCOME -->
+<section class="block">
+  <div class="wrap">
+    <div class="twocol narrow">
+      <div>
+        <div class="kicker">07 / Outcome</div>
+        <h2 style="font-size:clamp(30px,4.4vw,48px);margin-top:18px">The result</h2>
+      </div>
+      <div>
+        <p class="lead">A focused macOS app that turns an ordinary screen capture into something that looks produced — automatically, in seconds.</p>
+        <p style="margin-top:22px">It proves a full pipeline end to end: native capture, a real-time compositor, an auto-direction zoom engine, and hardware-friendly export — all wrapped in a restrained, glass-dark interface that feels like it belongs on macOS. The kind of product where the best feature is the work you never had to do.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center">Recordr</div>
+    <h2 style="margin-top:18px">Record. Zoom. Ship.</h2>
+    <div class="sig">Design &amp; build case study · 2026</div>
+  </div>
+</footer>
+
+<script>
+  const prog=document.getElementById('prog');
+  const onScroll=()=>{const h=document.documentElement;const sc=h.scrollTop/(h.scrollHeight-h.clientHeight);prog.style.width=(sc*100)+'%';};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+</script>
+
+<div class="proj-chat-float" data-project-chat="recordr">
+  <div class="proj-chat-panel" id="projChatPanel" role="dialog" aria-hidden="true" aria-label="Ask about Recordr">
+    <div class="proj-chat-panel-head">
+      <span class="proj-chat-panel-title">Ask about Recordr</span>
+      <button type="button" class="proj-chat-panel-close" aria-label="Close chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="proj-chat-log" role="log" aria-live="polite"></div>
+    <div class="proj-chat-chips">
+      <button type="button" class="proj-chat-chip" data-q="What is Recordr?">What is Recordr</button>
+      <button type="button" class="proj-chat-chip" data-q="How does Smart Zoom work?">Smart Zoom</button>
+      <button type="button" class="proj-chat-chip" data-q="What tech stack did you use?">Tech stack</button>
+      <button type="button" class="proj-chat-chip" data-q="How does the recording flow work?">Recording flow</button>
+    </div>
+    <form class="proj-chat-form" autocomplete="off">
+      <input class="proj-chat-input" type="text" name="q" placeholder="Ask anything…" required>
+      <button class="proj-chat-send" type="submit" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+      </button>
+    </form>
+  </div>
+  <div class="proj-chat-shell">
+    <button type="button" class="proj-chat-fab" aria-expanded="false" aria-controls="projChatPanel" aria-label="Open Recordr assistant">
+      <img class="chat-ai-icon" src="./Adil Portfolio/Chatbot%20AI%20icon.svg" width="24" height="24" alt="" aria-hidden="true">
+    </button>
+  </div>
+</div>
+
+<script src="./Adil Portfolio/ai/config.js"></script>
+<script src="./Adil Portfolio/ai/adil-global.js"></script>
+<script src="./Adil Portfolio/ai/voice-loader.js"></script>
+<script src="./Adil Portfolio/ai/projects/recordr.js"></script>
+<script src="./Adil Portfolio/ai/engine.js"></script>
+<script src="./Adil Portfolio/ai/chat-ui.js"></script>
+</body>
+</html>
