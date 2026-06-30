@@ -311,6 +311,9 @@
 .proj-chat-form input:focus {
   border-color: rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.07);
+  font-size: 16px !important;
+  transform: none;
+  zoom: 1;
 }
 
 .proj-chat-send {
@@ -421,42 +424,48 @@
   }
 }
 
-/* iOS Safari — keyboard open inside drawer iframe */
+/* iOS Safari — keyboard open inside drawer iframe: pin above keyboard, keep full panel */
 @media (pointer: coarse), (hover: none) {
   html.case-study[data-embed] .proj-chat-float.is-keyboard-open {
     z-index: 10000;
     left: 0;
     right: 0;
-    width: 100%;
+    width: auto;
     max-width: none;
-    padding: 0 12px;
+    padding: 0 16px;
     box-sizing: border-box;
     transition: bottom 0.12s ease-out;
   }
 
-  html.case-study[data-embed] .proj-chat-float.is-keyboard-open .proj-chat-panel {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    transform: none;
+  html.case-study[data-embed] .proj-chat-float.is-keyboard-open.is-open .proj-chat-shell {
+    visibility: hidden;
+    height: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  html.case-study[data-embed] .proj-chat-float.is-keyboard-open.is-open .proj-chat-panel {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0) scale(1);
     width: 100%;
-    max-height: min(38vh, 280px);
+    max-width: none;
+    max-height: var(--chat-panel-max-h, min(calc(var(--chat-vv-h, 100dvh) - 24px), 420px));
     opacity: 1;
     visibility: visible;
   }
 
   html.case-study[data-embed] .proj-chat-float.is-keyboard-open .proj-chat-log {
-    max-height: min(22vh, 160px);
-    min-height: 56px;
-  }
-
-  html.case-study[data-embed] .proj-chat-float.is-keyboard-open .proj-chat-shell {
-    display: none;
+    max-height: var(--chat-log-max-h, min(calc(var(--chat-vv-h, 100dvh) - 200px), 280px));
   }
 
   html.case-study[data-embed].is-chat-typing,
   html.case-study[data-embed].is-chat-typing body {
-    overflow: hidden;
     overscroll-behavior: none;
   }
 }
