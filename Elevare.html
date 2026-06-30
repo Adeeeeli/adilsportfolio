@@ -19,8 +19,6 @@
 </head>
 <body class="elevare-case-study">
 
-<div class="progress" id="prog"></div>
-
 <!-- ============ COVER ============ -->
 <header class="cover">
   <div class="wrap">
@@ -287,12 +285,6 @@
     <div class="sig">Design &amp; build case study · 2026</div>
   </div>
 </footer>
-
-<script>
-  const prog=document.getElementById('prog');
-  const onScroll=()=>{const h=document.documentElement;const sc=h.scrollTop/(h.scrollHeight-h.clientHeight);prog.style.width=(sc*100)+'%';};
-  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
-</script>
 
 <div class="proj-chat-float" data-project-chat="elevare">
     <div class="proj-chat-panel" id="projChatPanel" role="dialog" aria-hidden="true" aria-label="Ask about Elevare">

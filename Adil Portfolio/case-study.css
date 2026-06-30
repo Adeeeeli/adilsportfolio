@@ -71,3 +71,41 @@ html.case-study[data-embed] .project_page_content_width {
 .case-study-crop {
   overflow: hidden;
 }
+
+/* Scroll progress — all case study pages (see case-study.js) */
+.case-study-progress,
+html.case-study .progress#prog,
+html.case-study .progress[id="prog"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  z-index: 10000;
+  pointer-events: none;
+  background: var(
+    --case-study-progress,
+    linear-gradient(90deg, #34d399 0%, #818cf8 52%, #fbbf24 100%)
+  );
+  box-shadow: 0 0 10px rgba(129, 140, 248, 0.35);
+  transition: width 0.1s linear;
+}
+
+html.case-study body.qutbah-case-study {
+  --case-study-progress: linear-gradient(90deg, #34d399, #f0cc60);
+}
+
+html.case-study body.recordr-case-study {
+  --case-study-progress: #ff5a4d;
+}
+
+html.case-study body.elevare-case-study {
+  --case-study-progress: linear-gradient(90deg, #8a1538, #14b8a6);
+}
+
+@media print {
+  .case-study-progress,
+  html.case-study .progress#prog {
+    display: none !important;
+  }
+}

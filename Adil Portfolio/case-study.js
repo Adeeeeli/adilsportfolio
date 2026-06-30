@@ -61,4 +61,39 @@
     obs.disconnect();
     strip();
   }, 8000);
+
+  function initScrollProgress() {
+    if (!document.documentElement.classList.contains('case-study')) return;
+
+    var bar = document.getElementById('caseStudyProgress') ||
+      document.getElementById('prog') ||
+      document.querySelector('.case-study-progress');
+
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'caseStudyProgress';
+      document.body.insertBefore(bar, document.body.firstChild);
+    }
+
+    bar.classList.add('case-study-progress');
+    bar.setAttribute('role', 'presentation');
+    bar.setAttribute('aria-hidden', 'true');
+
+    function onScroll() {
+      var root = document.documentElement;
+      var max = root.scrollHeight - root.clientHeight;
+      var ratio = max > 0 ? root.scrollTop / max : 0;
+      bar.style.width = (Math.min(1, Math.max(0, ratio)) * 100) + '%';
+    }
+
+    document.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollProgress);
+  } else {
+    initScrollProgress();
+  }
 })();
