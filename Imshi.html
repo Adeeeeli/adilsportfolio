@@ -1,527 +1,236 @@
 <!DOCTYPE html>
 <html lang="en" class="case-study">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IMSHI · Qatar Car Marketplace</title>
-  <meta name="description" content="IMSHI — a focused automotive marketplace for Qatar. Browse, list, and connect around cars with a 49k-variant catalog, dynamic filters, and Firebase-backed listings.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link href="./Adil Portfolio/stylecss.css" rel="stylesheet">
-  <link href="./Adil Portfolio/case-study.css" rel="stylesheet">
-  <link href="./Adil Portfolio/imshi/imshi-case.css" rel="stylesheet">
-  <link href="./Adil Portfolio/ai/chat-ui.css" rel="stylesheet">
-  <link href="./Adil Portfolio/ai/chat-ui-glass-temp.css" rel="stylesheet">
-  <style id="case-study-critical">
-    .navigation-wrap,.menu,.w-nav,.w-nav-menu,footer.footer-dark,#footer{
-      display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important
-    }
-    html.case-study,html.case-study body{background:#0a0909}
-  </style>
-  <script src="./Adil Portfolio/case-study.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IMSHI — Case Study</title>
+<meta name="description" content="IMSHI — a modern car marketplace for Qatar. Browse, list and connect without the clutter. Photo-first, QAR pricing, 49.8k vehicle variants, built in React Native." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="./Adil Portfolio/case-study.css" rel="stylesheet" />
+<link href="./Adil Portfolio/imshi/imshi-case.css" rel="stylesheet" />
+<link href="./Adil Portfolio/ai/chat-ui.css" rel="stylesheet" />
+<link href="./Adil Portfolio/ai/chat-ui-glass-temp.css" rel="stylesheet" />
+<style id="case-study-critical">
+  .navigation-wrap,.menu,.w-nav,.w-nav-menu,footer.footer-dark,#footer{
+    display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important
+  }
+  html.case-study,html.case-study body{background:#0a0909}
+</style>
+<script src="./Adil Portfolio/case-study.js"></script>
 </head>
-<body class="body imshi-case">
+<body class="imshi-case-study">
 
-  <div class="hero-section project-page">
-    <h1 class="h1-centerated">IMSHI</h1>
+<div class="progress" id="prog"></div>
+
+<!-- COVER -->
+<header class="cover">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="wordmark"><span class="mk"><svg viewBox="0 0 512 512"><path d="M90 400 L400 110 Q430 90 460 140 L300 380 L150 440 Q110 450 90 400 Z" fill="#fff"/><path d="M180 390 L350 150 Q370 130 395 150 L260 360 L180 390 Z" fill="#0c0c0c"/></svg></span>IMSHI</div>
+    </div>
   </div>
-
-  <div class="im-intro">
-    <div class="im-intro-eyebrow">Marketplace · Qatar · Automotive</div>
-    <p class="im-intro-lead">
-      A mobile marketplace built for people who genuinely care about cars.
-      <strong>IMSHI</strong> strips classifieds back to what matters — browse by make and model,
-      filter with data that actually fits the car, list in minutes, and connect with real sellers
-      in <strong>Qatar</strong> without the noise of generic platforms.
-    </p>
+  <div class="wrap cover-mid">
+    <div class="eyebrow or">Qatar · car marketplace</div>
+    <h1 style="margin-top:18px">Find your<br><span class="g">perfect car.</span></h1>
+    <p class="sub">A modern car marketplace for Qatar — browse, list and connect, without the clutter. Photo-first, locally priced in QAR, with the seller one tap away. Built in React Native.</p>
   </div>
-
-  <div class="im-shot-wrap" id="imshiShotWrap">
-    <iframe
-      class="im-shot-frame"
-      id="imshiShotFrame"
-      title="IMSHI product showcase"
-      src="./Adil Portfolio/imshi/imshi-product-shot.html?embed=1"
-      loading="lazy"></iframe>
+  <div class="wrap">
+    <div class="meta">
+      <div><div class="k">Role</div><div class="v">Design &amp; Engineering</div></div>
+      <div><div class="k">Type</div><div class="v">Mobile app · iOS &amp; Android</div></div>
+      <div><div class="k">Year</div><div class="v">2026</div></div>
+      <div><div class="k">Built with</div><div class="v">React Native · Expo · Material 3</div></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:34px">
+      <div class="scrollcue"><span class="ln"></span>Scroll to read</div>
+      <div class="kicker">01 — 06</div>
+    </div>
   </div>
+</header>
 
-  <section class="im-live" aria-label="Browse and list">
-    <div class="im-live-inner">
-      <div class="im-live-copy">
-        <div class="im-live-kicker">Built for petrol heads</div>
-        <h2 class="im-live-title">One thing only.<br>Cars.</h2>
-        <p class="im-live-desc">
-          Figma-accurate screens shipped in React Native — homepage search widget, catalog-backed
-          filters, vehicle detail with spec grid, and one-tap <strong>WhatsApp</strong> or
-          <strong>call</strong> from the listing footer.
-        </p>
-        <ul class="im-live-callouts">
-          <li><span class="im-live-dot im-live-dot--l1"></span>Splash → login → home discovery flow</li>
-          <li><span class="im-live-dot im-live-dot--l2"></span>Search filters → results → vehicle detail</li>
-          <li><span class="im-live-dot im-live-dot--l2"></span>List in 3 steps · saved · profile</li>
-        </ul>
+<!-- 01 OVERVIEW -->
+<section class="block">
+  <div class="wrap">
+    <div class="twocol narrow">
+      <div>
+        <div class="kicker">01 / Overview</div>
+        <h2 style="font-size:clamp(30px,4.4vw,48px);margin-top:18px">What IMSHI is</h2>
       </div>
-      <figure class="im-live-device">
-        <div class="im-live-phone">
-          <img
-            src="./Adil Portfolio/imshi/imshi-detail.png"
-            alt="IMSHI vehicle detail — BMW M3 listing with specs, description, WhatsApp and call actions"
-            width="440"
-            height="956"
-            loading="lazy">
-        </div>
-        <figcaption class="im-live-caption">Vehicle detail · QAR pricing · WhatsApp &amp; call</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="im-flow-board" aria-label="IMSHI committed designs in Figma">
-    <div class="im-flow-board-head">
-      <div class="im-screens-kicker">Figma · Committed designs</div>
-      <h2 class="im-screens-title">Full product map.</h2>
-      <p class="im-flow-board-desc">Every screen in the IMSHI file — splash through saved cars, search, listing, and profile.</p>
-    </div>
-    <div class="im-flow-board-scroll">
-      <img
-        src="./Adil Portfolio/imshi/imshi-committed-board.png"
-        alt="IMSHI Car Marketplace Figma board — splash, login, home, vehicle detail, profile, list your vehicle, search, and saved screens"
-        width="13726"
-        height="3311"
-        loading="lazy">
-    </div>
-  </section>
-
-  <section class="im-screens" aria-label="App screens from Figma">
-    <div class="im-screens-head">
-      <div class="im-screens-kicker">Screen exports · @2x</div>
-      <h2 class="im-screens-title">The actual app UI.</h2>
-    </div>
-
-    <div class="im-flow-group">
-      <h3 class="im-flow-label">Onboarding</h3>
-      <div class="im-screens-grid im-screens-grid--6">
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-splash.png" alt="IMSHI splash screen" width="440" height="956" loading="lazy">
-          <figcaption>Splash</figcaption>
-        </figure>
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-login.png" alt="IMSHI login and register" width="440" height="956" loading="lazy">
-          <figcaption>Login</figcaption>
-        </figure>
+      <div>
+        <p class="lead">Buying or selling a car in Qatar usually means wading through cluttered classifieds. IMSHI — “go” in Arabic — is the clean alternative: a fast, photo-first marketplace where the car comes first and the seller is a tap away.</p>
+        <p style="margin-top:22px">Behind it sits a deeply enriched local catalogue — every make, model and variant on the road here — so search and filtering actually understand the market. Prices are in QAR, contact is direct over WhatsApp or call, and the whole thing is built to feel like a premium native app, not a listings site.</p>
       </div>
     </div>
-
-    <div class="im-flow-group">
-      <h3 class="im-flow-label">Browse &amp; search</h3>
-      <div class="im-screens-grid im-screens-grid--6">
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-home.png" alt="IMSHI home" width="440" height="956" loading="lazy">
-          <figcaption>Home</figcaption>
-        </figure>
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-home-search.png" alt="IMSHI home with search expanded" width="440" height="956" loading="lazy">
-          <figcaption>Search widget</figcaption>
-        </figure>
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-search-filters.png" alt="IMSHI search filters" width="440" height="956" loading="lazy">
-          <figcaption>Filters</figcaption>
-        </figure>
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-search-results.png" alt="IMSHI search results" width="440" height="956" loading="lazy">
-          <figcaption>Results</figcaption>
-        </figure>
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-detail.png" alt="IMSHI vehicle detail" width="440" height="956" loading="lazy">
-          <figcaption>Detail</figcaption>
-        </figure>
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-saved.png" alt="IMSHI saved vehicles" width="440" height="956" loading="lazy">
-          <figcaption>Saved</figcaption>
-        </figure>
-      </div>
+    <div class="stats" style="margin-top:60px">
+      <div class="s"><div class="num pk"><b>146</b></div><div class="lab">Makes indexed</div></div>
+      <div class="s"><div class="num or"><b>49.8k</b></div><div class="lab">Vehicle variants</div></div>
+      <div class="s"><div class="num"><b>QAR</b></div><div class="lab">Local pricing</div></div>
+      <div class="s"><div class="num"><b>1-tap</b></div><div class="lab">WhatsApp &amp; call</div></div>
     </div>
-
-    <div class="im-flow-group">
-      <h3 class="im-flow-label">Sell a car</h3>
-      <div class="im-screens-grid im-screens-grid--6">
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-list-step1.png" alt="IMSHI list your car step 1" width="440" height="956" loading="lazy">
-          <figcaption>Step 1 · Vehicle</figcaption>
-        </figure>
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-list-preview.png" alt="IMSHI listing preview" width="440" height="956" loading="lazy">
-          <figcaption>Preview</figcaption>
-        </figure>
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-listed.png" alt="IMSHI listing published success" width="440" height="956" loading="lazy">
-          <figcaption>Listed</figcaption>
-        </figure>
-      </div>
-    </div>
-
-    <div class="im-flow-group">
-      <h3 class="im-flow-label">Profile</h3>
-      <div class="im-screens-grid im-screens-grid--6">
-        <figure class="im-screen-card">
-          <img src="./Adil Portfolio/imshi/imshi-profile.png" alt="IMSHI profile and my listings" width="440" height="956" loading="lazy">
-          <figcaption>Profile</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <div class="im-meta" aria-label="Technology stack">
-    <span class="im-meta-pill">React Native · Expo SDK 54</span>
-    <span class="im-meta-pill">Firebase Auth &amp; Firestore</span>
-    <span class="im-meta-pill">146 makes · 49.8k variants</span>
-    <span class="im-meta-pill">Firebase Hosting catalog</span>
   </div>
+</section>
 
-  <article class="im-prose">
-
-    <section class="im-section">
-      <div class="im-kicker">01 — The Problem</div>
-      <h2 class="im-h2">Generic classifieds weren't built for car people.</h2>
-      <p class="im-lead">
-        Qatar's car buyers and sellers were stuck on platforms that treat a Porsche 911 the same as
-        a flat-pack wardrobe — cluttered feeds, shallow filters, and listing flows that don't understand
-        make, model, variant, or spec.
-      </p>
-      <div class="im-fail-grid">
-        <div class="im-fail">
-          <span class="im-fail-icon">⌇</span>
-          <p>Static filter lists — engine sizes that don't exist for the car you picked</p>
-        </div>
-        <div class="im-fail">
-          <span class="im-fail-icon">⊘</span>
-          <p>Everything-marketplace noise — jobs, property, and distractions mixed in</p>
-        </div>
-        <div class="im-fail">
-          <span class="im-fail-icon">⚠</span>
-          <p>Weak listing data — sellers re-type specs the platform should already know</p>
-        </div>
-      </div>
-      <div class="im-constraint">
-        <span class="im-constraint-label">The product constraint</span>
-        <p>Browse and sell had to feel <strong>fast on real devices</strong> while carrying a catalog deep enough that a Bugatti Chiron never shows a <span class="im-em">1.0L</span> engine option.</p>
-      </div>
-    </section>
-
-    <section class="im-section">
-      <div class="im-kicker">02 — The Solution</div>
-      <h2 class="im-h2">A car-only marketplace with catalog intelligence.</h2>
-      <p class="im-lead">
-        IMSHI pairs a polished Expo mobile app with a static vehicle catalog served from Firebase Hosting
-        and live listings in Firestore — so filters, pickers, and listing forms always pull from the same
-        source of truth.
-      </p>
-
-      <div class="im-layers">
-        <div class="im-layer im-layer--live">
-          <div class="im-layer-top">
-            <span class="im-layer-tag">Browse</span>
-            <span class="im-layer-latency">Guest-ready</span>
-          </div>
-          <h3 class="im-layer-title">Homepage search widget</h3>
-          <p class="im-layer-desc">
-            Make → model pickers in full-screen drawers, live listing counts per selection, body-type
-            shortcuts, recently viewed, and pull-to-refresh — all before sign-in.
-          </p>
-        </div>
-        <div class="im-layer im-layer--enrich">
-          <div class="im-layer-top">
-            <span class="im-layer-tag">Sell</span>
-            <span class="im-layer-latency">3 steps</span>
-          </div>
-          <h3 class="im-layer-title">List with confidence</h3>
-          <p class="im-layer-desc">
-            Guided add-vehicle flow: vehicle identity from catalog, mileage and transmission,
-            photo gallery, QAR pricing, approximate location, optional inspection report — then
-            publish with a confetti moment. Listings run on a 7-day preview + 7-day grace cycle.
-          </p>
-        </div>
-      </div>
-
-      <div class="im-upgrade">
-        <div class="im-upgrade-row im-upgrade-row--plain">
-          <span class="im-upgrade-label">Generic classified</span>
-          <span class="im-upgrade-text">Free-text make/model · static filter dropdowns · mixed categories</span>
-        </div>
-        <div class="im-upgrade-arrow" aria-hidden="true">↓ IMSHI approach</div>
-        <div class="im-upgrade-cards">
-          <div class="im-card-quran">
-            <span class="im-card-badge">Catalog-backed</span>
-            <p>146 makes · lazy-loaded JSON per make · versioned index</p>
-          </div>
-          <div class="im-card-hadith">
-            <span class="im-card-badge">Dynamic filters</span>
-            <p>Engine, fuel, transmission, body — scoped to selected make/model/variant</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="im-section">
-      <div class="im-kicker">03 — Architecture</div>
-      <h2 class="im-h2">Static catalog. Live listings. One mobile shell.</h2>
-
-      <div class="im-flow">
-        <div class="im-flow-lane im-flow-lane--l1">
-          <div class="im-flow-lane-head">Mobile app — Expo Router</div>
-          <div class="im-flow-nodes">
-            <div class="im-node">Home / Search / Add / Saved / Profile</div>
-            <div class="im-node-arrow">→</div>
-            <div class="im-node">vehicleService <span>filters + counts</span></div>
-            <div class="im-node-arrow">→</div>
-            <div class="im-node im-node--ui">VehicleCard · drawers · galleries</div>
-          </div>
-        </div>
-
-        <div class="im-flow-split" aria-hidden="true">
-          <span>Catalog + listings split by cost and change rate</span>
-        </div>
-
-        <div class="im-flow-lane im-flow-lane--l2">
-          <div class="im-flow-lane-head">Data layer</div>
-          <div class="im-flow-nodes im-flow-nodes--specialists">
-            <div class="im-node im-node--spec">Firebase Hosting <span>catalog/*.json — 49,806 records</span></div>
-            <div class="im-node im-node--spec">Firestore <span>listings · savedItems · users</span></div>
-          </div>
-          <div class="im-node-arrow im-node-arrow--down">↓</div>
-          <div class="im-node im-node--arb">vehicleCatalog.js</div>
-          <div class="im-flow-verdicts">
-            <span class="im-verdict im-verdict--quran">index on launch → lazy per-make fetch</span>
-            <span class="im-verdict im-verdict--hadith">AsyncStorage cache until version bump</span>
-            <span class="im-verdict im-verdict--plain">Guest browse via anonymous auth bridge</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="im-orch">
-        <div class="im-orch-item">
-          <span class="im-orch-key">Catalog client</span>
-          <code>src/vehicleCatalog.js</code>
-          <span class="im-orch-note">Index manifest, per-make lazy load, AsyncStorage cache, filter option derivation</span>
-        </div>
-        <div class="im-orch-item">
-          <span class="im-orch-key">Marketplace service</span>
-          <code>src/services/vehicleService.ts</code>
-          <span class="im-orch-note">Dynamic engine/fuel/doors, listing counts, Firestore + demo fallback</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="im-section">
-      <div class="im-kicker">04 — Core Product Systems</div>
-      <h2 class="im-h2">Four systems that define the experience.</h2>
-
-      <div class="im-systems">
-        <div class="im-system">
-          <div class="im-system-num">01</div>
-          <h3 class="im-system-title">Vehicle catalog</h3>
-          <code class="im-system-file">catalog/ · 146 make files</code>
-          <ul class="im-system-list">
-            <li>49,806 enriched variants — make, model, variant, year, engine, fuel, body</li>
-            <li>Hosted on Firebase Hosting — zero Firestore reads per browse</li>
-            <li>GitHub Actions deploy on push; app re-fetches on version bump only</li>
-            <li>AI-maintainable JSON schema for adding new model years</li>
-          </ul>
-        </div>
-
-        <div class="im-system">
-          <div class="im-system-num">02</div>
-          <h3 class="im-system-title">Dynamic filters</h3>
-          <code class="im-system-file">vehicleDataService.ts · Homepage · SearchFiltersScreen</code>
-          <ul class="im-system-list">
-            <li>Engine, fuel, transmission, doors scoped to make/model/variant</li>
-            <li><code>useMemo</code> + auto-reset when parent selection invalidates a child</li>
-            <li>Listing count index on picker labels — "BMW 3 Series (12)"</li>
-            <li>Prevents impossible combinations before search runs</li>
-          </ul>
-        </div>
-
-        <div class="im-system">
-          <div class="im-system-num">03</div>
-          <h3 class="im-system-title">Listing lifecycle</h3>
-          <code class="im-system-file">AddVehicleStep1–3 · car-details.tsx</code>
-          <ul class="im-system-list">
-            <li>Three-step sell flow with catalog-backed pickers and photo upload</li>
-            <li>QAR formatting, share to <code>imshi.app/cars/{id}</code>, map approximate location</li>
-            <li>Contact seller via WhatsApp (pre-filled message) or phone call — no in-app chat</li>
-            <li>Inspection report CTA and recently-viewed persistence</li>
-            <li>7-day preview + 7-day grace; expired listings hidden in Cloud Functions search</li>
-          </ul>
-        </div>
-
-        <div class="im-system">
-          <div class="im-system-num">04</div>
-          <h3 class="im-system-title">Design system</h3>
-          <code class="im-system-file">tokens/designTokens.ts · components/ui/</code>
-          <ul class="im-system-list">
-            <li>Monochrome palette — black chips on <code>#F3F2F1</code> screens</li>
-            <li>Reusable AppButton, Typography, VehicleCard, NativePicker, drawers</li>
-            <li>Full-screen drawers for make/model — not native dropdowns</li>
-            <li>Custom tab bar, skeleton loaders, haptics on key actions</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="im-section">
-      <div class="im-kicker">05 — Key Product Decisions</div>
-      <h2 class="im-h2">The calls that shaped IMSHI.</h2>
-      <ul class="im-decisions">
-        <li><strong>Cars only</strong> — positioning as an automotive marketplace for enthusiasts, not another horizontal classifieds app.</li>
-        <li><strong>Static catalog on Hosting</strong> — 50k+ reference rows never belong in Firestore reads; JSON + CDN beats per-user document charges.</li>
-        <li><strong>Dynamic filters from data</strong> — if the catalog has no 1.0L for Bugatti, the UI never shows it.</li>
-        <li><strong>Guest browse first</strong> — anonymous auth bridge so marketplace feeds work before sign-up.</li>
-        <li><strong>Drawer-based pickers</strong> — full-screen make/model selection matches Figma and scales to 146 makes.</li>
-        <li><strong>OS-native seller contact</strong> — WhatsApp and <code>tel:</code> intents instead of building chat infrastructure.</li>
-        <li><strong>Listing expiry as product policy</strong> — 7-day preview, 7-day grace, daily cleanup in Qatar timezone.</li>
-        <li><strong>Demo-resilient marketplace</strong> — local demo listings + catalog fallback when Firestore rules or auth drift in dev.</li>
-      </ul>
-    </section>
-
-    <section class="im-section">
-      <div class="im-kicker">06 — Challenges Solved</div>
-      <h2 class="im-h2">Real issues from shipping a marketplace app.</h2>
-      <div class="im-table">
-        <div class="im-row im-row--head">
-          <span>Challenge</span>
-          <span>Approach</span>
-        </div>
-        <div class="im-row">
-          <span>Invalid filter combos after make change</span>
-          <span><code>useFilterReset</code> hooks + catalog-scoped option lists</span>
-        </div>
-        <div class="im-row">
-          <span>Guest Firestore permission errors</span>
-          <span>Anonymous auth read bridge + aligned security rules</span>
-        </div>
-        <div class="im-row">
-          <span>Search infinite re-render loops</span>
-          <span>Stable filter keys via <code>useMemo</code> / <code>useCallback</code></span>
-        </div>
-        <div class="im-row">
-          <span>Variant field lost in listing mapping</span>
-          <span>Unified <code>vehicleConverter</code> across Home, Search, Saved, Profile</span>
-        </div>
-        <div class="im-row">
-          <span>Catalog vs marketplace row confusion</span>
-          <span>Reference catalog never fabricates live listings — Firestore + demo only</span>
-        </div>
-        <div class="im-row">
-          <span>Heavy SVG asset loading</span>
-          <span>SVG transformer imports — not <code>Image</code> + <code>require()</code></span>
-        </div>
-      </div>
-    </section>
-
-    <section class="im-section">
-      <div class="im-kicker">07 — Outcomes</div>
-      <h2 class="im-h2">What IMSHI delivers.</h2>
-      <div class="im-outcomes">
-        <div class="im-outcome">
-          <p>A focused Qatar car marketplace — browse, save, list, and contact without category clutter.</p>
-        </div>
-        <div class="im-outcome">
-          <p>49,806 catalog variants powering pickers and filters that respect real vehicle data.</p>
-        </div>
-        <div class="im-outcome">
-          <p>Demo-ready Expo app on real iOS devices — smooth scrolling, drawer navigation, pull-to-refresh.</p>
-        </div>
-        <div class="im-outcome">
-          <p>Scalable catalog ops — push JSON, GitHub Actions deploys, app picks up version bumps automatically.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="im-section">
-      <div class="im-kicker">08 — Full Stack</div>
-      <h2 class="im-h2">Everything under the hood.</h2>
-      <div class="im-stack">
-        <div class="im-stack-item"><span class="im-stack-k">Framework</span><span class="im-stack-v">React Native 0.81 · Expo SDK 54 · Expo Router 6</span></div>
-        <div class="im-stack-item"><span class="im-stack-k">Language</span><span class="im-stack-v">TypeScript 5.8</span></div>
-        <div class="im-stack-item"><span class="im-stack-k">UI</span><span class="im-stack-v">Custom design tokens · React Native Paper · Gesture Handler · Haptics · Lottie</span></div>
-        <div class="im-stack-item"><span class="im-stack-k">Auth</span><span class="im-stack-v">Firebase Auth — email, Google, Qatar phone, anonymous guest bridge</span></div>
-        <div class="im-stack-item"><span class="im-stack-k">Listings</span><span class="im-stack-v">Firestore — listings, savedItems, user profiles · Cloud Functions search</span></div>
-        <div class="im-stack-item"><span class="im-stack-k">Catalog</span><span class="im-stack-v">Firebase Hosting — 146 JSON make files, versioned index, GitHub Actions CI</span></div>
-        <div class="im-stack-item"><span class="im-stack-k">Media</span><span class="im-stack-v">expo-image-picker · expo-image · vehicle gallery focus modal</span></div>
-        <div class="im-stack-item"><span class="im-stack-k">Location</span><span class="im-stack-v">expo-location — approximate listing area, never exact pin</span></div>
-        <div class="im-stack-item"><span class="im-stack-k">Role</span><span class="im-stack-v">Product design, mobile UX, catalog architecture, and frontend engineering leadership</span></div>
-      </div>
-    </section>
-
-    <section class="im-section im-section--tags">
-      <div class="im-tags">
-        <span>React Native</span><span>Expo</span><span>Firebase</span><span>Marketplace</span>
-        <span>Automotive</span><span>Qatar</span><span>Product design</span><span>TypeScript</span>
-        <span>Mobile UX</span><span>Catalog systems</span>
-      </div>
-    </section>
-
-  </article>
-
-  <div class="proj-chat-float" data-project-chat="imshi">
-    <div class="proj-chat-panel" id="projChatPanel" role="dialog" aria-hidden="true" aria-label="Ask about IMSHI">
-      <div class="proj-chat-panel-head">
-        <span class="proj-chat-panel-title">Ask about IMSHI</span>
-        <button type="button" class="proj-chat-panel-close" aria-label="Close chat">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-          </svg>
-        </button>
-      </div>
-      <div class="proj-chat-log" role="log" aria-live="polite"></div>
-      <div class="proj-chat-chips">
-        <button type="button" class="proj-chat-chip" data-q="What is IMSHI?">What is IMSHI</button>
-        <button type="button" class="proj-chat-chip" data-q="How does the vehicle catalog work?">Vehicle catalog</button>
-        <button type="button" class="proj-chat-chip" data-q="What tech stack did you use?">Tech stack</button>
-        <button type="button" class="proj-chat-chip" data-q="How do dynamic filters work?">Dynamic filters</button>
-      </div>
-      <form class="proj-chat-form" autocomplete="off">
-        <input class="proj-chat-input" type="text" name="q" placeholder="Ask anything…" required>
-        <button class="proj-chat-send" type="submit" aria-label="Send">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>
-          </svg>
-        </button>
-      </form>
+<!-- 02 BIG IDEA -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow or">02 / The big idea</div>
+      <h2>The clutter, gone.</h2>
+      <p>Most car classifieds drown the car in chrome, ads and filters. IMSHI inverts it — a calm, white, photo-led canvas where one search card and a body-type browser get you moving, and a clean detail page closes the deal with price, specs and a direct line to the seller.</p>
     </div>
-    <div class="proj-chat-shell">
-      <button type="button" class="proj-chat-fab" aria-expanded="false" aria-controls="projChatPanel" aria-label="Open IMSHI assistant">
-        <img class="chat-ai-icon" src="./Adil Portfolio/Chatbot%20AI%20icon.svg" width="24" height="24" alt="" aria-hidden="true">
+    <div class="duo">
+      <div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/home.png" alt="IMSHI home — search, body types, recently viewed" width="440" height="956" loading="lazy"></div>
+      <div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/detail.png" alt="IMSHI car detail — price, specs, WhatsApp and call" width="440" height="956" loading="lazy"></div>
+    </div>
+    <figcaption style="margin-top:18px">Left: the home canvas — search, browse by body type, recently viewed. Right: a detail page — QAR price, full specs, WhatsApp &amp; call.</figcaption>
+  </div>
+</section>
+
+<!-- 03 DESIGN -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">03 / Design language</div>
+      <h2>A neutral app, a hot brand.</h2>
+      <p>The product is deliberately quiet — near-white surfaces, black actions, big photography — so the cars carry the colour. The brand world around it runs the opposite way: deep black with hot pink and sunset orange, and a single metallic swoosh that reads as pure motion.</p>
+    </div>
+    <div class="swatches" style="margin-bottom:40px">
+      <div class="swatch"><div class="chip" style="background:#f3f2f1;border-bottom:1px solid #e6e4e2"></div><div class="meta-s"><div class="nm" style="color:#121010">App Canvas</div><div class="hex">#F3F2F1</div><div class="role">Off-white surfaces — the car is the hero.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#0a0a0a"></div><div class="meta-s"><div class="nm">Action Black</div><div class="hex">#0A0A0A</div><div class="role">Search, save, WhatsApp &amp; call CTAs.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#ec4899"></div><div class="meta-s"><div class="nm">IMSHI Pink</div><div class="hex">#EC4899</div><div class="role">The brand signal — energy &amp; motion.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:linear-gradient(135deg,#fb923c,#f97316)"></div><div class="meta-s"><div class="nm">Sunset Orange</div><div class="hex">#FB923C</div><div class="role">Secondary heat, paired with the pink.</div></div></div>
+    </div>
+    <div class="twocol">
+      <div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/filters.png" alt="IMSHI search filters" width="440" height="956" loading="lazy"></div>
+      <div>
+        <div class="kicker">Material 3, Figma-accurate</div>
+        <p style="margin-top:10px">The interface is built to Material 3 from a Figma-accurate spec — consistent elevation, shape and type, assembled from modular, reusable components so the catalogue, body-types and recently-viewed rails all share one language.</p>
+        <p style="margin-top:18px">A custom animated tab bar with a central floating action button keeps the five core areas — Home, Search, Add, Saved, Profile — one thumb-reach apart.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 THE APP -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow or">04 / The app, screen by screen</div>
+      <h2>Browse, list, connect.</h2>
+      <p>Five tabs cover the whole journey — discover and filter, dig into the detail, list your own car end to end, and manage it all from your account.</p>
+    </div>
+
+    <div class="beat-label">Discover <small>Home · Search · Filters</small></div>
+    <div class="phone-row" style="margin-bottom:72px">
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/results.png" alt="Search results" width="440" height="956" loading="lazy"></div><figcaption>Results — “13 cars found”, sort &amp; filter.</figcaption></figure>
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/searchfilters.png" alt="Search filters" width="440" height="956" loading="lazy"></div><figcaption>Filters — make, price, year, body, fuel.</figcaption></figure>
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/detail.png" alt="Car detail" width="440" height="956" loading="lazy"></div><figcaption>Detail — specs, price &amp; direct contact.</figcaption></figure>
+    </div>
+
+    <div class="beat-label">List your car <small>in a few taps</small></div>
+    <div class="phone-row" style="margin-bottom:72px">
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/liststep.png" alt="Listing form" width="440" height="956" loading="lazy"></div><figcaption>Step 1 — “Tell us about your car”.</figcaption></figure>
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/listpreview.png" alt="Listing preview" width="440" height="956" loading="lazy"></div><figcaption>Preview — exactly how buyers will see it.</figcaption></figure>
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/listed.png" alt="Listed / published" width="440" height="956" loading="lazy"></div><figcaption>Live — your car, published to the market.</figcaption></figure>
+    </div>
+
+    <div class="beat-label">Onboarding &amp; account <small>Splash · Sign in · Profile</small></div>
+    <div class="phone-row">
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/splash.png" alt="Splash screen" width="440" height="956" loading="lazy"></div><figcaption>Launch — the IMSHI splash.</figcaption></figure>
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/login.png" alt="Sign in" width="440" height="956" loading="lazy"></div><figcaption>Sign in — quick, secure auth.</figcaption></figure>
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/profile.png" alt="Profile" width="440" height="956" loading="lazy"></div><figcaption>Profile — listings, saved &amp; settings.</figcaption></figure>
+    </div>
+
+    <div class="twocol" style="margin-top:64px">
+      <div>
+        <div class="pull"><em class="pk">Saved —</em> tap the heart on any car to build a shortlist that’s kept on your device and waiting next time you open the app.</div>
+      </div>
+      <div class="phone-stage"><img src="./Adil Portfolio/imshi/screens/saved.png" alt="Saved cars" width="440" height="956" loading="lazy" style="max-width:290px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 UNDER THE HOOD -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">05 / Under the hood</div>
+      <h2>How it’s built.</h2>
+      <p>A production-ready React Native app: Expo Router navigation, a Material-3 component system, a data-driven catalogue, and Firebase for auth and listings.</p>
+    </div>
+    <div class="stack-tags" style="margin-bottom:52px">
+      <span>React Native</span><span>Expo SDK 54</span><span>expo-router</span><span>Material 3</span>
+      <span>Firebase</span><span>expo-auth-session</span><span>AsyncStorage</span><span>bottom-tabs</span><span>Lottie</span><span>expo-image</span><span>expo-blur</span>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="idx">A.</div><div><h4>Navigation &amp; structure</h4><p>Expo Router drives five tab screens — <code>index</code>, <code>search</code>, <code>add</code>, <code>saved</code>, <code>profile</code> — assembled from modular, reusable Material-3 components.</p></div></div>
+      <div class="step"><div class="idx">B.</div><div><h4>The catalogue</h4><p>A data-driven car catalogue of 146 makes and ~49.8k enriched variants powers body-type browsing, search and dynamic filtering — all backed by structured local JSON.</p></div></div>
+      <div class="step"><div class="idx">C.</div><div><h4>Signature interactions</h4><p>A custom animated tab bar with a central floating action button to list a car, plus haptics, blur and Lottie microinteractions, give the app its native, tactile feel.</p></div></div>
+      <div class="step"><div class="idx">D.</div><div><h4>Accounts &amp; contact</h4><p>Firebase handles auth and listings; <code>expo-auth-session</code> powers sign-in and AsyncStorage keeps your saved cars. On a listing, WhatsApp and call deep-links put the buyer and seller in direct contact.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 OUTCOME -->
+<section class="block">
+  <div class="wrap">
+    <div class="twocol narrow">
+      <div>
+        <div class="kicker">06 / Outcome</div>
+        <h2 style="font-size:clamp(30px,4.4vw,48px);margin-top:18px">The result</h2>
+      </div>
+      <div>
+        <p class="lead">A polished, production-ready marketplace that makes finding a car in Qatar feel effortless.</p>
+        <p style="margin-top:22px">It pairs a genuinely deep local dataset with a restrained, photo-first interface and direct seller contact — proving an end-to-end mobile product from Figma-accurate design system through to a data-driven, Firebase-backed app. Calm to use, fast to ship, ready to grow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center">IMSHI</div>
+    <h2 style="margin-top:18px">Browse. List. Connect.</h2>
+    <div class="sig">Design &amp; build case study · 2026</div>
+  </div>
+</footer>
+
+<div class="proj-chat-float" data-project-chat="imshi">
+  <div class="proj-chat-panel" id="projChatPanel" role="dialog" aria-hidden="true" aria-label="Ask about IMSHI">
+    <div class="proj-chat-panel-head">
+      <span class="proj-chat-panel-title">Ask about IMSHI</span>
+      <button type="button" class="proj-chat-panel-close" aria-label="Close chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>
+    <div class="proj-chat-log" role="log" aria-live="polite"></div>
+    <div class="proj-chat-chips">
+      <button type="button" class="proj-chat-chip" data-q="What is IMSHI?">What is IMSHI</button>
+      <button type="button" class="proj-chat-chip" data-q="How does the vehicle catalog work?">Vehicle catalog</button>
+      <button type="button" class="proj-chat-chip" data-q="What tech stack did you use?">Tech stack</button>
+      <button type="button" class="proj-chat-chip" data-q="How do dynamic filters work?">Dynamic filters</button>
+    </div>
+    <form class="proj-chat-form" autocomplete="off">
+      <input class="proj-chat-input" type="text" name="q" placeholder="Ask anything…" required>
+      <button class="proj-chat-send" type="submit" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+      </button>
+    </form>
   </div>
+  <div class="proj-chat-shell">
+    <button type="button" class="proj-chat-fab" aria-expanded="false" aria-controls="projChatPanel" aria-label="Open IMSHI assistant">
+      <img class="chat-ai-icon" src="./Adil Portfolio/Chatbot%20AI%20icon.svg" width="24" height="24" alt="" aria-hidden="true">
+    </button>
+  </div>
+</div>
 
-  <script>
-  (function () {
-    var BASE_W = 1440;
-    var BASE_H = 900;
-    var wrap = document.getElementById('imshiShotWrap');
-    var frame = document.getElementById('imshiShotFrame');
-
-    function scaleShot() {
-      if (!wrap || !frame) return;
-      var w = wrap.clientWidth;
-      var scale = Math.min(1, w / BASE_W);
-      frame.style.transform = 'scale(' + scale + ')';
-      wrap.style.height = Math.ceil(BASE_H * scale) + 'px';
-    }
-
-    window.addEventListener('resize', scaleShot);
-    frame.addEventListener('load', scaleShot);
-    scaleShot();
-  })();
-  </script>
-
-  <script src="./Adil Portfolio/ai/config.js"></script>
-  <script src="./Adil Portfolio/ai/adil-global.js"></script>
-  <script src="./Adil Portfolio/ai/voice-loader.js"></script>
-  <script src="./Adil Portfolio/ai/projects/imshi.js"></script>
-  <script src="./Adil Portfolio/ai/engine.js"></script>
-  <script src="./Adil Portfolio/ai/chat-ui.js"></script>
+<script src="./Adil Portfolio/ai/config.js"></script>
+<script src="./Adil Portfolio/ai/adil-global.js"></script>
+<script src="./Adil Portfolio/ai/voice-loader.js"></script>
+<script src="./Adil Portfolio/ai/projects/imshi.js"></script>
+<script src="./Adil Portfolio/ai/engine.js"></script>
+<script src="./Adil Portfolio/ai/chat-ui.js"></script>
 </body>
 </html>

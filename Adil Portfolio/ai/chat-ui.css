@@ -420,3 +420,43 @@
     max-height: min(calc(100dvh - 180px), 74vh);
   }
 }
+
+/* iOS Safari — keyboard open inside drawer iframe */
+@media (pointer: coarse), (hover: none) {
+  html.case-study[data-embed] .proj-chat-float.is-keyboard-open {
+    z-index: 10000;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: none;
+    padding: 0 12px;
+    box-sizing: border-box;
+    transition: bottom 0.12s ease-out;
+  }
+
+  html.case-study[data-embed] .proj-chat-float.is-keyboard-open .proj-chat-panel {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-height: min(38vh, 280px);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  html.case-study[data-embed] .proj-chat-float.is-keyboard-open .proj-chat-log {
+    max-height: min(22vh, 160px);
+    min-height: 56px;
+  }
+
+  html.case-study[data-embed] .proj-chat-float.is-keyboard-open .proj-chat-shell {
+    display: none;
+  }
+
+  html.case-study[data-embed].is-chat-typing,
+  html.case-study[data-embed].is-chat-typing body {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+}

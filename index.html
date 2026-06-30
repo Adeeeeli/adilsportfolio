@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
   <meta http-equiv="Cache-Control" content="no-cache">
   <title>Adil Ahmad · Product Design Manager</title>
   <meta name="description" content="Portfolio of Adil Ahmad, Product Design Manager at Qatar Airways. Explore leadership case studies, design work, and AI experiments.">
@@ -41,13 +41,17 @@
       html,body{
         height:100%;
         min-height:0;
-        overflow:hidden}
+        overflow:hidden;
+        background:#000}
       #viewport{
         position:fixed;
-        top:0;left:0;right:0;bottom:0;
+        top:var(--shell-top,0);
+        left:0;
+        right:0;
         width:100%;
         height:var(--shell-h,100dvh);
-        max-height:100dvh;
+        bottom:auto;
+        max-height:none;
         touch-action:auto}
       .scroll-runway{display:none!important}}
 
@@ -115,22 +119,21 @@
     var barTimer = null;
     var isTouchUI = window.matchMedia('(pointer:coarse)').matches;
 
-    /* iOS Safari: size iframe to visible viewport (above bottom toolbar) */
+    /* iOS Safari: pin iframe to the visible viewport (not layout viewport + bottom:0) */
     (function initMobileShell(){
       if(!isTouchUI||!window.visualViewport)return;
       var root=document.documentElement;
-      var timer=null;
       function sync(){
-        clearTimeout(timer);
-        timer=setTimeout(function(){
-          var h=Math.round(visualViewport.height);
-          root.style.setProperty('--shell-h',h+'px');
-        },60);
+        var vv=window.visualViewport;
+        if(!vv)return;
+        root.style.setProperty('--shell-h',Math.round(vv.height)+'px');
+        root.style.setProperty('--shell-top',Math.round(vv.offsetTop)+'px');
       }
       sync();
-      visualViewport.addEventListener('resize',sync);
-      visualViewport.addEventListener('scroll',sync);
+      window.visualViewport.addEventListener('resize',sync,{passive:true});
+      window.visualViewport.addEventListener('scroll',sync,{passive:true});
       window.addEventListener('orientationchange',function(){setTimeout(sync,350);});
+      window.addEventListener('pageshow',sync);
     })();
 
     /* ── ROUTE HELPERS ───────────────────────────── */

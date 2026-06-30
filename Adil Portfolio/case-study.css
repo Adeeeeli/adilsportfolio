@@ -103,6 +103,10 @@ html.case-study body.elevare-case-study {
   --case-study-progress: linear-gradient(90deg, #8a1538, #14b8a6);
 }
 
+html.case-study body.imshi-case-study {
+  --case-study-progress: linear-gradient(90deg, #ec4899, #fb923c);
+}
+
 @media print {
   .case-study-progress,
   html.case-study .progress#prog {

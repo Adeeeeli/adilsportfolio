@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <script>
     if (window.top === window.self) location.replace('/');
+    if (window.parent !== window) document.documentElement.classList.add('shell-frame');
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
   <meta http-equiv="Cache-Control" content="no-cache">
   <title>Adil Ahmad · Product Design Manager</title>
   <meta name="description" content="Portfolio of Adil Ahmad, Product Design Manager at Qatar Airways. Explore leadership case studies, design work, and AI experiments.">
@@ -30,7 +31,22 @@
       background:#000;color:#fff;
       font-family:'Inter',Arial,sans-serif;
       -webkit-font-smoothing:antialiased}
-    html{--safe-bottom:env(safe-area-inset-bottom,0px)}
+    html{--safe-bottom:env(safe-area-inset-bottom,0px);--app-h:100dvh}
+
+    /* Mobile in shell iframe — use dynamic viewport, not layout vh */
+    @media (pointer:coarse){
+      html.shell-frame,html.shell-frame body{
+        height:100%;
+        min-height:0;
+        overflow:hidden}
+      html.shell-frame .page{
+        height:100%;
+        min-height:0}
+      html.shell-frame .drawer{
+        height:min(88dvh,88svh)}
+      html.shell-frame .bnav{
+        bottom:max(14px,var(--safe-bottom))}
+    }
     a{text-decoration:none;color:inherit}
     button{cursor:pointer;font-family:inherit;border:none;background:none}
 
@@ -187,7 +203,7 @@
       box-shadow:0 -24px 60px rgba(0,0,0,.65);
       transform:translate3d(0,calc(100% - 38svh),0);
       transition:transform .55s cubic-bezier(.32,0,.67,0);
-      height:88vh;
+      height:min(88dvh,88svh);
       display:flex;flex-direction:column;
       will-change:transform;
       backface-visibility:hidden;
@@ -213,7 +229,9 @@
       opacity:0;pointer-events:none;
       transition:opacity .48s ease}
     .drawer-dismiss.show{
-      display:block;opacity:1;pointer-events:auto}
+      display:block;opacity:1;pointer-events:auto;
+      /* Leave the bottom nav corridor clear for About / Contact taps */
+      bottom:calc(76px + var(--safe-bottom))}
 
     @media(min-width:620px){
       .drawer{max-width:500px;left:50%;right:auto;
@@ -236,10 +254,9 @@
         bottom:78px}
       .drawer-dismiss.show{
         inset:auto;top:0;left:0;right:0;bottom:78px}
+      /* Keep core nav tappable while the portfolio drawer is open */
       #page.drawer-open ~ .bnav{
-        opacity:0;pointer-events:none;
-        transform:translateX(-50%) translateY(10px);
-        transition:opacity .45s ease,transform .55s cubic-bezier(.32,0,.67,0)}
+        opacity:1;pointer-events:auto}
       .proj-row{
         cursor:grab;
         scroll-behavior:smooth}
@@ -566,10 +583,10 @@
     .mgr-card.imshi.has-img:hover{
       box-shadow:0 10px 36px rgba(0,0,0,.55),0 0 32px rgba(236,72,153,.16),0 0 0 1px rgba(249,168,212,.12) inset}
     .mgr-card.imshi .mgr-card-img{
-      background-position:center 38%;
+      background-position:center center;
       background-size:cover;
-      filter:saturate(1.05) contrast(1.03) brightness(0.9)}
-    .mgr-card.imshi:hover .mgr-card-img{filter:saturate(1.08) contrast(1.05) brightness(0.92)}
+      filter:saturate(1.08) contrast(1.04) brightness(1.03)}
+    .mgr-card.imshi:hover .mgr-card-img{filter:saturate(1.14) contrast(1.06) brightness(1.06)}
     .mgr-card.imshi .mgr-card-img::after{
       content:'';position:absolute;inset:0;pointer-events:none;
       background:radial-gradient(ellipse 85% 50% at 50% 22%,rgba(236,72,153,.18) 0%,transparent 58%)}
@@ -631,7 +648,7 @@
     /* ── BOTTOM NAV ────────────────────────── */
     .bnav{
       position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
-      z-index:50;display:flex;align-items:center;gap:2px;padding:5px;
+      z-index:120;display:flex;align-items:center;gap:2px;padding:5px;
       background:rgba(10,10,12,.94);
       backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
       border-radius:999px;
@@ -639,6 +656,8 @@
       box-shadow:0 8px 32px rgba(0,0,0,.6);
       overflow:visible;
       isolation:isolate;
+      pointer-events:auto;
+      touch-action:manipulation;
       animation:navIn .8s .4s cubic-bezier(.16,1,.3,1) both}
     @keyframes navIn{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 
@@ -1277,7 +1296,7 @@
           </div>
 
           <div class="mgr-card ai-card pink has-img imshi" data-case-url="./Imshi.html">
-            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/imshi/imshi-card.png')"></div>
+            <div class="mgr-card-img" style="background-image:url('./Adil Portfolio/imshi/imshi-card.jpg?v=3')"></div>
             <div class="mgr-card-badge">Marketplace</div>
             <div class="proj-overlay"></div>
             <div class="proj-info">
@@ -1330,7 +1349,7 @@
       <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
     </svg>
   </a>
-  <button class="nb" id="nbContact" onclick="openContact()" title="Let's Talk" aria-label="Open contact sheet">
+  <button class="nb" id="nbContact" type="button" title="Let's Talk" aria-label="Open contact sheet">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
     </svg>
@@ -1758,12 +1777,36 @@
 
     window.__activateBottomNavById=(id)=>activateNav(document.getElementById(id));
 
-    document.querySelector('.bnav').addEventListener('click',e=>{
+    function handleBottomNav(e){
       const btn=e.target.closest('.nb');
       if(!btn)return;
+
+      if(btn.id==='nbContact'){
+        e.preventDefault();
+        openContact();
+        return;
+      }
+
+      if(btn.id==='nbHome'){
+        e.preventDefault();
+        activateNav(btn);
+        if(open)closeDrawer();
+        aa('nav_click',{nav_destination:'home'});
+        return;
+      }
+
+      if(btn.id==='nbAbout'){
+        if(open)closeDrawer();
+        activateNav(btn);
+        aa('nav_click',{nav_destination:'about'});
+        return;
+      }
+
       activateNav(btn);
       aa('nav_click',{nav_destination:(btn.id||'').replace(/^nb/,'').toLowerCase()||'unknown'});
-    });
+    }
+
+    document.querySelector('.bnav').addEventListener('click',handleBottomNav);
 
     setTimeout(()=>{updateRing();draw();},120);
     window.addEventListener('resize',updateRing);
@@ -1939,14 +1982,21 @@
 
   /* ── CONTACT SHEET ── */
   function openContact(){
-    closeDrawer();
-    const currentActive=document.querySelector('.bnav .nb.lm-active');
-    if(currentActive && currentActive.id!=='nbContact') contactPrevActiveId=currentActive.id;
-    $('csheet').classList.add('on');
-    $('nbContact').classList.add('contact-on');
-    document.body.style.overflow='hidden';
-    if(window.__activateBottomNavById) window.__activateBottomNavById('nbContact');
-    aa('contact_open');
+    const wasDrawerOpen=open;
+    if(wasDrawerOpen)closeDrawer();
+
+    function showSheet(){
+      const currentActive=document.querySelector('.bnav .nb.lm-active');
+      if(currentActive && currentActive.id!=='nbContact') contactPrevActiveId=currentActive.id;
+      $('csheet').classList.add('on');
+      $('nbContact').classList.add('contact-on');
+      document.body.style.overflow='hidden';
+      if(window.__activateBottomNavById) window.__activateBottomNavById('nbContact');
+      aa('contact_open');
+    }
+
+    if(wasDrawerOpen) setTimeout(showSheet,320);
+    else showSheet();
   }
   function closeContact(){
     $('csheet').classList.remove('on');

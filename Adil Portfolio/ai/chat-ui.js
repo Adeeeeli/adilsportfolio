@@ -6,15 +6,95 @@
       /iPhone|iPod|iPad|Android/i.test(navigator.userAgent);
   }
 
+  function isEmbedCaseStudy() {
+    return document.documentElement.hasAttribute('data-embed');
+  }
+
   function ensureMobileViewport() {
     var meta = document.querySelector('meta[name="viewport"]');
     if (!meta) return;
     var content = meta.getAttribute('content') || '';
     if (/interactive-widget/i.test(content)) return;
+    /* resizes-visual keeps layout stable inside drawer iframes when keyboard opens */
+    var widget = isEmbedCaseStudy()
+      ? 'interactive-widget=resizes-visual'
+      : 'interactive-widget=resizes-content';
     meta.setAttribute(
       'content',
-      content + (content ? ', ' : '') + 'interactive-widget=resizes-content'
+      content + (content ? ', ' : '') + widget
     );
+  }
+
+  function setupMobileKeyboardLayout(root, $input) {
+    if (!isMobileTouchUI() || !$input) return;
+
+    var scrollLockY = 0;
+    var bodyFixed = false;
+
+    function pinToVisualViewport() {
+      var vv = window.visualViewport;
+      if (!vv) return;
+      var inset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      root.style.setProperty('--chat-vv-bottom', inset + 'px');
+      root.style.bottom = 'calc(var(--chat-vv-bottom, 16px) + env(safe-area-inset-bottom, 0px))';
+    }
+
+    function lockPageScroll() {
+      if (bodyFixed) return;
+      scrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+      document.body.style.position = 'fixed';
+      document.body.style.top = '-' + scrollLockY + 'px';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      bodyFixed = true;
+    }
+
+    function unlockPageScroll() {
+      if (!bodyFixed) return;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      window.scrollTo(0, scrollLockY);
+      bodyFixed = false;
+    }
+
+    function onKeyboardOpen() {
+      root.classList.add('is-keyboard-open');
+      document.documentElement.classList.add('is-chat-typing');
+      if (isEmbedCaseStudy()) lockPageScroll();
+      pinToVisualViewport();
+      window.setTimeout(pinToVisualViewport, 60);
+      window.setTimeout(pinToVisualViewport, 180);
+    }
+
+    function onKeyboardClose() {
+      root.classList.remove('is-keyboard-open');
+      document.documentElement.classList.remove('is-chat-typing');
+      root.style.bottom = '';
+      root.style.removeProperty('--chat-vv-bottom');
+      unlockPageScroll();
+    }
+
+    $input.addEventListener('focus', onKeyboardOpen);
+    $input.addEventListener('blur', function () {
+      window.setTimeout(function () {
+        if (document.activeElement === $input) return;
+        onKeyboardClose();
+      }, 120);
+    });
+
+    if (window.visualViewport) {
+      var onViewportChange = function () {
+        if (root.classList.contains('is-keyboard-open')) pinToVisualViewport();
+      };
+      window.visualViewport.addEventListener('resize', onViewportChange);
+      window.visualViewport.addEventListener('scroll', onViewportChange);
+    }
   }
 
   function trackEvent(name, params, attempt) {
@@ -251,6 +331,7 @@
     });
 
     bindChipHandlers(root, $input, submit, focusGuard);
+    setupMobileKeyboardLayout(root, $input);
 
     trackEvent('ai_chat_ready', { project_id: projectId });
 

@@ -1,6 +1,6 @@
 /**
  * IMSHI — AI project context
- * Visual: Adil Portfolio/imshi/imshi-product-shot.html
+ * Visual: Imshi.html editorial case study
  */
 window.PORTFOLIO_PROJECTS = window.PORTFOLIO_PROJECTS || {};
 
