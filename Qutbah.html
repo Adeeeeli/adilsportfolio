@@ -1,465 +1,252 @@
 <!DOCTYPE html>
 <html lang="en" class="case-study">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Qutbah · Live Arabic Khutbah Translation</title>
-  <meta name="description" content="Qutbah — real-time on-device AI translation for the Friday sermon. Quran recognition, Hadith attribution, Apple STT, offline-first.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link href="./Adil Portfolio/stylecss.css" rel="stylesheet">
-  <link href="./Adil Portfolio/case-study.css" rel="stylesheet">
-  <link href="./Adil Portfolio/qutbah/qutbah-case.css" rel="stylesheet">
-  <link href="./Adil Portfolio/ai/chat-ui.css" rel="stylesheet">
-  <!-- TEMP glass experiment — remove next line + chat-ui-glass-temp.css to revert -->
-  <link href="./Adil Portfolio/ai/chat-ui-glass-temp.css" rel="stylesheet">
-  <style id="case-study-critical">
-    .navigation-wrap,.menu,.w-nav,.w-nav-menu,footer.footer-dark,#footer{
-      display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important
-    }
-    html.case-study,html.case-study body{background:#06080F}
-  </style>
-  <script src="./Adil Portfolio/case-study.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Qutbah — Case Study</title>
+<meta name="description" content="Qutbah — real-time iOS translation for the Friday khutbah. On-device Arabic STT, Quran verification across 6,236 ayahs, and Hadith attribution." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="./Adil Portfolio/case-study.css" rel="stylesheet" />
+<link href="./Adil Portfolio/qutbah/qutbah-case.css" rel="stylesheet" />
+<link href="./Adil Portfolio/ai/chat-ui.css" rel="stylesheet" />
+<link href="./Adil Portfolio/ai/chat-ui-glass-temp.css" rel="stylesheet" />
+<style id="case-study-critical">
+  .navigation-wrap,.menu,.w-nav,.w-nav-menu,footer.footer-dark,#footer{
+    display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important
+  }
+  html.case-study,html.case-study body{background:#06080F}
+</style>
+<script src="./Adil Portfolio/case-study.js"></script>
 </head>
-<body class="body qutbah-case">
+<body class="qutbah-case-study">
 
-  <div class="hero-section project-page">
-    <h1 class="h1-centerated">Qutbah</h1>
-  </div>
+<body>
+<div class="progress" id="prog"></div>
 
-  <!-- ── INTRO ───────────────────────────────────────── -->
-  <div class="qutbah-intro">
-    <div class="qutbah-intro-eyebrow">Translation · On-device AI · Live on iOS</div>
-    <p class="qutbah-intro-lead">
-      An iOS app that listens to the live Friday <strong>khutbah</strong> and delivers instant
-      Arabic transcription and English translation — then quietly enriches every
-      <strong>Quranic verse</strong> and <strong>Hadith</strong> with canonical text, citations
-      and grading, <strong>without ever slowing the live feed.</strong>
-    </p>
-  </div>
-
-  <!-- ── PRODUCT SHOT ────────────────────────────────── -->
-  <div class="qutbah-shot-wrap" id="qutbahShotWrap">
-    <iframe
-      class="qutbah-shot-frame"
-      id="qutbahShotFrame"
-      title="Qutbah product showcase"
-      src="./Adil Portfolio/qutbah/qutbah-product-shot.html?embed=1"
-      loading="lazy"></iframe>
-  </div>
-
-  <!-- ── LIVE IN THE MOSQUE ──────────────────────────── -->
-  <section class="qb-live" aria-label="Live in the mosque">
-    <div class="qb-live-inner">
-      <div class="qb-live-copy">
-        <div class="qb-live-kicker">Live in the mosque</div>
-        <h2 class="qb-live-title">Layer 1 flows.<br>Layer 2 upgrades in place.</h2>
-        <p class="qb-live-desc">
-          Real session capture — English translation streaming at the top while a Quran enrichment
-          card surfaces below with canonical text and <span class="qb-cite">surah:ayah</span> citation.
-          Arabic transcription continues underneath. The feed never pauses.
-        </p>
-        <ul class="qb-live-callouts">
-          <li><span class="qb-live-dot qb-live-dot--l1"></span>Layer 1 — live English + Arabic transcription</li>
-          <li><span class="qb-live-dot qb-live-dot--l2"></span>Layer 2 — Quran card · Surah An-Nisa' 4:1</li>
-          <li><span class="qb-live-dot qb-live-dot--l2"></span>Tap for full verse · canonical Sahih International</li>
-        </ul>
-      </div>
-      <figure class="qb-live-device">
-        <div class="qb-live-phone">
-          <div class="qb-live-phone-notch" aria-hidden="true"></div>
-          <img
-            src="./Adil Portfolio/qutbah/qutbah-app-screenshot.png"
-            alt="Qutbah during a live khutbah — English translation, Quran enrichment card for Surah An-Nisa 4:1, and Arabic transcription"
-            width="390"
-            height="844"
-            loading="lazy">
-        </div>
-        <figcaption class="qb-live-caption">Captured during live Friday khutbah · on-device</figcaption>
-      </figure>
+<!-- COVER -->
+<header class="cover">
+  <div class="ar-deco">ق</div>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="wordmark"><span class="mk"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2c-1 1.6-2.5 2.4-2.5 4 0 1 .7 1.7 1.2 2H8a3 3 0 0 0-3 3v9h4v-4a3 3 0 0 1 6 0v4h4v-9a3 3 0 0 0-3-3h-2.7c.5-.3 1.2-1 1.2-2 0-1.6-1.5-2.4-2.5-4Z"/></svg></span>Qutbah</div>
     </div>
-  </section>
-
-  <!-- ── QUICK META ──────────────────────────────────── -->
-  <div class="qutbah-meta" aria-label="Technology stack">
-    <span class="qutbah-meta-pill">React Native · Expo SDK 54</span>
-    <span class="qutbah-meta-pill">Apple On-Device STT</span>
-    <span class="qutbah-meta-pill">Local Quran + Hadith Corpus</span>
-    <span class="qutbah-meta-pill">Groq · fallback only</span>
   </div>
-
-  <!-- ── NARRATIVE ───────────────────────────────────── -->
-  <article class="qb-prose">
-
-    <!-- PROBLEM -->
-    <section class="qb-section">
-      <div class="qb-kicker">01 — The Problem</div>
-      <h2 class="qb-h2">English-speaking congregants miss the nuance.</h2>
-      <p class="qb-lead">
-        When the imam quotes Quran or Hadith in Arabic, generic translation apps fall apart.
-        They aren't tuned for formal khutbah Arabic or tajweed-style recitation, they can't tell
-        scripture from commentary, and they either cost money on every chunk or invent the wrong citation.
-      </p>
-      <div class="qb-fail-grid">
-        <div class="qb-fail">
-          <span class="qb-fail-icon">⌇</span>
-          <p>Not tuned for recitation or STT mishearings — <span class="qb-ar">ذ/ض</span>, <span class="qb-ar">ث/س</span></p>
-        </div>
-        <div class="qb-fail">
-          <span class="qb-fail-icon">⊘</span>
-          <p>Can't reliably tell Quran from Hadith from plain commentary</p>
-        </div>
-        <div class="qb-fail">
-          <span class="qb-fail-icon">⚠</span>
-          <p>Network cost on every chunk — or confidently wrong citations</p>
-        </div>
-      </div>
-      <div class="qb-constraint">
-        <span class="qb-constraint-label">The product constraint</span>
-        <p>Layer 1 <span class="qb-em">(live Arabic + English)</span> must <strong>never</strong> wait on Layer 2 <span class="qb-em">(Quran / Hadith enrichment)</span>.</p>
-      </div>
-    </section>
-
-    <!-- SOLUTION -->
-    <section class="qb-section">
-      <div class="qb-kicker">02 — The Solution</div>
-      <h2 class="qb-h2">A two-layer pipeline, entirely on device.</h2>
-      <p class="qb-lead">
-        One layer keeps the conversation flowing in real time. A second layer runs parallel
-        “specialists” in the background and upgrades plain rows into canonical scripture cards
-        the moment it's confident.
-      </p>
-
-      <div class="qb-layers">
-        <div class="qb-layer qb-layer--live">
-          <div class="qb-layer-top">
-            <span class="qb-layer-tag">Layer 1</span>
-            <span class="qb-layer-latency">Instant</span>
-          </div>
-          <h3 class="qb-layer-title">The live feed — never blocked</h3>
-          <p class="qb-layer-desc">
-            Apple on-device STT (<span class="qb-ar">ar-SA</span>) plus Apple Translation stream
-            straight into a scrollable feed. No network, no waiting.
-          </p>
-        </div>
-        <div class="qb-layer qb-layer--enrich">
-          <div class="qb-layer-top">
-            <span class="qb-layer-tag">Layer 2</span>
-            <span class="qb-layer-latency">Background</span>
-          </div>
-          <h3 class="qb-layer-title">Async enrichment</h3>
-          <p class="qb-layer-desc">
-            Parallel Quran + Hadith specialists feed a deterministic arbiter. When enrichment wins,
-            a plain row upgrades into a citation card — in place, never re-rendering the feed.
-          </p>
-        </div>
-      </div>
-
-      <div class="qb-upgrade">
-        <div class="qb-upgrade-row qb-upgrade-row--plain">
-          <span class="qb-upgrade-label">Plain row</span>
-          <span class="qb-upgrade-text">…spoken Arabic, transcribed and translated live</span>
-        </div>
-        <div class="qb-upgrade-arrow" aria-hidden="true">↓ enrichment wins</div>
-        <div class="qb-upgrade-cards">
-          <div class="qb-card-quran">
-            <span class="qb-card-badge">Quran card</span>
-            <p>Canonical Sahih International English · <span class="qb-cite">surah:ayah</span></p>
-          </div>
-          <div class="qb-card-hadith">
-            <span class="qb-card-badge">Hadith card</span>
-            <p>Canonical Arabic / English · source · number · <span class="qb-cite">grading</span></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ARCHITECTURE -->
-    <section class="qb-section">
-      <div class="qb-kicker">03 — Architecture</div>
-      <h2 class="qb-h2">How a single chunk flows through the system.</h2>
-
-      <div class="qb-flow">
-        <div class="qb-flow-lane qb-flow-lane--l1">
-          <div class="qb-flow-lane-head">Layer 1 — never blocked</div>
-          <div class="qb-flow-nodes">
-            <div class="qb-node">iPhone mic</div>
-            <div class="qb-node-arrow">→</div>
-            <div class="qb-node">SFSpeechRecognizer <span>ar-SA</span></div>
-            <div class="qb-node-arrow">→</div>
-            <div class="qb-node">Apple Translation</div>
-            <div class="qb-node-arrow">→</div>
-            <div class="qb-node qb-node--ui">Live feed UI</div>
-          </div>
-        </div>
-
-        <div class="qb-flow-split" aria-hidden="true">
-          <span>STT also forks into Layer 2</span>
-        </div>
-
-        <div class="qb-flow-lane qb-flow-lane--l2">
-          <div class="qb-flow-lane-head">Layer 2 — async enrichment</div>
-          <div class="qb-flow-nodes qb-flow-nodes--specialists">
-            <div class="qb-node qb-node--spec">Quran specialist <span>localQuranDB</span></div>
-            <div class="qb-node qb-node--spec">Hadith specialist <span>hadithSpecialist + corpus</span></div>
-          </div>
-          <div class="qb-node-arrow qb-node-arrow--down">↓</div>
-          <div class="qb-node qb-node--arb">arbiter.ts</div>
-          <div class="qb-flow-verdicts">
-            <span class="qb-verdict qb-verdict--quran">quran → Quran card</span>
-            <span class="qb-verdict qb-verdict--hadith">hadith → Hadith card / buffer</span>
-            <span class="qb-verdict qb-verdict--plain">plain → feed</span>
-          </div>
-          <div class="qb-flow-fallback">
-            <span class="qb-fallback-tag">fallback only</span>
-            hadithBuffer.ts → Groq API for source attribution
-          </div>
-        </div>
-      </div>
-
-      <div class="qb-orch">
-        <div class="qb-orch-item">
-          <span class="qb-orch-key">Orchestration hub</span>
-          <code>src/hooks/useTranslation.ts</code>
-          <span class="qb-orch-note">~980 lines — STT events, chunking, debouncing, restart logic, Layer 2 dispatch, verdict application</span>
-        </div>
-        <div class="qb-orch-item">
-          <span class="qb-orch-key">State</span>
-          <code>src/store/translationStore.ts</code>
-          <span class="qb-orch-note">Zustand — session, chunks, interim text</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- CORE SYSTEMS -->
-    <section class="qb-section">
-      <div class="qb-kicker">04 — Core AI Systems</div>
-      <h2 class="qb-h2">Four matching systems doing the heavy lifting.</h2>
-
-      <div class="qb-systems">
-        <div class="qb-system">
-          <div class="qb-system-num">01</div>
-          <h3 class="qb-system-title">Quran specialist</h3>
-          <code class="qb-system-file">localQuranDB.ts · ~787 lines</code>
-          <ul class="qb-system-list">
-            <li>Full Quran indexed at module load from <code>quran_english.json</code></li>
-            <li>Arabic normalisation — alef variants, ta marbuta, diacritics, BiDi marks</li>
-            <li>Fuzzy word match with 1-edit tolerance</li>
-            <li>Confusion-class collapse for STT phoneme errors (<span class="qb-ar">ق/ك</span>, <span class="qb-ar">ص/ث/س</span>, <span class="qb-ar">ع/ء</span>…)</li>
-            <li>Composite scoring: overlap, verse coverage, ordered run, cursor bonus, khutbah penalties</li>
-            <li>Precision gates + sub-verse indexing at Quranic stop marks (<em>wuquf</em>)</li>
-          </ul>
-        </div>
-
-        <div class="qb-system">
-          <div class="qb-system-num">02</div>
-          <h3 class="qb-system-title">Hadith specialist</h3>
-          <code class="qb-system-file">hadithSpecialist.ts + localHadithDB.ts</code>
-          <ul class="qb-system-list">
-            <li><strong>Tier 1 — signals:</strong> narrator names, reporting verbs, markers, Khutbat al-Hājah openers, buffer continuity</li>
-            <li>Explicit short-circuit triggers for source attribution &amp; narrator+marker</li>
-            <li><strong>Tier 2 — corpus:</strong> 15 hand-verified khutbah hadiths (incl. Abu Dawud 2118)</li>
-            <li>Input-coverage-dominant scoring for short quotes from long matns</li>
-            <li>Canonical paint bypasses buffer and Apple/Groq when matched</li>
-          </ul>
-        </div>
-
-        <div class="qb-system">
-          <div class="qb-system-num">03</div>
-          <h3 class="qb-system-title">The arbiter</h3>
-          <code class="qb-system-file">arbiter.ts · deterministic</code>
-          <ul class="qb-system-list">
-            <li>Hadith corpus / explicit triggers beat Quran false positives</li>
-            <li>Clean Quran match beats gray-zone Hadith</li>
-            <li>Higher composite with margin wins; ties default to Quran for recitation symmetry</li>
-          </ul>
-        </div>
-
-        <div class="qb-system">
-          <div class="qb-system-num">04</div>
-          <h3 class="qb-system-title">STT layer</h3>
-          <code class="qb-system-file">speechRecognition.ts</code>
-          <ul class="qb-system-list">
-            <li>Continuous streaming, interim results, fully on-device</li>
-            <li>Idempotent start/restart guards — fixes cascading parallel sessions</li>
-            <li>Coalesced restart with exponential backoff</li>
-            <li><code>iosVoiceProcessingEnabled: false</code> — the only app-level DSP knob Apple exposes</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- DECISIONS -->
-    <section class="qb-section">
-      <div class="qb-kicker">05 — Key Engineering Decisions</div>
-      <h2 class="qb-h2">The calls that shaped the build.</h2>
-      <ul class="qb-decisions">
-        <li><strong>Parallel specialists + arbiter</strong> instead of a sequential if-tree — like three domain experts weighing in on every chunk.</li>
-        <li><strong>Layer 1 never awaits Layer 2</strong> — enrichment mutates chunks in place via <code>updateChunk</code>.</li>
-        <li><strong>On-device first</strong> — Quran DB, Hadith corpus, Apple STT and translation; Groq only as a Hadith source backup.</li>
-        <li><strong>STT-aware matching</strong> — confusion collapse and ordered runs, not exact string match.</li>
-        <li><strong>Dedup windows</strong> — the same verse or hadith is suppressed within a 2-minute window.</li>
-        <li><strong>Real mosque constraints</strong> — a Release iOS build runs offline for testing without a laptop or Metro.</li>
-      </ul>
-    </section>
-
-    <!-- CHALLENGES -->
-    <section class="qb-section">
-      <div class="qb-kicker">06 — Challenges Solved</div>
-      <h2 class="qb-h2">Real problems from real khutbah recordings.</h2>
-      <div class="qb-table">
-        <div class="qb-row qb-row--head">
-          <span>Challenge</span>
-          <span>Approach</span>
-        </div>
-        <div class="qb-row">
-          <span>STT <span class="qb-ar">ذ/ض</span> and similar letter errors</span>
-          <span>Confusion-class collapse + rescue pass in <code>localQuranDB.ts</code></span>
-        </div>
-        <div class="qb-row">
-          <span>False Quran matches on short fragments</span>
-          <span>Short-input precision gate + rescue run ≥ 4</span>
-        </div>
-        <div class="qb-row">
-          <span>Khutbat al-Hājah not classified as Hadith</span>
-          <span>Opener fingerprints + corpus entry <code>abudawud:2118</code></span>
-        </div>
-        <div class="qb-row">
-          <span>5× duplicate Hadith cards</span>
-          <span><code>recentHadithCorpusRef</code> dedup in <code>useTranslation.ts</code></span>
-        </div>
-        <div class="qb-row">
-          <span>Buffer absorbing commentary</span>
-          <span><code>trimTailCommentary</code> at source-keyword boundaries</span>
-        </div>
-        <div class="qb-row">
-          <span>17 parallel STT sessions / restart storms</span>
-          <span><code>startInFlight</code>, single <code>scheduleRestart</code>, backoff</span>
-        </div>
-        <div class="qb-row">
-          <span>Wrong English on Quran cards</span>
-          <span>UI uses canonical <code>chunk.translation</code>, truncated for collapse</span>
-        </div>
-      </div>
-      <p class="qb-progress">
-        <span class="qb-progress-tag">In progress</span>
-        PA echo and hall acoustics vs Apple STT · corpus expansion toward ~300–500 hadiths ·
-        optional six-book Hadith DB (Tier 3).
-      </p>
-    </section>
-
-    <!-- OUTCOMES -->
-    <section class="qb-section">
-      <div class="qb-kicker">07 — Outcomes</div>
-      <h2 class="qb-h2">What it does in a real mosque.</h2>
-      <div class="qb-outcomes">
-        <div class="qb-outcome">
-          <p>Quran verses and Hadith — including the full Khutbat al-Hājah — correctly enriched in live sessions.</p>
-        </div>
-        <div class="qb-outcome">
-          <p>Layer 1 stays responsive while Layer 2 upgrades cards asynchronously.</p>
-        </div>
-        <div class="qb-outcome">
-          <p>Hadith coverage scales by editing JSON — no pipeline rewrites.</p>
-        </div>
-        <div class="qb-outcome">
-          <p>Free and on-device by default; Groq is a narrow, optional fallback.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- STACK -->
-    <section class="qb-section">
-      <div class="qb-kicker">08 — Full Stack</div>
-      <h2 class="qb-h2">Everything under the hood.</h2>
-      <div class="qb-stack">
-        <div class="qb-stack-item"><span class="qb-stack-k">Framework</span><span class="qb-stack-v">React Native 0.81 · Expo SDK 54 · Expo Router 6</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">Language</span><span class="qb-stack-v">TypeScript 5.9</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">UI</span><span class="qb-stack-v">Custom design tokens · Linear Gradient · Gesture Handler · Haptics</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">State</span><span class="qb-stack-v">Zustand 5</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">Speech</span><span class="qb-stack-v">expo-speech-recognition → iOS SFSpeechRecognizer, on-device, ar-SA, continuous</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">Layer 1 translation</span><span class="qb-stack-v">Apple Translation (on-device)</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">Layer 2 — Quran</span><span class="qb-stack-v">Bundled JSON (~2.4 MB) + custom fuzzy matcher</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">Layer 2 — Hadith</span><span class="qb-stack-v">Signal classifier + curated corpus JSON</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">Fallback</span><span class="qb-stack-v">Groq API — Hadith source attribution only</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">Backend</span><span class="qb-stack-v">Supabase client present · core path is offline-first</span></div>
-        <div class="qb-stack-item"><span class="qb-stack-k">Build</span><span class="qb-stack-v">EAS-capable Expo dev client · Release build bundles JS for mosque testing</span></div>
-      </div>
-    </section>
-
-    <!-- TAGS -->
-    <section class="qb-section qb-section--tags">
-      <div class="qb-tags">
-        <span>React Native</span><span>Expo</span><span>TypeScript</span><span>On-device ML</span>
-        <span>Speech Recognition</span><span>NLP</span><span>Arabic</span><span>Offline-first</span>
-        <span>Real-time systems</span><span>iOS</span><span>Product engineering</span>
-      </div>
-    </section>
-
-  </article>
-
-  <!-- QUTBAH-CHAT-START -->
-  <div class="proj-chat-float" data-project-chat="qutbah">
-    <div class="proj-chat-panel" id="projChatPanel" role="dialog" aria-hidden="true" aria-label="Ask about Qutbah">
-      <div class="proj-chat-panel-head">
-        <span class="proj-chat-panel-title">Ask about Qutbah</span>
-        <button type="button" class="proj-chat-panel-close" aria-label="Close chat">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-          </svg>
-        </button>
-      </div>
-      <div class="proj-chat-log" role="log" aria-live="polite"></div>
-      <div class="proj-chat-chips">
-        <button type="button" class="proj-chat-chip" data-q="What is Qutbah?">What is Qutbah</button>
-        <button type="button" class="proj-chat-chip" data-q="How does Quran recognition work?">Quran matching</button>
-        <button type="button" class="proj-chat-chip" data-q="Does it work offline?">Offline</button>
-        <button type="button" class="proj-chat-chip" data-q="What tech stack did you use?">Tech stack</button>
-      </div>
-      <form class="proj-chat-form" autocomplete="off">
-        <input class="proj-chat-input" type="text" name="q" placeholder="Ask anything…" required>
-        <button class="proj-chat-send" type="submit" aria-label="Send">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>
-          </svg>
-        </button>
-      </form>
+  <div class="wrap cover-mid">
+    <div class="ar-line">خطبة</div>
+    <div class="eyebrow gd">iOS app · real-time translation</div>
+    <h1 style="margin-top:18px">The Friday sermon,<br><span class="g">translated as it’s spoken.</span></h1>
+    <p class="sub">An iOS app that listens to the khutbah in Arabic and renders a live English translation — recognising Quran verses and Hadith on the fly, and citing them from a verified on-device corpus. Built with React Native.</p>
+  </div>
+  <div class="wrap">
+    <div class="meta">
+      <div><div class="k">Role</div><div class="v">Design &amp; Engineering</div></div>
+      <div><div class="k">Type</div><div class="v">Mobile app · iOS</div></div>
+      <div><div class="k">Year</div><div class="v">2026</div></div>
+      <div><div class="k">Built with</div><div class="v">React Native · Expo · on-device AI</div></div>
     </div>
-    <div class="proj-chat-shell">
-      <button type="button" class="proj-chat-fab" aria-expanded="false" aria-controls="projChatPanel" aria-label="Open Qutbah assistant">
-        <img class="chat-ai-icon" src="./Adil Portfolio/Chatbot%20AI%20icon.svg" width="24" height="24" alt="" aria-hidden="true">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:34px">
+      <div class="scrollcue"><span class="ln"></span>Scroll to read</div>
+      <div class="kicker">01 — 07</div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 OVERVIEW -->
+<section class="block">
+  <div class="wrap">
+    <div class="twocol narrow">
+      <div>
+        <div class="kicker">01 / Overview</div>
+        <h2 style="font-size:clamp(30px,4.4vw,48px);margin-top:18px">What Qutbah is</h2>
+      </div>
+      <div>
+        <p class="lead">For a non-Arabic speaker, the Friday sermon can pass by untranslated. Qutbah closes that gap in real time — point your phone at the khutbah and read along in English as the imam speaks.</p>
+        <p style="margin-top:22px">What sets it apart is reverence for the source. When the imam recites Quran or quotes a Hadith, Qutbah doesn’t just translate the audio — it recognises the passage, pulls the canonical text and a trusted translation from an on-device corpus, and cites chapter, verse and grading. Everything runs locally, in seconds, with no connection required.</p>
+      </div>
+    </div>
+    <div class="stats" style="margin-top:60px">
+      <div class="s"><div class="num gd"><b>6,236</b></div><div class="lab">Ayahs indexed</div></div>
+      <div class="s"><div class="num em"><b>&lt;2s</b></div><div class="lab">Translation latency</div></div>
+      <div class="s"><div class="num ic"><b>On-device</b></div><div class="lab">Arabic speech-to-text</div></div>
+      <div class="s"><div class="num em"><b>Quran+Hadith</b></div><div class="lab">Verified corpus</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 BIG IDEA -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow gd">02 / The big idea</div>
+      <h2>It doesn’t guess at scripture — it verifies it.</h2>
+      <p>A raw translator would paraphrase a Quran verse and get it subtly wrong. Qutbah treats scripture differently: spoken Arabic is matched against the full Quran and a Hadith corpus, and when it locks on, it shows the <b>verified</b> verse — exact text, reference and translation — set apart on a warm scripture card.</p>
+    </div>
+    <div class="bigidea-hero">
+      <div class="phone-stage"><img src="./Adil Portfolio/qutbah/screens/live.png" alt="Qutbah live screen — translation with a verified Quran card and an attributed Hadith"></div>
+      <div class="phone-stage feature"><img src="./Adil Portfolio/qutbah/screens/quran.png" alt="Qutbah — a verified Quran verse, cited and set apart"></div>
+    </div>
+    <figcaption style="margin-top:18px">Left: live transcription with cited cards inline. Right: the moment a verse is matched — shown verified, with chapter and verse.</figcaption>
+  </div>
+</section>
+
+<!-- 03 DESIGN -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow ic">03 / Design language</div>
+      <h2>Calm enough to read in the moment.</h2>
+      <p>The app is intentionally quiet: a white-to-ice-blue gradient, near-black controls, and warm cream cards reserved exclusively for sacred text — so scripture is always visually distinct from ordinary speech. Arabic is set in Amiri; the interface in a clean geometric sans.</p>
+    </div>
+    <div class="swatches" style="margin-bottom:40px">
+      <div class="swatch"><div class="chip" style="background:linear-gradient(155deg,#fff,#EAF4FF)"></div><div class="meta-s"><div class="nm" style="color:#0b0f1b">Ice Gradient</div><div class="hex">#FFFFFF → #EAF4FF</div><div class="role">The app background — soft, bright, focused.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#FFFBF5;border-bottom:1px solid #FDEBD0"></div><div class="meta-s"><div class="nm" style="color:#0b0f1b">Scripture Cream</div><div class="hex">#FFFBF5</div><div class="role">Reserved for Quran &amp; Hadith surfaces.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#16a34a"></div><div class="meta-s"><div class="nm">Verified Green</div><div class="hex">#16A34A</div><div class="role">Quran match — the “this is confirmed” signal.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:linear-gradient(135deg,#d4af37,#f0cc60)"></div><div class="meta-s"><div class="nm">Hadith Gold</div><div class="hex">#D4AF37</div><div class="role">Hadith attribution &amp; the Qutbah wordmark.</div></div></div>
+    </div>
+    <div class="twocol">
+      <div class="phone-stage"><img src="./Adil Portfolio/qutbah/screens/live.png" alt="Qutbah live screen"></div>
+      <div>
+        <div class="kicker">A light app, a dark brand</div>
+        <p style="margin-top:10px">The product itself is bright and legible for use inside a mosque; the brand world around it — this case study, the marketing — runs deep navy with emerald and gold, echoing the scripture accents. Two registers, one identity.</p>
+        <p style="margin-top:18px">Every colour, type ramp and radius comes from a single Material-3 token file — the source of truth the whole codebase references, so nothing is ever hard-coded.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 THE INTELLIGENCE -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">04 / The intelligence</div>
+      <h2>From spoken Arabic to a cited verse.</h2>
+      <p>Behind the calm screen is a multi-stage pipeline. Audio becomes text, text becomes translation, and a pair of specialists decide whether what was said is scripture — and if so, prove it.</p>
+    </div>
+    <div class="pipe" style="margin-bottom:46px">
+      <div class="node">Arabic STT<small>Apple · on-device</small></div><span class="arrow">→</span>
+      <div class="node">Live translation<small>Groq LLaMA</small></div><span class="arrow">→</span>
+      <div class="node">Quran verifier<small>6,236 ayahs</small></div><span class="arrow">→</span>
+      <div class="node">Hadith specialist<small>corpus + grading</small></div><span class="arrow">→</span>
+      <div class="node">Arbiter<small>decides &amp; cites</small></div>
+    </div>
+    <div class="principles">
+      <div class="cell"><div class="n">01</div><h4>On-device speech</h4><p>Arabic is transcribed live with Apple’s on-device speech recognition — private, fast, and fully offline.</p></div>
+      <div class="cell"><div class="n">02</div><h4>Quran verification</h4><p>Candidate text is matched against all 6,236 ayahs with a composite similarity score; a high match swaps the paraphrase for the canonical verse and reference.</p></div>
+      <div class="cell"><div class="n">03</div><h4>Hadith attribution</h4><p>A specialist scans a local Hadith corpus, attributing quotes to their collection and number — with the authenticity grade (Sahih, etc.).</p></div>
+      <div class="cell"><div class="n">04</div><h4>The arbiter</h4><p>A final arbiter weighs the signals — translation, Quran score, Hadith confidence — and decides what to surface, so the screen never shows a guess as if it were a fact.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 SCREENS -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow gd">05 / The app, screen by screen</div>
+      <h2>One tap, then just listen.</h2>
+      <p>Open, tap record, and place the phone down. Translation streams in; verses and Hadith surface as they’re recognised; and every session is saved to revisit later.</p>
+    </div>
+    <div class="phone-row" style="margin-bottom:30px">
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/qutbah/screens/live.png" alt="Live translation"></div><figcaption>Live — translation streams as the imam speaks.</figcaption></figure>
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/qutbah/screens/quran.png" alt="Quran verse detected"></div><figcaption>Verified — a Quran verse, cited and set apart.</figcaption></figure>
+      <figure><div class="phone-stage"><img src="./Adil Portfolio/qutbah/screens/hadith.png" alt="Hadith attribution"></div><figcaption>Attributed — Hadith with source &amp; grade.</figcaption></figure>
+    </div>
+    <div class="twocol" style="margin-top:30px">
+      <div>
+        <div class="pull"><em class="ic">History —</em> every khutbah is kept: date, mosque, duration, and a preview, flagged when it contains scripture you can jump back to.</div>
+      </div>
+      <div class="phone-stage"><img src="./Adil Portfolio/qutbah/screens/history.png" alt="History of previous khutbahs" style="max-width:300px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 UNDER THE HOOD -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">06 / Under the hood</div>
+      <h2>How it’s built.</h2>
+      <p>A cross-platform React Native app with the heavy lifting kept on-device: native speech, local scripture databases, and a thin LLM layer only where paraphrase is genuinely needed.</p>
+    </div>
+    <div class="stack-tags" style="margin-bottom:52px">
+      <span>React Native</span><span>Expo SDK 54</span><span>expo-router</span><span>Apple on-device STT</span>
+      <span>Local Quran DB (6,236)</span><span>Local Hadith corpus</span><span>Groq LLaMA 3.1</span><span>expo-translate</span><span>Zustand</span><span>Material 3 tokens</span>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="idx">A.</div><div><h4>Listen</h4><p><code>@jamsch/expo-speech-recognition</code> streams Arabic audio into live transcript chunks on-device — no audio ever leaves the phone.</p></div></div>
+      <div class="step"><div class="idx">B.</div><div><h4>Translate</h4><p>Ordinary speech is translated through a thin LLM layer (Groq LLaMA) and <code>expo-translate</code>, tuned for the register of a sermon and streamed in under two seconds.</p></div></div>
+      <div class="step"><div class="idx">C.</div><div><h4>Verify &amp; attribute</h4><p>A local Quran database and Hadith corpus run similarity matching with position tracking; specialists score candidates and an <code>arbiter</code> decides whether to show a verified verse, an attributed Hadith, or plain translation.</p></div></div>
+      <div class="step"><div class="idx">D.</div><div><h4>Keep</h4><p>Sessions persist to history with their detected quotes; a Zustand store drives the live UI while everything reads from one Material-3 design-token source of truth.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 OUTCOME -->
+<section class="block">
+  <div class="wrap">
+    <div class="twocol narrow">
+      <div>
+        <div class="kicker">07 / Outcome</div>
+        <h2 style="font-size:clamp(30px,4.4vw,48px);margin-top:18px">The result</h2>
+      </div>
+      <div>
+        <p class="lead">An app that makes the Friday sermon accessible to anyone — without ever putting words in the imam’s mouth.</p>
+        <p style="margin-top:22px">It pairs a hard real-time pipeline (on-device STT, live translation, Quran and Hadith verification, an arbiter) with an interface calm enough to read mid-prayer. The hard engineering disappears behind a single tap — which is exactly the point.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="ar">خطبة</div>
+    <h2>Listen. Translate. Understand.</h2>
+    <div class="sig">Design &amp; build case study · 2026</div>
+  </div>
+</footer>
+
+<script>
+  const prog=document.getElementById('prog');
+  const onScroll=()=>{const h=document.documentElement;const sc=h.scrollTop/(h.scrollHeight-h.clientHeight);prog.style.width=(sc*100)+'%';};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+</script>
+
+<div class="proj-chat-float" data-project-chat="qutbah">
+  <div class="proj-chat-panel" id="projChatPanel" role="dialog" aria-hidden="true" aria-label="Ask about Qutbah">
+    <div class="proj-chat-panel-head">
+      <span class="proj-chat-panel-title">Ask about Qutbah</span>
+      <button type="button" class="proj-chat-panel-close" aria-label="Close chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>
+    <div class="proj-chat-log" role="log" aria-live="polite"></div>
+    <div class="proj-chat-chips">
+      <button type="button" class="proj-chat-chip" data-q="What is Qutbah?">What is Qutbah</button>
+      <button type="button" class="proj-chat-chip" data-q="How does Quran recognition work?">Quran matching</button>
+      <button type="button" class="proj-chat-chip" data-q="Does it work offline?">Offline</button>
+      <button type="button" class="proj-chat-chip" data-q="What tech stack did you use?">Tech stack</button>
+    </div>
+    <form class="proj-chat-form" autocomplete="off">
+      <input class="proj-chat-input" type="text" name="q" placeholder="Ask anything…" required>
+      <button class="proj-chat-send" type="submit" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+      </button>
+    </form>
   </div>
-  <!-- QUTBAH-CHAT-END -->
+  <div class="proj-chat-shell">
+    <button type="button" class="proj-chat-fab" aria-expanded="false" aria-controls="projChatPanel" aria-label="Open Qutbah assistant">
+      <img class="chat-ai-icon" src="./Adil Portfolio/Chatbot%20AI%20icon.svg" width="24" height="24" alt="" aria-hidden="true">
+    </button>
+  </div>
+</div>
 
-  <script>
-  (function () {
-    var BASE_W = 1440;
-    var BASE_H = 900;
-    var wrap = document.getElementById('qutbahShotWrap');
-    var frame = document.getElementById('qutbahShotFrame');
-
-    function scaleShot() {
-      if (!wrap || !frame) return;
-      var w = wrap.clientWidth;
-      var scale = Math.min(1, w / BASE_W);
-      frame.style.transform = 'scale(' + scale + ')';
-      wrap.style.height = Math.ceil(BASE_H * scale) + 'px';
-    }
-
-    window.addEventListener('resize', scaleShot);
-    frame.addEventListener('load', scaleShot);
-    scaleShot();
-  })();
-  </script>
-
-  <script src="./Adil Portfolio/ai/config.js"></script>
-  <script src="./Adil Portfolio/ai/adil-global.js"></script>
-  <script src="./Adil Portfolio/ai/voice-loader.js"></script>
-  <script src="./Adil Portfolio/ai/projects/qutbah.js"></script>
-  <script src="./Adil Portfolio/ai/engine.js"></script>
-  <script src="./Adil Portfolio/ai/chat-ui.js"></script>
+<script src="./Adil Portfolio/ai/config.js"></script>
+<script src="./Adil Portfolio/ai/adil-global.js"></script>
+<script src="./Adil Portfolio/ai/voice-loader.js"></script>
+<script src="./Adil Portfolio/ai/projects/qutbah.js"></script>
+<script src="./Adil Portfolio/ai/engine.js"></script>
+<script src="./Adil Portfolio/ai/chat-ui.js"></script>
 </body>
 </html>

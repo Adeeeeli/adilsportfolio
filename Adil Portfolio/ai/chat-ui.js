@@ -6,6 +6,17 @@
       /iPhone|iPod|iPad|Android/i.test(navigator.userAgent);
   }
 
+  function ensureMobileViewport() {
+    var meta = document.querySelector('meta[name="viewport"]');
+    if (!meta) return;
+    var content = meta.getAttribute('content') || '';
+    if (/interactive-widget/i.test(content)) return;
+    meta.setAttribute(
+      'content',
+      content + (content ? ', ' : '') + 'interactive-widget=resizes-content'
+    );
+  }
+
   function trackEvent(name, params, attempt) {
     if (window.AdilAnalytics) {
       AdilAnalytics.event(name, params || {});
@@ -19,46 +30,17 @@
   }
 
   function createFocusGuard($input) {
-    var userRequestedFocus = false;
-
     function blurInput() {
-      if (!$input) return;
-      userRequestedFocus = false;
-      $input.blur();
+      if ($input) $input.blur();
     }
 
-    function focusInput(allowProgrammatic) {
-      if (!$input) return;
-      if (isMobileTouchUI()) {
-        if (allowProgrammatic && userRequestedFocus) {
-          try {
-            $input.focus({ preventScroll: true });
-          } catch (e) {
-            $input.focus();
-          }
-        } else {
-          blurInput();
-        }
-        return;
-      }
+    function focusInput() {
+      if (!$input || isMobileTouchUI()) return;
       try {
         $input.focus({ preventScroll: true });
       } catch (e) {
         $input.focus();
       }
-    }
-
-    if ($input && isMobileTouchUI()) {
-      $input.addEventListener('touchstart', function () {
-        userRequestedFocus = true;
-      }, { passive: true });
-
-      $input.addEventListener('focus', function () {
-        if (!userRequestedFocus) {
-          $input.blur();
-        }
-        userRequestedFocus = false;
-      });
     }
 
     return { focusInput: focusInput, blurInput: blurInput };
@@ -78,7 +60,7 @@
       if (focusGuard) focusGuard.blurInput();
       if (!isMobileTouchUI()) {
         window.setTimeout(function () {
-          if (focusGuard) focusGuard.focusInput(true);
+          if (focusGuard) focusGuard.focusInput();
         }, 280);
       }
     }
@@ -207,7 +189,7 @@
       const text = (q || '').trim();
       if (!text) return;
 
-      if (source === 'chip' || isMobileTouchUI()) {
+      if (source === 'chip') {
         focusGuard.blurInput();
       }
 
@@ -244,17 +226,16 @@
         console.error(err);
       } finally {
         $send.disabled = false;
-        if (source === 'chip' || isMobileTouchUI()) {
+        if (source === 'chip') {
           focusGuard.blurInput();
-        } else {
-          focusGuard.focusInput(true);
+        } else if (!isMobileTouchUI()) {
+          focusGuard.focusInput();
         }
       }
     }
 
     $form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (isMobileTouchUI()) focusGuard.blurInput();
       submit($input.value, 'typed');
     });
 
@@ -266,14 +247,8 @@
     });
 
     $send.addEventListener('click', function () {
-      focusGuard.blurInput();
+      if (!isMobileTouchUI()) focusGuard.blurInput();
     });
-
-    if (isMobileTouchUI()) {
-      $send.addEventListener('touchend', function () {
-        focusGuard.blurInput();
-      }, { passive: true });
-    }
 
     bindChipHandlers(root, $input, submit, focusGuard);
 
@@ -287,6 +262,7 @@
   window.isMobileTouchUI = isMobileTouchUI;
 
   document.addEventListener('DOMContentLoaded', function () {
+    ensureMobileViewport();
     document.querySelectorAll('[data-project-chat]').forEach(function (el) {
       initProjectChat(el.getAttribute('data-project-chat'), el);
     });

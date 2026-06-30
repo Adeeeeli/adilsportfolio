@@ -1,6 +1,6 @@
 /**
  * Qutbah — AI project context
- * Visual: Adil Portfolio/qutbah/qutbah-product-shot.html
+ * Case study: Qutbah.html
  */
 window.PORTFOLIO_PROJECTS = window.PORTFOLIO_PROJECTS || {};
 
@@ -24,13 +24,15 @@ window.PORTFOLIO_PROJECTS.qutbah = {
     'What tech stack did you use?'
   ],
   fullContext: [
-    'QUTBAH | Live iOS app | v1.0 | Friday Sermon Translation.',
-    'Tagline: Real-time AI translation for the Friday Sermon. Quran verses, Hadith attribution, and spoken Arabic — on-device, in seconds.',
-    'Features: Instant Quran verse recognition across 6,236 ayahs. Hadith source attribution with grading. On-device Arabic speech-to-text via Apple STT. Sub-2 second translation latency, no internet needed.',
-    'Metrics shown: Quran Match composite 0.93. Hadith Confidence corpus 0.91. Verses Indexed 6,236 ayahs. STT Latency under 2s on-device.',
-    'UI: Live badge during sermon. Plain translation chunks plus Quran cards (Arabic, English, surah reference) and Hadith cards (Arabic, English, source grading e.g. Sahih).',
-    'Tech stack: React Native, Expo SDK 54, Apple On-Device STT, Local Quran + Hadith Corpus, Groq LLaMA 3.1.',
-    'Use case: Worshippers who need live English translation during Friday khutbah with scholarly attribution for Quranic and Hadith content.'
+    'QUTBAH | Live iOS app | v1.0 | Friday Sermon Translation | 2026.',
+    'Tagline: The Friday sermon, translated as it is spoken — Quran and Hadith verified from an on-device corpus.',
+    'Pipeline: Arabic STT (Apple on-device) → live translation (Groq LLaMA) → Quran verifier (6,236 ayahs) → Hadith specialist → arbiter decides what to surface.',
+    'Quran: composite similarity matching swaps paraphrase for canonical verse, reference and translation on a warm scripture card.',
+    'Hadith: local corpus attribution with collection, number and grading (Sahih, etc.).',
+    'Design: ice gradient app UI for in-mosque legibility; deep navy brand world with emerald and gold accents. Material 3 tokens as single source of truth.',
+    'Screens: live translation, verified Quran card, attributed Hadith, session history with scripture flags.',
+    'Tech: React Native, Expo SDK 54, expo-router, @jamsch/expo-speech-recognition, local Quran DB, local Hadith corpus, Groq LLaMA 3.1, expo-translate, Zustand.',
+    'Adil\'s role: Design and engineering — product UX, scripture verification pipeline, and React Native implementation.'
   ].join('\n\n'),
   sections: [
     {

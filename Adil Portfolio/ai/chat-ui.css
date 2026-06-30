@@ -10,6 +10,8 @@
   pointer-events: none;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  width: max-content;
+  max-width: calc(100vw - 32px);
 }
 
 .proj-chat-float * {
@@ -277,7 +279,8 @@
   touch-action: manipulation;
 }
 
-.proj-chat-form input {
+.proj-chat-form input,
+.proj-chat-form input.proj-chat-input {
   flex: 1;
   min-width: 0;
   height: 40px;
@@ -289,13 +292,20 @@
   font-family: inherit;
   font-size: 16px; /* ≥16px prevents iOS Safari focus zoom */
   font-weight: 500;
+  line-height: 1.25;
   color: rgba(255, 255, 255, 0.82);
   outline: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  touch-action: manipulation;
+  transform: none;
   transition: border-color 0.2s, background 0.2s;
 }
 
 .proj-chat-form input::placeholder {
   color: rgba(255, 255, 255, 0.28);
+  font-size: 16px;
+  line-height: 1.25;
 }
 
 .proj-chat-form input:focus {
@@ -353,7 +363,36 @@
 }
 
 @media (pointer: coarse), (hover: none) {
-  .proj-chat-form input {
+  .proj-chat-float {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .proj-chat-panel {
+    left: auto;
+    right: auto;
+    transform: translateY(10px) scale(0.96);
+  }
+
+  .proj-chat-float.is-open .proj-chat-panel {
+    transform: translateY(0) scale(1);
+  }
+
+  .proj-chat-form input,
+  .proj-chat-form input.proj-chat-input {
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+  }
+
+  .proj-chat-form input::placeholder {
     font-size: 16px !important;
   }
 }

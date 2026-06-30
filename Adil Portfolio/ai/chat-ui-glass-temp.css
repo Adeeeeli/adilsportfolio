@@ -84,6 +84,11 @@
 
 .proj-chat-form input {
   font-size: 16px; /* must stay ≥16px — prevents iOS Safari focus zoom */
+  line-height: 1.25;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  touch-action: manipulation;
+  transform: none;
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.16);
   color: rgba(255, 255, 255, 0.92);
@@ -93,6 +98,7 @@
 
 .proj-chat-form input::placeholder {
   color: rgba(255, 255, 255, 0.42);
+  font-size: 16px;
 }
 
 .proj-chat-form input:focus {
