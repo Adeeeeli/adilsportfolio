@@ -140,12 +140,54 @@
     .hero-text.pushed{transform:translateY(-60px);opacity:0;pointer-events:none}
 
     @media(min-width:620px){
-      .hero-photo{width:min(300px,50vw);bottom:30vh}
       .hero-text{top:calc(3% - 8px)}
       .hero-name-back{
         top:13%;
         font-size:clamp(48px,10vw,100px);
         letter-spacing:-4px}}
+
+    /* Desktop — larger hero + wider drawer; touch/mobile unchanged */
+    @media (min-width:768px) and (hover:hover) and (pointer:fine){
+      .hero-photo{
+        width:min(500px,44vw);
+        bottom:14vh}
+      .hero-name-back{
+        top:17%;
+        font-size:clamp(72px,10vw,156px);
+        letter-spacing:-5px}
+      .hero-text{top:calc(2% - 4px)}
+      .drawer{
+        width:38vw;
+        min-width:580px;
+        max-width:none}
+      .proj-card,.mgr-card{
+        width:200px;
+        height:276px}
+      .tabs{padding:12px 24px 10px}
+      .scroll{padding-left:24px;padding-right:24px}
+      .proj-row{margin:0 -24px;padding-left:24px;padding-right:24px}}
+
+    @media (min-width:1100px) and (hover:hover) and (pointer:fine){
+      .hero-photo{
+        width:min(580px,42vw);
+        bottom:12vh}
+      .hero-name-back{
+        top:18%;
+        font-size:clamp(88px,8.5vw,180px);
+        letter-spacing:-6px}
+      .drawer{width:40vw;min-width:640px}
+      .proj-card,.mgr-card{
+        width:220px;
+        height:304px}}
+
+    @media (min-width:1440px) and (hover:hover) and (pointer:fine){
+      .hero-photo{
+        width:min(660px,40vw);
+        bottom:10vh}
+      .hero-name-back{
+        top:19%;
+        font-size:clamp(96px,7.5vw,200px)}
+      .drawer{width:40vw;min-width:700px}}
 
     .hero-pill{
       position:relative;overflow:hidden;
@@ -233,8 +275,15 @@
       /* Leave the bottom nav corridor clear for About / Contact taps */
       bottom:calc(76px + var(--safe-bottom))}
 
-    @media(min-width:620px){
-      .drawer{max-width:500px;left:50%;right:auto;
+    @media(min-width:620px) and (pointer:coarse){
+      .drawer{width:min(500px,92vw);max-width:none;left:50%;right:auto;
+        transform:translate3d(-50%,calc(100% - 38svh),0);
+        border-left:1px solid rgba(255,255,255,.08);
+        border-right:1px solid rgba(255,255,255,.08)}
+      .drawer.open{transform:translate3d(-50%,0,0)}}
+
+    @media(min-width:620px) and (hover:hover) and (pointer:fine){
+      .drawer{width:38vw;min-width:580px;max-width:none;left:50%;right:auto;
         transform:translate3d(-50%,calc(100% - 38svh),0);
         border-left:1px solid rgba(255,255,255,.08);
         border-right:1px solid rgba(255,255,255,.08)}
