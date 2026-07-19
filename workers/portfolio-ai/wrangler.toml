@@ -5,10 +5,9 @@ compatibility_date = "2026-07-01"
 # Set your Gemini key after deploy:
 #   npx wrangler secret put GEMINI_API_KEY
 #
-# Optional overrides:
-#   GEMINI_MODEL = gemini-2.0-flash (default — fast, widely available)
-#   GEMINI_MODEL = gemini-3.5-flash (smarter, slower)
+# This API key's free tier currently works with gemini-3.5-flash.
+# Faster models (2.0-flash / flash-lite) returned limit:0 or "not available to new users".
 
 [vars]
-GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_MODEL = "gemini-3.5-flash"
 ALLOWED_ORIGINS = "https://adilahmad.co.uk,https://www.adilahmad.co.uk,http://localhost:8765,http://localhost:8767,http://127.0.0.1:8765,http://127.0.0.1:8767"

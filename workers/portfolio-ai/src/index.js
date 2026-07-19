@@ -101,12 +101,10 @@ async function callGemini(env, systemPrompt, userPrompt) {
   }
 
   /* Prefer a fast Flash model; fall back if this key can't use it */
-  const preferred = env.GEMINI_MODEL || 'gemini-2.0-flash';
-  const models = [preferred, 'gemini-2.0-flash', 'gemini-3.5-flash'].filter(
-    function (m, i, arr) {
-      return m && arr.indexOf(m) === i;
-    }
-  );
+  const preferred = env.GEMINI_MODEL || 'gemini-3.5-flash';
+  const models = [preferred, 'gemini-3.5-flash'].filter(function (m, i, arr) {
+    return m && arr.indexOf(m) === i;
+  });
 
   let lastErr = null;
   for (let i = 0; i < models.length; i++) {
@@ -117,7 +115,9 @@ async function callGemini(env, systemPrompt, userPrompt) {
       lastErr = err;
       const msg = String((err && err.message) || err);
       const unavailable =
-        /no longer available|not found|not supported|INVALID_ARGUMENT/i.test(msg);
+        /no longer available|not found|not supported|INVALID_ARGUMENT|exceeded your current quota|rate.limit|limit: 0/i.test(
+          msg
+        );
       if (!unavailable || i === models.length - 1) throw err;
     }
   }
@@ -196,7 +196,7 @@ export default {
         {
           ok: true,
           service: 'adil-portfolio-ai',
-          model: env.GEMINI_MODEL || 'gemini-2.0-flash',
+          model: env.GEMINI_MODEL || 'gemini-3.5-flash',
         },
         200,
         headers
