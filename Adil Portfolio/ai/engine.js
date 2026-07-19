@@ -78,6 +78,9 @@
     return answer;
   }
 
+  /**
+   * @returns {Promise<{ answer: string, source: 'llm'|'local'|'local_fallback' }>}
+   */
   async function portfolioAsk(projectId, query, history) {
     const project = window.PORTFOLIO_PROJECTS && window.PORTFOLIO_PROJECTS[projectId];
     if (!project) throw new Error('Unknown project: ' + projectId);
@@ -88,14 +91,16 @@
 
     if (canLlm) {
       try {
-        return await llmAnswer(project, projectId, query, history, cfg);
+        const answer = await llmAnswer(project, projectId, query, history, cfg);
+        return { answer: answer, source: 'llm' };
       } catch (err) {
         console.warn('[portfolio AI] LLM failed, using local fallback:', err);
         if (!allowFallback) throw err;
+        return { answer: localAnswer(project, query, history), source: 'local_fallback' };
       }
     }
 
-    return localAnswer(project, query, history);
+    return { answer: localAnswer(project, query, history), source: 'local' };
   }
 
   window.portfolioAsk = portfolioAsk;

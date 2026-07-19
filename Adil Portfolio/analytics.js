@@ -1,6 +1,18 @@
 (function (global) {
   'use strict';
 
+  /* Google Analytics 4 — property G-JL2894MXJN
+   *
+   * AI chatbot events (from case-study iframes → shell → gtag):
+   *   ai_chat_panel_open / ai_chat_panel_close  { project_id }
+   *   ai_chat_question  { project_id, project_name, question, question_length, input_source }
+   *   ai_chat_reply     { project_id, project_name, question, answer_source, success, latency_ms }
+   *
+   * In GA4 Admin → Custom definitions, register as event-scoped dimensions:
+   *   project_id, project_name, question, input_source, answer_source
+   * Then Explore → Free form: rows = question, breakdown = project_name.
+   */
+
   var ID = 'G-JL2894MXJN';
   var SOURCE = 'adil-portfolio';
   var embedded = global.top !== global.self;

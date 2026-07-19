@@ -384,35 +384,52 @@
       while (history.length > MAX_CTX) history.shift();
       $input.value = '';
 
-      if (window.AdilAnalytics) {
-        AdilAnalytics.event('ai_chat_message', {
-          project_id: projectId,
-          message_length: text.length,
-          input_source: source || 'typed'
-        });
-      } else {
-        trackEvent('ai_chat_message', {
-          project_id: projectId,
-          message_length: text.length,
-          input_source: source || 'typed'
-        });
-      }
+      /* GA4 event params max ~100 chars — keep question readable in Explore */
+      var questionParam = text.length > 100 ? text.slice(0, 97) + '…' : text;
+      var projectName = (project && project.title) || projectId;
+      trackEvent('ai_chat_question', {
+        project_id: projectId,
+        project_name: projectName,
+        question: questionParam,
+        question_length: text.length,
+        input_source: source || 'typed'
+      });
 
       try {
         typing(true);
         /* Force a paint so Thinking dots are visible before the ask resolves */
         await nextPaint();
         var started = Date.now();
-        var a = await window.portfolioAsk(projectId, text, history);
+        var result = await window.portfolioAsk(projectId, text, history);
+        var a = result && typeof result === 'object' ? result.answer : result;
+        var answerSource =
+          result && typeof result === 'object' && result.source
+            ? result.source
+            : 'unknown';
         var elapsed = Date.now() - started;
         var minThinkMs = 900;
         if (elapsed < minThinkMs) await wait(minThinkMs - elapsed);
         typing(false);
+        trackEvent('ai_chat_reply', {
+          project_id: projectId,
+          project_name: projectName,
+          question: questionParam,
+          answer_source: answerSource,
+          success: true,
+          latency_ms: elapsed
+        });
         await typeOut(a);
         history.push({ role: 'bot', text: a });
         while (history.length > MAX_CTX) history.shift();
       } catch (err) {
         typing(false);
+        trackEvent('ai_chat_reply', {
+          project_id: projectId,
+          project_name: projectName,
+          question: questionParam,
+          answer_source: 'error',
+          success: false
+        });
         await typeOut('Something went wrong — try again in a moment.');
         console.error(err);
       } finally {
