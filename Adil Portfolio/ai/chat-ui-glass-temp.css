@@ -29,7 +29,20 @@
 
 /* ── Header copy — less muted ── */
 .proj-chat-panel-title {
-  color: rgba(255, 255, 255, 0.88);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.proj-chat-avatar {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.proj-chat-status {
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.proj-chat-panel-head {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ── FAB shell (when panel open) ── */
@@ -68,6 +81,19 @@
   -webkit-backdrop-filter: blur(16px);
 }
 
+.proj-chat-log .msg.typing {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.proj-chat-typing-label {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.proj-chat-typing-dots span {
+  background: rgba(255, 255, 255, 0.85);
+}
+
 .proj-chat-chip {
   color: rgba(255, 255, 255, 0.72);
   background: rgba(255, 255, 255, 0.06);
@@ -83,7 +109,7 @@
 }
 
 .proj-chat-form input {
-  font-size: 16px; /* must stay ≥16px — prevents iOS Safari focus zoom */
+  font-size: 12px;
   line-height: 1.25;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -98,7 +124,7 @@
 
 .proj-chat-form input::placeholder {
   color: rgba(255, 255, 255, 0.42);
-  font-size: 16px;
+  font-size: 12px;
 }
 
 .proj-chat-form input:focus {

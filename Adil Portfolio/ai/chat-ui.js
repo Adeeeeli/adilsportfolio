@@ -214,6 +214,34 @@
       $form.setAttribute('novalidate', '');
     }
 
+    (function enhanceChatChrome() {
+      var head = root.querySelector('.proj-chat-panel-head');
+      var titleEl = root.querySelector('.proj-chat-panel-title');
+      if (head && titleEl && !head.querySelector('.proj-chat-brand')) {
+        var label = titleEl.textContent.trim() || 'AI assistant';
+        var icon = root.querySelector('.proj-chat-fab img.chat-ai-icon');
+        var iconSrc = icon ? icon.getAttribute('src') : '';
+        var brand = document.createElement('div');
+        brand.className = 'proj-chat-brand';
+        brand.innerHTML =
+          (iconSrc
+            ? '<span class="proj-chat-avatar" aria-hidden="true"><img src="' +
+              iconSrc +
+              '" width="18" height="18" alt=""></span>'
+            : '') +
+          '<span class="proj-chat-brand-copy">' +
+          '<span class="proj-chat-panel-title">' +
+          label +
+          '</span>' +
+          '<span class="proj-chat-status"><span class="proj-chat-status-dot" aria-hidden="true"></span>AI assistant · Online</span>' +
+          '</span>';
+        titleEl.replaceWith(brand);
+      }
+      if (!$input.getAttribute('placeholder') || $input.getAttribute('placeholder') === 'Ask anything…') {
+        $input.setAttribute('placeholder', 'Message the AI…');
+      }
+    })();
+
     const history = [];
     const MAX_CTX = 10;
 
@@ -224,9 +252,10 @@
       }
     }
 
-    function append(role, text) {
+    function append(role, text, opts) {
       const el = document.createElement('div');
       el.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
+      if (!opts || opts.animate !== false) el.classList.add('is-enter');
       el.textContent = text;
       $log.appendChild(el);
       if (role === 'user' && $chips) {
@@ -234,6 +263,36 @@
       }
       syncChatLayout();
       $log.scrollTop = $log.scrollHeight;
+      return el;
+    }
+
+    function wait(ms) {
+      return new Promise(function (resolve) {
+        window.setTimeout(resolve, ms);
+      });
+    }
+
+    function nextPaint() {
+      return new Promise(function (resolve) {
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(resolve);
+        });
+      });
+    }
+
+    function setAssistantStatus(mode) {
+      var status = root.querySelector('.proj-chat-status');
+      if (!status) return;
+      if (mode === 'thinking') {
+        status.innerHTML =
+          '<span class="proj-chat-status-dot is-busy" aria-hidden="true"></span>Thinking…';
+      } else if (mode === 'writing') {
+        status.innerHTML =
+          '<span class="proj-chat-status-dot is-busy" aria-hidden="true"></span>Writing…';
+      } else {
+        status.innerHTML =
+          '<span class="proj-chat-status-dot" aria-hidden="true"></span>AI assistant · Online';
+      }
     }
 
     function typing(on) {
@@ -242,15 +301,73 @@
         if (!t) {
           t = document.createElement('div');
           t.id = 'projChatTyping';
-          t.className = 'msg bot';
-          t.textContent = '…';
+          t.className = 'msg bot typing is-enter';
+          t.setAttribute('aria-live', 'polite');
+          t.setAttribute('aria-label', 'Assistant is thinking');
+          t.innerHTML =
+            '<span class="proj-chat-typing-dots" aria-hidden="true">' +
+            '<span></span><span></span><span></span>' +
+            '</span>' +
+            '<span class="proj-chat-typing-label">Thinking</span>';
           $log.appendChild(t);
         }
+        setAssistantStatus('thinking');
       } else if (t) {
         t.remove();
       }
       syncChatLayout();
       $log.scrollTop = $log.scrollHeight;
+    }
+
+    function typeOut(text) {
+      return new Promise(function (resolve) {
+        const reduced =
+          window.matchMedia &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduced || !text) {
+          append('bot', text || '');
+          resolve();
+          return;
+        }
+
+        setAssistantStatus('writing');
+        const el = append('bot', '', { animate: true });
+        el.classList.add('is-streaming');
+        const full = String(text);
+        let i = 0;
+
+        /* Character reveal — readable “AI typing”, not an instant dump */
+        function delayFor(ch) {
+          if (ch === '\n') return 140;
+          if (ch === '.' || ch === '!' || ch === '?') return 110;
+          if (ch === ',' || ch === ';' || ch === ':') return 55;
+          if (ch === ' ') return 22;
+          return 32;
+        }
+
+        function chunkSize() {
+          if (full.length > 1200) return 3;
+          if (full.length > 500) return 2;
+          return 1;
+        }
+
+        function tick() {
+          var n = chunkSize();
+          var end = Math.min(full.length, i + n);
+          var last = full.charAt(end - 1) || '';
+          i = end;
+          el.textContent = full.slice(0, i);
+          $log.scrollTop = $log.scrollHeight;
+          if (i < full.length) {
+            window.setTimeout(tick, delayFor(last));
+          } else {
+            el.classList.remove('is-streaming');
+            setAssistantStatus('online');
+            resolve();
+          }
+        }
+        tick();
+      });
     }
 
     async function submit(q, source) {
@@ -283,16 +400,23 @@
 
       try {
         typing(true);
-        const a = await window.portfolioAsk(projectId, text, history);
+        /* Force a paint so Thinking dots are visible before the ask resolves */
+        await nextPaint();
+        var started = Date.now();
+        var a = await window.portfolioAsk(projectId, text, history);
+        var elapsed = Date.now() - started;
+        var minThinkMs = 900;
+        if (elapsed < minThinkMs) await wait(minThinkMs - elapsed);
         typing(false);
-        append('bot', a);
+        await typeOut(a);
         history.push({ role: 'bot', text: a });
         while (history.length > MAX_CTX) history.shift();
       } catch (err) {
         typing(false);
-        append('bot', 'Something went wrong — try again in a moment.');
+        await typeOut('Something went wrong — try again in a moment.');
         console.error(err);
       } finally {
+        setAssistantStatus('online');
         $send.disabled = false;
         if (source === 'chip') {
           focusGuard.blurInput();

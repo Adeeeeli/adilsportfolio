@@ -53,30 +53,46 @@
     }
   }
 
+  async function llmAnswer(project, projectId, query, history, cfg) {
+    await ensureVoiceReady();
+    const res = await fetch(cfg.llm.endpoint, {
+      method: 'POST',
+      headers: Object.assign({ 'Content-Type': 'application/json' }, cfg.llm.headers || {}),
+      body: JSON.stringify({
+        projectId: projectId,
+        query: query,
+        history: history,
+        systemPrompt: buildSystemPrompt(project),
+        context: allSections(project),
+        summary: project.summary || '',
+        fullContext: project.fullContext || '',
+        voiceContext: window.PORTFOLIO_VOICE_CONTEXT || ''
+      })
+    });
+    const data = await res.json().catch(function () { return {}; });
+    if (!res.ok) {
+      throw new Error((data && data.error) || 'LLM request failed (' + res.status + ')');
+    }
+    const answer = data.answer || data.text || data.message || '';
+    if (!answer) throw new Error('Empty LLM answer');
+    return answer;
+  }
+
   async function portfolioAsk(projectId, query, history) {
     const project = window.PORTFOLIO_PROJECTS && window.PORTFOLIO_PROJECTS[projectId];
     if (!project) throw new Error('Unknown project: ' + projectId);
 
     const cfg = window.PORTFOLIO_AI || { mode: 'local' };
-    if (cfg.mode === 'llm' && cfg.llm && cfg.llm.endpoint) {
-      await ensureVoiceReady();
-      const res = await fetch(cfg.llm.endpoint, {
-        method: 'POST',
-        headers: Object.assign({ 'Content-Type': 'application/json' }, cfg.llm.headers || {}),
-        body: JSON.stringify({
-          projectId: projectId,
-          query: query,
-          history: history,
-          systemPrompt: buildSystemPrompt(project),
-          context: allSections(project),
-          summary: project.summary || '',
-          fullContext: project.fullContext || '',
-          voiceContext: window.PORTFOLIO_VOICE_CONTEXT || ''
-        })
-      });
-      if (!res.ok) throw new Error('LLM request failed (' + res.status + ')');
-      const data = await res.json();
-      return data.answer || data.text || data.message || '';
+    const canLlm = cfg.mode === 'llm' && cfg.llm && cfg.llm.endpoint;
+    const allowFallback = cfg.fallbackLocal !== false;
+
+    if (canLlm) {
+      try {
+        return await llmAnswer(project, projectId, query, history, cfg);
+      } catch (err) {
+        console.warn('[portfolio AI] LLM failed, using local fallback:', err);
+        if (!allowFallback) throw err;
+      }
     }
 
     return localAnswer(project, query, history);

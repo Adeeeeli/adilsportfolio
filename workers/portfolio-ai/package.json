@@ -1,0 +1,14 @@
+{
+  "name": "adil-portfolio-ai",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cloudflare Worker proxy for Gemini Flash free-tier portfolio chat",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "secret": "wrangler secret put GEMINI_API_KEY"
+  },
+  "devDependencies": {
+    "wrangler": "^4.24.0"
+  }
+}

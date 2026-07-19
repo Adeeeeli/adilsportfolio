@@ -1,13 +1,15 @@
 /**
  * Portfolio AI — global config
- * Set mode: 'llm' + llm.endpoint when your backend is ready.
- * Reversible: remove scripts from case study pages to disable chat.
+ *
+ * mode: 'local'  → free keyword answers (no API)
+ * mode: 'llm'    → Gemini via Cloudflare Worker (see workers/portfolio-ai/)
  */
 window.PORTFOLIO_AI = {
-  mode: 'local',
+  mode: 'llm',
   llm: {
-    endpoint: null,
-    // Optional: 'Authorization': 'Bearer …' via headers below
+    endpoint: 'https://adil-portfolio-ai.adil-3.workers.dev/ask',
     headers: {}
-  }
+  },
+  /* If LLM is down or key missing, engine falls back to local keyword mode */
+  fallbackLocal: true
 };

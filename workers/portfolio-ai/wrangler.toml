@@ -1,0 +1,13 @@
+name = "adil-portfolio-ai"
+main = "src/index.js"
+compatibility_date = "2026-07-01"
+
+# Set your Gemini key after deploy:
+#   npx wrangler secret put GEMINI_API_KEY
+#
+# Optional overrides (defaults are fine for free tier):
+#   GEMINI_MODEL = gemini-2.5-flash
+
+[vars]
+GEMINI_MODEL = "gemini-3.5-flash"
+ALLOWED_ORIGINS = "https://adilahmad.co.uk,https://www.adilahmad.co.uk,http://localhost:8765,http://localhost:8767,http://127.0.0.1:8765,http://127.0.0.1:8767"

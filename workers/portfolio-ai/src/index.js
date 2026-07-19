@@ -1,0 +1,212 @@
+/**
+ * Portfolio AI proxy — Gemini Flash free tier
+ * Keeps GEMINI_API_KEY off the public site.
+ *
+ * POST /ask  { projectId, query, history, systemPrompt, summary, fullContext, context, voiceContext }
+ * → { answer: string }
+ */
+
+const MAX_QUERY_CHARS = 800;
+const MAX_HISTORY = 8;
+const MAX_CONTEXT_CHARS = 14000;
+
+function corsHeaders(origin, allowedOrigins) {
+  const allowed = (allowedOrigins || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  const ok =
+    origin &&
+    (allowed.includes(origin) ||
+      /^http:\/\/localhost(:\d+)?$/.test(origin) ||
+      /^http:\/\/127\.0\.0\.1(:\d+)?$/.test(origin));
+
+  return {
+    'Access-Control-Allow-Origin': ok ? origin : allowed[0] || '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+    Vary: 'Origin',
+  };
+}
+
+function json(data, status, headers) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
+  });
+}
+
+function clip(text, max) {
+  const s = String(text || '');
+  if (s.length <= max) return s;
+  return s.slice(0, max) + '\n…[truncated]';
+}
+
+function formatSections(context) {
+  if (!Array.isArray(context) || !context.length) return '';
+  return context
+    .slice(0, 40)
+    .map((item, i) => {
+      const tag = item.tag || 'section-' + (i + 1);
+      const a = item.a || '';
+      return '[' + tag + ']\n' + a;
+    })
+    .join('\n\n');
+}
+
+function buildUserPrompt(body) {
+  const history = Array.isArray(body.history) ? body.history.slice(-MAX_HISTORY) : [];
+  const historyText = history
+    .map((h) => {
+      const role = h.role === 'user' ? 'Visitor' : 'Adil';
+      return role + ': ' + clip(h.text || '', 500);
+    })
+    .join('\n');
+
+  const parts = [
+    'PROJECT: ' + (body.projectId || 'unknown'),
+    body.summary ? 'SUMMARY:\n' + clip(body.summary, 1200) : '',
+    body.fullContext ? 'CASE STUDY CONTEXT:\n' + clip(body.fullContext, 6000) : '',
+    formatSections(body.context)
+      ? 'FAQ / KNOWLEDGE SECTIONS:\n' + clip(formatSections(body.context), 5000)
+      : '',
+    historyText ? 'RECENT CHAT:\n' + historyText : '',
+    'VISITOR QUESTION:\n' + clip(body.query, MAX_QUERY_CHARS),
+    'Answer in Adil\'s voice. Be concise (2–5 short sentences unless they ask for depth). Use only the context above. If unknown, say what you can speak to instead. Do not use em dashes.',
+  ];
+
+  return parts.filter(Boolean).join('\n\n');
+}
+
+async function callGemini(env, systemPrompt, userPrompt) {
+  const key = env.GEMINI_API_KEY;
+  if (!key) {
+    throw new Error('GEMINI_API_KEY is not set');
+  }
+
+  const model = env.GEMINI_MODEL || 'gemini-3.5-flash';
+  const url =
+    'https://generativelanguage.googleapis.com/v1beta/models/' +
+    encodeURIComponent(model) +
+    ':generateContent';
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-goog-api-key': key,
+    },
+    body: JSON.stringify({
+      systemInstruction: {
+        parts: [{ text: clip(systemPrompt || 'You are Adil Ahmad answering about this case study.', 6000) }],
+      },
+      contents: [
+        {
+          role: 'user',
+          parts: [{ text: clip(userPrompt, MAX_CONTEXT_CHARS) }],
+        },
+      ],
+      generationConfig: {
+        /* Thinking eats maxOutputTokens — keep minimal for short portfolio answers */
+        maxOutputTokens: 2048,
+        thinkingConfig: {
+          thinkingLevel: 'minimal',
+        },
+      },
+    }),
+  });
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const msg =
+      (data.error && data.error.message) ||
+      'Gemini request failed (' + res.status + ')';
+    const err = new Error(msg);
+    err.status = res.status;
+    throw err;
+  }
+
+  const candidate = data.candidates && data.candidates[0];
+  const parts = candidate && candidate.content && candidate.content.parts;
+
+  const text = Array.isArray(parts)
+    ? parts
+        .filter(function (p) {
+          return p && p.text && !p.thought;
+        })
+        .map(function (p) {
+          return p.text;
+        })
+        .join('')
+        .trim()
+    : '';
+
+  if (!text) {
+    throw new Error('Empty response from Gemini');
+  }
+  return text;
+}
+
+export default {
+  async fetch(request, env) {
+    const origin = request.headers.get('Origin') || '';
+    const headers = corsHeaders(origin, env.ALLOWED_ORIGINS);
+    const url = new URL(request.url);
+
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { status: 204, headers });
+    }
+
+    if (request.method === 'GET' && (url.pathname === '/' || url.pathname === '/health')) {
+      return json(
+        {
+          ok: true,
+          service: 'adil-portfolio-ai',
+          model: env.GEMINI_MODEL || 'gemini-3.5-flash',
+        },
+        200,
+        headers
+      );
+    }
+
+    if (request.method !== 'POST' || url.pathname !== '/ask') {
+      return json({ error: 'Not found' }, 404, headers);
+    }
+
+    let body;
+    try {
+      body = await request.json();
+    } catch (e) {
+      return json({ error: 'Invalid JSON' }, 400, headers);
+    }
+
+    const query = (body && body.query ? String(body.query) : '').trim();
+    if (!query) {
+      return json({ error: 'Missing query' }, 400, headers);
+    }
+    if (query.length > MAX_QUERY_CHARS) {
+      return json({ error: 'Query too long' }, 400, headers);
+    }
+
+    try {
+      const systemPrompt = [
+        body.systemPrompt || '',
+        body.voiceContext ? '\n\nVOICE & IDENTITY:\n' + clip(body.voiceContext, 4000) : '',
+      ]
+        .join('')
+        .trim();
+
+      const answer = await callGemini(env, systemPrompt, buildUserPrompt(body));
+      return json({ answer }, 200, headers);
+    } catch (err) {
+      const status = err.status && err.status >= 400 && err.status < 600 ? err.status : 502;
+      return json(
+        { error: err.message || 'Upstream error', answer: null },
+        status,
+        headers
+      );
+    }
+  },
+};
