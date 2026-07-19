@@ -7,8 +7,8 @@
  */
 
 const MAX_QUERY_CHARS = 800;
-const MAX_HISTORY = 8;
-const MAX_CONTEXT_CHARS = 14000;
+const MAX_HISTORY = 6;
+const MAX_CONTEXT_CHARS = 9000;
 
 function corsHeaders(origin, allowedOrigins) {
   const allowed = (allowedOrigins || '')
@@ -47,11 +47,11 @@ function clip(text, max) {
 function formatSections(context) {
   if (!Array.isArray(context) || !context.length) return '';
   return context
-    .slice(0, 40)
+    .slice(0, 8)
     .map((item, i) => {
       const tag = item.tag || 'section-' + (i + 1);
       const a = item.a || '';
-      return '[' + tag + ']\n' + a;
+      return '[' + tag + ']\n' + clip(a, 700);
     })
     .join('\n\n');
 }
@@ -61,23 +61,37 @@ function buildUserPrompt(body) {
   const historyText = history
     .map((h) => {
       const role = h.role === 'user' ? 'Visitor' : 'Adil';
-      return role + ': ' + clip(h.text || '', 500);
+      return role + ': ' + clip(h.text || '', 280);
     })
     .join('\n');
 
   const parts = [
     'PROJECT: ' + (body.projectId || 'unknown'),
-    body.summary ? 'SUMMARY:\n' + clip(body.summary, 1200) : '',
-    body.fullContext ? 'CASE STUDY CONTEXT:\n' + clip(body.fullContext, 6000) : '',
+    body.summary ? 'SUMMARY:\n' + clip(body.summary, 700) : '',
+    body.fullContext ? 'CASE STUDY CONTEXT:\n' + clip(body.fullContext, 3200) : '',
     formatSections(body.context)
-      ? 'FAQ / KNOWLEDGE SECTIONS:\n' + clip(formatSections(body.context), 5000)
+      ? 'FAQ / KNOWLEDGE SECTIONS:\n' + clip(formatSections(body.context), 2800)
       : '',
     historyText ? 'RECENT CHAT:\n' + historyText : '',
     'VISITOR QUESTION:\n' + clip(body.query, MAX_QUERY_CHARS),
-    'Answer in Adil\'s voice. Be concise (2–5 short sentences unless they ask for depth). Use only the context above. If unknown, say what you can speak to instead. Do not use em dashes.',
+    'Reply in first person as Adil. Max 3 short sentences unless they ask for depth. Use only the context above. No em dashes.',
   ];
 
   return parts.filter(Boolean).join('\n\n');
+}
+
+function generationConfigForModel(model) {
+  /* Keep answers short and skip deep thinking — portfolio chat needs speed */
+  const config = {
+    maxOutputTokens: 512,
+    temperature: 0.4,
+  };
+  if (/gemini-3/i.test(model)) {
+    config.thinkingConfig = { thinkingLevel: 'minimal' };
+  } else if (/2\.5/i.test(model)) {
+    config.thinkingConfig = { thinkingBudget: 0 };
+  }
+  return config;
 }
 
 async function callGemini(env, systemPrompt, userPrompt) {
@@ -86,7 +100,8 @@ async function callGemini(env, systemPrompt, userPrompt) {
     throw new Error('GEMINI_API_KEY is not set');
   }
 
-  const model = env.GEMINI_MODEL || 'gemini-3.5-flash';
+  /* Flash-Lite is much faster for short portfolio Q&A than 3.5 Flash */
+  const model = env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
   const url =
     'https://generativelanguage.googleapis.com/v1beta/models/' +
     encodeURIComponent(model) +
@@ -100,7 +115,7 @@ async function callGemini(env, systemPrompt, userPrompt) {
     },
     body: JSON.stringify({
       systemInstruction: {
-        parts: [{ text: clip(systemPrompt || 'You are Adil Ahmad answering about this case study.', 6000) }],
+        parts: [{ text: clip(systemPrompt || 'You are Adil Ahmad answering about this case study.', 2500) }],
       },
       contents: [
         {
@@ -108,13 +123,7 @@ async function callGemini(env, systemPrompt, userPrompt) {
           parts: [{ text: clip(userPrompt, MAX_CONTEXT_CHARS) }],
         },
       ],
-      generationConfig: {
-        /* Thinking eats maxOutputTokens — keep minimal for short portfolio answers */
-        maxOutputTokens: 2048,
-        thinkingConfig: {
-          thinkingLevel: 'minimal',
-        },
-      },
+      generationConfig: generationConfigForModel(model),
     }),
   });
 
@@ -164,7 +173,7 @@ export default {
         {
           ok: true,
           service: 'adil-portfolio-ai',
-          model: env.GEMINI_MODEL || 'gemini-3.5-flash',
+          model: env.GEMINI_MODEL || 'gemini-2.5-flash-lite',
         },
         200,
         headers

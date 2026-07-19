@@ -17,6 +17,17 @@
     return (project.sections || []).concat(globalSections);
   }
 
+  /* Send only the most relevant FAQ chunks — smaller prompts = faster Gemini */
+  function topSections(project, query, limit) {
+    const sections = allSections(project);
+    const ranked = sections
+      .map(function (it) { return { it: it, s: score(query, it) }; })
+      .sort(function (a, b) { return b.s - a.s; });
+    const hits = ranked.filter(function (r) { return r.s > 0; }).slice(0, limit || 5);
+    if (hits.length) return hits.map(function (r) { return r.it; });
+    return sections.slice(0, Math.min(4, sections.length));
+  }
+
   function searchSections(sections, query) {
     const ranked = sections
       .map(function (it) { return { it: it, s: score(query, it) }; })
@@ -44,13 +55,19 @@
     const voice = window.PORTFOLIO_VOICE_CONTEXT || '';
     const base = project.systemPrompt || '';
     if (!voice) return base;
-    return base + '\n\n---\n\nVOICE & IDENTITY CONTEXT:\n' + voice;
+    /* Keep voice short — long system prompts slow Flash models */
+    const clipped =
+      voice.length > 1800 ? voice.slice(0, 1800) + '\n…' : voice;
+    return base + '\n\n---\n\nVOICE & IDENTITY CONTEXT:\n' + clipped;
   }
 
   async function ensureVoiceReady() {
-    if (window.PORTFOLIO_VOICE_READY) {
-      await window.PORTFOLIO_VOICE_READY;
-    }
+    if (!window.PORTFOLIO_VOICE_READY) return;
+    /* Don't stall the ask if markdown voice files are slow to fetch */
+    await Promise.race([
+      window.PORTFOLIO_VOICE_READY,
+      new Promise(function (resolve) { setTimeout(resolve, 350); })
+    ]);
   }
 
   async function llmAnswer(project, projectId, query, history, cfg) {
@@ -63,10 +80,11 @@
         query: query,
         history: history,
         systemPrompt: buildSystemPrompt(project),
-        context: allSections(project),
+        context: topSections(project, query, 5),
         summary: project.summary || '',
-        fullContext: project.fullContext || '',
-        voiceContext: window.PORTFOLIO_VOICE_CONTEXT || ''
+        fullContext: (project.fullContext || '').slice(0, 3500),
+        /* Voice already embedded in systemPrompt — avoid duplicate payload */
+        voiceContext: ''
       })
     });
     const data = await res.json().catch(function () { return {}; });

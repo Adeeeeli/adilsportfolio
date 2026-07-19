@@ -335,31 +335,17 @@
         el.classList.add('is-streaming');
         const full = String(text);
         let i = 0;
-
-        /* Character reveal — readable “AI typing”, not an instant dump */
-        function delayFor(ch) {
-          if (ch === '\n') return 140;
-          if (ch === '.' || ch === '!' || ch === '?') return 110;
-          if (ch === ',' || ch === ';' || ch === ':') return 55;
-          if (ch === ' ') return 22;
-          return 32;
-        }
-
-        function chunkSize() {
-          if (full.length > 1200) return 3;
-          if (full.length > 500) return 2;
-          return 1;
-        }
+        /* Keep the typing feel, but finish in ~0.8–1.2s so replies feel snappy */
+        const durationMs = Math.min(1200, Math.max(320, full.length * 5));
+        const tickMs = 16;
+        const step = Math.max(1, Math.ceil(full.length / (durationMs / tickMs)));
 
         function tick() {
-          var n = chunkSize();
-          var end = Math.min(full.length, i + n);
-          var last = full.charAt(end - 1) || '';
-          i = end;
+          i = Math.min(full.length, i + step);
           el.textContent = full.slice(0, i);
           $log.scrollTop = $log.scrollHeight;
           if (i < full.length) {
-            window.setTimeout(tick, delayFor(last));
+            window.setTimeout(tick, tickMs);
           } else {
             el.classList.remove('is-streaming');
             setAssistantStatus('online');
@@ -407,7 +393,7 @@
             ? result.source
             : 'unknown';
         var elapsed = Date.now() - started;
-        var minThinkMs = 900;
+        var minThinkMs = 220;
         if (elapsed < minThinkMs) await wait(minThinkMs - elapsed);
         typing(false);
         trackEvent('ai_chat_reply', {
