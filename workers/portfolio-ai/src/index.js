@@ -100,8 +100,31 @@ async function callGemini(env, systemPrompt, userPrompt) {
     throw new Error('GEMINI_API_KEY is not set');
   }
 
-  /* Flash-Lite is much faster for short portfolio Q&A than 3.5 Flash */
-  const model = env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
+  /* Prefer a fast Flash model; fall back if this key can't use it */
+  const preferred = env.GEMINI_MODEL || 'gemini-2.0-flash';
+  const models = [preferred, 'gemini-2.0-flash', 'gemini-3.5-flash'].filter(
+    function (m, i, arr) {
+      return m && arr.indexOf(m) === i;
+    }
+  );
+
+  let lastErr = null;
+  for (let i = 0; i < models.length; i++) {
+    const model = models[i];
+    try {
+      return await callGeminiModel(key, model, systemPrompt, userPrompt);
+    } catch (err) {
+      lastErr = err;
+      const msg = String((err && err.message) || err);
+      const unavailable =
+        /no longer available|not found|not supported|INVALID_ARGUMENT/i.test(msg);
+      if (!unavailable || i === models.length - 1) throw err;
+    }
+  }
+  throw lastErr || new Error('Gemini request failed');
+}
+
+async function callGeminiModel(key, model, systemPrompt, userPrompt) {
   const url =
     'https://generativelanguage.googleapis.com/v1beta/models/' +
     encodeURIComponent(model) +
@@ -173,7 +196,7 @@ export default {
         {
           ok: true,
           service: 'adil-portfolio-ai',
-          model: env.GEMINI_MODEL || 'gemini-2.5-flash-lite',
+          model: env.GEMINI_MODEL || 'gemini-2.0-flash',
         },
         200,
         headers

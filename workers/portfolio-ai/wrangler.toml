@@ -6,9 +6,9 @@ compatibility_date = "2026-07-01"
 #   npx wrangler secret put GEMINI_API_KEY
 #
 # Optional overrides:
-#   GEMINI_MODEL = gemini-2.5-flash-lite (default — fast)
+#   GEMINI_MODEL = gemini-2.0-flash (default — fast, widely available)
 #   GEMINI_MODEL = gemini-3.5-flash (smarter, slower)
 
 [vars]
-GEMINI_MODEL = "gemini-2.5-flash-lite"
+GEMINI_MODEL = "gemini-2.0-flash"
 ALLOWED_ORIGINS = "https://adilahmad.co.uk,https://www.adilahmad.co.uk,http://localhost:8765,http://localhost:8767,http://127.0.0.1:8765,http://127.0.0.1:8767"
