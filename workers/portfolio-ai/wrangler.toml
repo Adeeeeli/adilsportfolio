@@ -2,12 +2,17 @@ name = "adil-portfolio-ai"
 main = "src/index.js"
 compatibility_date = "2026-07-01"
 
-# Set your Gemini key after deploy:
+# Set secrets after deploy:
 #   npx wrangler secret put GEMINI_API_KEY
+#   npx wrangler secret put QUESTIONS_TOKEN
 #
 # This API key's free tier currently works with gemini-3.5-flash.
-# Faster models (2.0-flash / flash-lite) returned limit:0 or "not available to new users".
 
 [vars]
 GEMINI_MODEL = "gemini-3.5-flash"
 ALLOWED_ORIGINS = "https://adilahmad.co.uk,https://www.adilahmad.co.uk,http://localhost:8765,http://localhost:8767,http://127.0.0.1:8765,http://127.0.0.1:8767"
+
+[[kv_namespaces]]
+binding = "AI_QUESTIONS"
+id = "727a7420c1c54b4c81860cacab3e6d51"
+preview_id = "f43ff45b1f9547eeaac011f906241d1e"

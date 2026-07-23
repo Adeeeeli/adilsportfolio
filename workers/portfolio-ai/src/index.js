@@ -2,13 +2,15 @@
  * Portfolio AI proxy — Gemini Flash free tier
  * Keeps GEMINI_API_KEY off the public site.
  *
- * POST /ask  { projectId, query, history, systemPrompt, summary, fullContext, context, voiceContext }
- * → { answer: string }
+ * POST /ask   → Gemini answer (+ logs question when KV bound)
+ * POST /log   → store question only (used for local fallback path too)
+ * GET  /questions?token=… → recent questions (token = QUESTIONS_TOKEN secret)
  */
 
 const MAX_QUERY_CHARS = 800;
 const MAX_HISTORY = 6;
 const MAX_CONTEXT_CHARS = 9000;
+const MAX_STORED = 400;
 
 function corsHeaders(origin, allowedOrigins) {
   const allowed = (allowedOrigins || '')
@@ -24,7 +26,7 @@ function corsHeaders(origin, allowedOrigins) {
 
   return {
     'Access-Control-Allow-Origin': ok ? origin : allowed[0] || '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
@@ -81,7 +83,6 @@ function buildUserPrompt(body) {
 }
 
 function generationConfigForModel(model) {
-  /* Keep answers short and skip deep thinking — portfolio chat needs speed */
   const config = {
     maxOutputTokens: 512,
     temperature: 0.4,
@@ -100,7 +101,6 @@ async function callGemini(env, systemPrompt, userPrompt) {
     throw new Error('GEMINI_API_KEY is not set');
   }
 
-  /* Prefer a fast Flash model; fall back if this key can't use it */
   const preferred = env.GEMINI_MODEL || 'gemini-3.5-flash';
   const models = [preferred, 'gemini-3.5-flash'].filter(function (m, i, arr) {
     return m && arr.indexOf(m) === i;
@@ -181,6 +181,66 @@ async function callGeminiModel(key, model, systemPrompt, userPrompt) {
   return text;
 }
 
+async function appendQuestion(env, entry) {
+  if (!env.AI_QUESTIONS) return;
+  const id =
+    Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+  const row = {
+    id: id,
+    ts: new Date().toISOString(),
+    projectId: clip(entry.projectId || '', 80),
+    projectName: clip(entry.projectName || '', 120),
+    question: clip(entry.question || '', 500),
+    inputSource: clip(entry.inputSource || '', 40),
+  };
+  await env.AI_QUESTIONS.put('q:' + id, JSON.stringify(row), {
+    expirationTtl: 60 * 60 * 24 * 90,
+  });
+
+  let index = [];
+  try {
+    index = JSON.parse((await env.AI_QUESTIONS.get('index')) || '[]');
+  } catch (e) {
+    index = [];
+  }
+  if (!Array.isArray(index)) index = [];
+  index.unshift(id);
+  index = index.slice(0, MAX_STORED);
+  await env.AI_QUESTIONS.put('index', JSON.stringify(index));
+}
+
+async function listQuestions(env, limit) {
+  if (!env.AI_QUESTIONS) return [];
+  let index = [];
+  try {
+    index = JSON.parse((await env.AI_QUESTIONS.get('index')) || '[]');
+  } catch (e) {
+    return [];
+  }
+  if (!Array.isArray(index)) return [];
+  const ids = index.slice(0, Math.min(limit || 100, MAX_STORED));
+  const rows = await Promise.all(
+    ids.map(async function (id) {
+      const raw = await env.AI_QUESTIONS.get('q:' + id);
+      if (!raw) return null;
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    })
+  );
+  return rows.filter(Boolean);
+}
+
+function tokenOk(request, url, env) {
+  const expected = env.QUESTIONS_TOKEN;
+  if (!expected) return false;
+  const header = request.headers.get('X-Questions-Token') || '';
+  const query = url.searchParams.get('token') || '';
+  return header === expected || query === expected;
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
@@ -197,10 +257,38 @@ export default {
           ok: true,
           service: 'adil-portfolio-ai',
           model: env.GEMINI_MODEL || 'gemini-3.5-flash',
+          questionsStore: Boolean(env.AI_QUESTIONS),
         },
         200,
         headers
       );
+    }
+
+    if (request.method === 'GET' && url.pathname === '/questions') {
+      if (!tokenOk(request, url, env)) {
+        return json({ error: 'Unauthorized' }, 401, headers);
+      }
+      const limit = Math.min(parseInt(url.searchParams.get('limit') || '100', 10) || 100, 400);
+      const questions = await listQuestions(env, limit);
+      return json({ questions: questions, count: questions.length }, 200, headers);
+    }
+
+    if (request.method === 'POST' && url.pathname === '/log') {
+      let body;
+      try {
+        body = await request.json();
+      } catch (e) {
+        return json({ error: 'Invalid JSON' }, 400, headers);
+      }
+      const question = (body && body.question ? String(body.question) : '').trim();
+      if (!question) return json({ error: 'Missing question' }, 400, headers);
+      await appendQuestion(env, {
+        projectId: body.projectId || '',
+        projectName: body.projectName || '',
+        question: question,
+        inputSource: body.inputSource || body.input_source || '',
+      });
+      return json({ ok: true }, 200, headers);
     }
 
     if (request.method !== 'POST' || url.pathname !== '/ask') {
@@ -221,6 +309,8 @@ export default {
     if (query.length > MAX_QUERY_CHARS) {
       return json({ error: 'Query too long' }, 400, headers);
     }
+
+    /* Questions are logged from the site via POST /log (avoids duplicate rows) */
 
     try {
       const systemPrompt = [

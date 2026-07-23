@@ -381,6 +381,29 @@
         input_source: source || 'typed'
       });
 
+      /* Store full question for the private AI inbox (not GA’s 100-char limit) */
+      try {
+        var logUrl =
+          (window.PORTFOLIO_AI &&
+            window.PORTFOLIO_AI.llm &&
+            window.PORTFOLIO_AI.llm.endpoint &&
+            String(window.PORTFOLIO_AI.llm.endpoint).replace(/\/ask\/?$/, '/log')) ||
+          '';
+        if (logUrl) {
+          fetch(logUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              projectId: projectId,
+              projectName: projectName,
+              question: text,
+              inputSource: source || 'typed'
+            }),
+            keepalive: true
+          }).catch(function () {});
+        }
+      } catch (logErr) { /* ignore */ }
+
       try {
         typing(true);
         /* Force a paint so Thinking dots are visible before the ask resolves */
