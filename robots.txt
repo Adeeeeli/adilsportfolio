@@ -1,0 +1,49 @@
+User-agent: *
+Allow: /
+
+# Internal AI-questions viewer — not for indexing
+Disallow: /ai-inbox.html
+
+# ── Generative engines / AI crawlers (explicit allow) ──
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# AI site map (llms.txt convention)
+# https://adilahmad.co.uk/llms.txt
+# https://adilahmad.co.uk/llms-full.txt
+# https://adilahmad.co.uk/geo.html
+
+Sitemap: https://adilahmad.co.uk/sitemap.xml
