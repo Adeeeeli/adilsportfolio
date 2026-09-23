@@ -1,6 +1,6 @@
 /**
  * Iconsax AI–style liquid orb hover for bottom nav.
- * Soft color blobs bloom under .nb on hover / active, behind the chrome lm-ring.
+ * Color blobs bloom under .nb on hover only — active keeps chrome lm-ring.
  */
 (function () {
   'use strict';
@@ -23,7 +23,8 @@
       '.nb-orb-blobs{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;',
       'border-radius:999px;opacity:0;transform:scale(2.6);',
       'transition:opacity .45s ease,transform .5s cubic-bezier(.22,1,.36,1)}',
-      '.nb:hover .nb-orb-blobs,.nb.lm-active .nb-orb-blobs,.nb.contact-on .nb-orb-blobs{opacity:1;transform:scale(1)}',
+      /* Hover only — never on .lm-active / .contact-on */
+      '.nb:hover .nb-orb-blobs{opacity:1;transform:scale(1)}',
       '.nb-blob{position:absolute;width:28px;height:28px;border-radius:50%;filter:blur(7px);',
       'transition:transform 2s ease;will-change:transform}',
       '.nb-blob.c1{background:#02DEFC}',
@@ -34,8 +35,7 @@
       '.nb-blob.c6{background:#FE9EFB}',
       '.nb > svg{position:relative;z-index:2}',
       '.nb:hover{background:rgba(0,0,0,.35)!important;color:#fff}',
-      '.nb.lm-active{background:rgba(0,0,0,.55)!important;color:#fff}',
-      '.nb.lm-active > svg,.nb:hover > svg{filter:drop-shadow(0 0 6px rgba(0,0,0,.45))}',
+      '.nb:hover > svg{filter:drop-shadow(0 0 6px rgba(0,0,0,.45))}',
       '@media (prefers-reduced-motion:reduce){',
       '.nb-orb-blobs{transition:opacity .2s ease}',
       '.nb-blob{transition:none}}'
@@ -79,13 +79,10 @@
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) return;
 
-    // Continuous soft drift while any orb is visible
+    // Drift only while hovering
     var timer = window.setInterval(function () {
       if (document.hidden) return;
-      bnav.querySelectorAll('.nb').forEach(function (btn) {
-        var hot = btn.matches(':hover') || btn.classList.contains('lm-active') || btn.classList.contains('contact-on');
-        if (hot) scramble(btn);
-      });
+      bnav.querySelectorAll('.nb:hover').forEach(scramble);
     }, 2200);
 
     bnav.addEventListener('mouseenter', function (e) {
