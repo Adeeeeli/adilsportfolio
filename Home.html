@@ -1414,7 +1414,7 @@
       <div class="csheet-sub">Open to roles, collabs & conversations.</div>
     </div>
     <div class="csheet-links">
-      <a class="clink" href="mailto:adil_3@hotmail.co.uk">
+      <a class="clink" href="mailto:adil_3@hotmail.co.uk?subject=Let%27s%20Talk">
         <div class="clink-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/></svg>
         </div>
@@ -1698,19 +1698,20 @@
               +noise(p*4.0+vec2(8.3,2.8))*0.125;
       }
 
-      // Iridescent chrome palette — gold/white at top, blue-purple at bottom
+      // Iconsax AI orb accents — cyan / lime / magenta sweep
       vec3 chromePalette(float t, float n){
-        // base chrome sweep
-        vec3 a=vec3(0.55,0.50,0.45);
-        vec3 b=vec3(0.50,0.50,0.50);
-        vec3 c=vec3(1.00,1.00,0.90);
-        vec3 d=vec3(0.00,0.15,0.40);
+        vec3 a=vec3(0.50,0.48,0.52);
+        vec3 b=vec3(0.48,0.50,0.48);
+        vec3 c=vec3(1.00,0.95,1.00);
+        vec3 d=vec3(0.05,0.20,0.45);
         vec3 chrome=a+b*cos(6.2832*(c*(t+n*0.18)+d));
-        // inject gold at top & violet at bottom
-        float gold=smoothstep(0.55,0.85,t+n*0.12);
-        float violet=smoothstep(0.0,0.3,1.0-t+n*0.1);
-        chrome=mix(chrome,vec3(1.0,0.78,0.2),gold*0.7);
-        chrome=mix(chrome,vec3(0.35,0.30,0.95),violet*0.55);
+        float cyan=smoothstep(0.15,0.45,fract(t+0.10+n*0.1));
+        float lime=smoothstep(0.35,0.65,fract(t+0.40+n*0.08));
+        float mag=smoothstep(0.55,0.90,fract(t+0.70+n*0.12));
+        chrome=mix(chrome,vec3(0.01,0.87,0.99),cyan*0.75);
+        chrome=mix(chrome,vec3(0.50,0.99,0.00),lime*0.55);
+        chrome=mix(chrome,vec3(0.99,0.01,0.59),mag*0.65);
+        chrome=mix(chrome,vec3(1.0,0.62,0.08),smoothstep(0.0,0.25,1.0-fract(t+n*0.1))*0.45);
         return clamp(chrome,0.0,1.0);
       }
 
@@ -2457,5 +2458,6 @@
   })();
 
 </script>
+<script src="./Adil Portfolio/bnav-orb.js"></script>
 </body>
 </html>
